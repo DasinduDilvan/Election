@@ -81,3 +81,34 @@ This project was developed as part of the Department of ICT, Faculty of Technolo
    ```bash
    git clone https://github.com/DasinduDilvan/Election.git
    cd Election
+
+
+## Project Structure
+
+Election-System/
+│── src/
+│ │── main.c # Entry point of the program
+│ │── admin.c # Admin-related functions (login, approval, results)
+│ │── voter.c # Voter-related functions (registration, vote casting)
+│ │── candidate.c # Candidate-related functions (registration, party join)
+│ │── utils.c # Helper functions (file handling, validations, menus)
+│
+│── include/
+│ │── admin.h # Header file for admin.c
+│ │── voter.h # Header file for voter.c
+│ │── candidate.h # Header file for candidate.c
+│ │── utils.h # Header file for utils.c
+│
+│── data/
+│ │── voters.txt # Stores voter details
+│ │── candidates.txt # Stores candidate details
+│ │── parties.txt # Stores party details
+│ │── votes.txt # Stores vote records
+│
+│── docs/
+│ │── SRS.pdf # Software Requirements Specification
+│ │── README.md # Project documentation (for GitHub)
+│
+│── tests/
+│ │── test_voter.c # Unit tests for voter module
+│ │── test_admin.c # Unit tests for admin module
