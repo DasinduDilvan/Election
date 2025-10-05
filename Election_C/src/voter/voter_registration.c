@@ -17,26 +17,59 @@ char confirm();
 
 int main(){
     showHeader();
-    char *voterID = char voterID();
-    char *fname = char fname();
-    char *lname = char lname();
-    char *username = char username();
-    char *password = char password();
-    char *NIC = char NIC();
-    char *gender = char gender();
-    char *DOB = char dob();
-    char *area = char area();
-    char *confirm = char confirm();
+    char *voter_ID = voterID();
+    char *firstname = fname();
+    char *lastname = lname();
+    char *user_name = username();
+    char *pass_word = password();
+    char *NIC_num = NIC();
+    char *gender_mf  = gender();
+    char *Dateofbirth = dob();
+    char *election_area = area();
+    char confirm_save;
+    printf("║\n");
+    printf("╠═ Confirm Registration (y/n): ");
+    scanf(" %c", &confirm_save);
 
-    FILE *file = fopen("../../database/source_data/voters.txt", "a");
+    if (confirm_save != 'y' && confirm_save != 'Y') {
+        printf("╠═ Registration cancelled.\n");
+        return 0;
+    }
+    else {
+        printf("Registration confirmed.\n");
+
+    FILE *file = fopen("../../../database/source_data/voters.txt", "a");
     if (file == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
+    fprintf(file,"%s\n", voter_ID);
+    fprintf(file,"%s\n", firstname);
+    fprintf(file,"%s\n", lastname);
+    fprintf(file,"%s\n", user_name);
+    fprintf(file,"%s\n", pass_word);
+    fprintf(file,"%s\n", NIC_num);
+    fprintf(file,"%s\n", gender_mf);
+    fprintf(file,"%s\n", Dateofbirth);
+    fprintf(file,"%s\n", election_area);
+    fclose(file);
 
-
-
-    return 0;
+    FILE *file = fopen("../../../database/source_data/voters.txt", "r");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+    char test[100];
+    fscanf(file,"%s\n", test);
+    printf("%s\n", test);
+    fclose(file);
+    
+    printf("\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                       %sRegistration Successful!%s                           ║\n", COLOR, CLRRM);
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+    }
+return 0;
 }
 
 void showHeader(){
