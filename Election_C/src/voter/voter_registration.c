@@ -54,16 +54,16 @@ int main(){
     fprintf(file,"%s\n", election_area);
     fclose(file);
 
-    FILE *file = fopen("../../../database/source_data/voters.txt", "r");
-    if (file == NULL) {
+    FILE *ffff = fopen("../../../database/source_data/voters.txt", "r");
+    if (ffff == NULL) {
         printf("Error opening file!\n");
         return 1;
     }
     char test[100];
-    fscanf(file,"%s\n", test);
+    fscanf(ffff,"%s\n", test);
     printf("%s\n", test);
     fclose(file);
-    
+
     printf("\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                       %sRegistration Successful!%s                           ║\n", COLOR, CLRRM);
