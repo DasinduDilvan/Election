@@ -54,7 +54,7 @@ int main(){
     fprintf(file,"%s\n", election_area);
     fclose(file);
 
-    FILE *ffff = fopen("../../../database/source_data/voters.txt", "r");
+    /*FILE *ffff = fopen("../../../database/source_data/voters.txt", "r");
     if (ffff == NULL) {
         printf("Error opening file!\n");
         return 1;
@@ -62,7 +62,7 @@ int main(){
     char test[100];
     fscanf(ffff,"%s\n", test);
     printf("%s\n", test);
-    fclose(file);
+    fclose(file);*/
 
     printf("\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
