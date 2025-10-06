@@ -14,6 +14,8 @@ char *gender();
 char *dob();
 char *area();
 char confirm();
+void massageSuccess();
+void massageCanceled();
 
 int main(){
     showHeader();
@@ -31,43 +33,35 @@ int main(){
     printf("╠═ Confirm Registration (y/n): ");
     scanf(" %c", &confirm_save);
 
-    if (confirm_save != 'y' && confirm_save != 'Y') {
-        printf("╠═ Registration cancelled.\n");
-        return 0;
+    if (confirm_save == 'y' && confirm_save == 'Y') {
+
+        printf("║\n");
+        printf("╠═ Registration confirmed.\n");
+
+            FILE *file = fopen("../../database/source_data/voters.txt", "a");
+            if (file == NULL) {
+                printf("Error opening file!\n");
+                return 1;
+            }
+            fprintf(file,"%s\n", voter_ID);
+            fprintf(file,"%s\n", firstname);
+            fprintf(file,"%s\n", lastname);
+            fprintf(file,"%s\n", user_name);
+            fprintf(file,"%s\n", pass_word);
+            fprintf(file,"%s\n", NIC_num);
+            fprintf(file,"%s\n", gender_mf);
+            fprintf(file,"%s\n", Dateofbirth);
+            fprintf(file,"%s\n", election_area);
+            fclose(file);
+
+            massageSuccess();
+            
     }
     else {
-        printf("Registration confirmed.\n");
-
-    FILE *file = fopen("../../database/source_data/voters.txt", "a");
-    if (file == NULL) {
-        printf("Error opening file!\n");
-        return 1;
-    }
-    fprintf(file,"%s\n", voter_ID);
-    fprintf(file,"%s\n", firstname);
-    fprintf(file,"%s\n", lastname);
-    fprintf(file,"%s\n", user_name);
-    fprintf(file,"%s\n", pass_word);
-    fprintf(file,"%s\n", NIC_num);
-    fprintf(file,"%s\n", gender_mf);
-    fprintf(file,"%s\n", Dateofbirth);
-    fprintf(file,"%s\n", election_area);
-    fclose(file);
-
-    /*FILE *ffff = fopen("../../../database/source_data/voters.txt", "r");
-    if (ffff == NULL) {
-        printf("Error opening file!\n");
-        return 1;
-    }
-    char test[100];
-    fscanf(ffff,"%s\n", test);
-    printf("%s\n", test);
-    fclose(file);*/
-
-    printf("\n");
-    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                       %sRegistration Successful!%s                           ║\n", COLOR, CLRRM);
-    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+        printf("║\n");
+        printf("╠═ Registration cancelled.\n");
+        massageCanceled();
+        return 0;    
     }
 return 0;
 }
@@ -159,10 +153,16 @@ char *area(){
     return area;
 }
 
-char confirm(){
-    char confirm;
+void massageSuccess(){
     printf("║\n");
-    printf("╠═ Confirm Registration (y/n): ");
-    scanf(" %c", &confirm);
-    return confirm;
+    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                        %sRegistration Successful!%s                          ║\n", COLOR, CLRRM);
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+}
+
+void massageCanceled(){
+    printf("║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                         %sRegistration Canceled!%s                           ║\n", COLOR, CLRRM);
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
 }
