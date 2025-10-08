@@ -16,18 +16,59 @@ char * electionStartTime = "8.00 AM";
 char * electionEndtTime = "5.00 PM";
 
 int main() {
-    system("clear");
+    system("cls || clear");
     showHeader();
     showContent(voters, candidates, parties);
 
-    do {
-        printf("\033[1;37mEnter your choice:\033[0m ");
-        scanf("%d", &choice);
-        printf("You selcted %d\n", choice);
+    printf("\033[1;37mEnter your choice:\033[0m ");
+    scanf("%d", &choice);
+    printf("\t\t\nPlease Wait....\n");
+    switch (choice)    {
+    case 1:
+        system("..\\voter\\voter_login.exe");
         break;
-    } while (choice != 0);
+    
+    case 2:
+        system("..\\candidate\\candidate_login.exe");
+        break;
+    
+    case 3:
+        system("..\\party\\party_login.exe");
+        break;
+    
+    case 4:
+        system("..\\voter\\voter_registration.exe");
+        break;
+    
+    case 5:
+        system("..\\candidate\\candidate_registration.exe");
+        break;
+    
+    case 6:
+        system("..\\party\\party_registration.exe");
+        break;
 
-    return 0;
+    case 7:
+        system("..\\admin\\admin_login.exe");
+        break;
+
+    case 8:
+        system("..\\terms_conditions\\terms_conditions.exe");
+        break;
+
+    case 0:
+        printf("\t\t\nThank you for using Election Management System\n");
+        system("cls || clear");
+        printf("\t\t\nThank you for using Election Management System\n");
+        exit(0);
+        break;
+    
+    default:
+        system("cls || clear");
+        printf("\t\t\nWrong selection\n");
+        break;
+    }
+return 0;
 }
 
 void showHeader() {
