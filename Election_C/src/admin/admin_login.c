@@ -7,12 +7,19 @@ const char *CLRRM = "\033[0m";
 
 void showHeader();
 int credentials();
+int all_candidate_request_count();
+int all_party_request_count();
+int all_approved_candidates();
+int all_approved_parties();
+int all_rejected_candidates();
+int all_rejected_parties();
+
 void showContent();
 
-int candidate_requests = 8;
-int party_requests = 5;
-int approved_candidates = 10;
-int approved_parties = 4;
+int arc = 0;
+int arp = 5;
+int aac = 10;
+int aap = 4;
 int rejected_candidates = 2;
 int rejected_parties = 1;
 
@@ -26,6 +33,7 @@ int main(){
         sleep(1);
         system("clear || cls");
         showHeader();
+        arc = all_candidate_request_count();
         showContent();
     } 
     else {
@@ -34,7 +42,6 @@ int main(){
         system("..\\main\\main.exe");
     }
     
-
     return 0;
 }
 
@@ -47,11 +54,11 @@ void showHeader() {
     printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
     printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
-    printf("║                                                                          ║\n");
-    
-    
-    
+    printf("║                                                                          ║\n");    
 }
+
+
+
 
 int credentials() {
     char username[50];
@@ -66,7 +73,7 @@ int credentials() {
     printf("║\n");
     printf("╠═ Enter Admin Password: ");
     scanf("%s", password);
-
+    printf("║\n");
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
         return 1;
     } 
@@ -88,4 +95,27 @@ void showContent() {
     printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", rejected_parties);
     printf("║                                    ║                                     ║\n");
     printf("╚════════════════════════════════════╩═════════════════════════════════════╝\n");
+}
+
+int all_candidate_request_count() {
+    FILE *file = fopen("..//..//database//notifications//request_count.txt", "r");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    char line[256];
+
+    if (fgets(line, sizeof(line), file)) {
+        int i = 0;
+        while (line[i] != '\0') i++;
+        if (i > 0 && line[i-1] == '\n') line[i-1] = '\0';
+
+        printf("First line: %s\n", line);
+    } else {
+        printf("File is empty!\n");
+    }
+
+    fclose(file);
+    return 0;
 }

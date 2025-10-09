@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 
 const char *COLOR = "\033[1;33m";
 const char *CLRRM = "\033[0m";
@@ -14,12 +16,12 @@ char *gender();
 char *dob();
 char *area();
 char confirm();
+int make_voter_ID();
 void massageSuccess();
 void massageCanceled();
 
 int main(){
     showHeader();
-    char *voter_ID = voterID();
     char *firstname = fname();
     char *lastname = lname();
     char *user_name = username();
@@ -33,17 +35,19 @@ int main(){
     printf("╠═ Confirm Registration (y/n): ");
     scanf(" %c", &confirm_save);
 
-    if (confirm_save == 'y' && confirm_save == 'Y') {
+    if (confirm_save == 'y' || confirm_save == 'Y') {
+
+        int voter_ID_num = make_voter_ID();
 
         printf("║\n");
         printf("╠═ Registration confirmed.\n");
 
-            FILE *file = fopen("../../database/source_data/voters.txt", "a");
+
+            FILE *file = fopen("..//..//database//source_data//voters.txt", "a");
             if (file == NULL) {
                 printf("Error opening file!\n");
                 return 1;
             }
-            fprintf(file,"%s\n", voter_ID);
             fprintf(file,"%s\n", firstname);
             fprintf(file,"%s\n", lastname);
             fprintf(file,"%s\n", user_name);
@@ -51,7 +55,8 @@ int main(){
             fprintf(file,"%s\n", NIC_num);
             fprintf(file,"%s\n", gender_mf);
             fprintf(file,"%s\n", Dateofbirth);
-            fprintf(file,"%s\n", election_area);
+            fprintf(file,"%s\n\n", election_area);
+            fprintf(file,"%d\n", voter_ID_num);
             fclose(file);
 
             massageSuccess();
@@ -81,12 +86,36 @@ void showHeader(){
     printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
 }
 
-char *voterID(){
-    static char voterID[20];
-    printf("║\n");
-    printf("╠═ Enter Voter ID: ");
-    scanf("%19s", voterID);
-    return voterID;
+int make_voter_ID(){
+     
+    FILE *file = fopen("..//..//database//source_data//voters.txt", "r");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return 1;
+    }
+
+    char line[512];
+    char last_line[512] = "";
+
+    while (fgets(line, sizeof(line), file)) {
+        int i = 0;
+        while (line[i] != '\0') {
+            last_line[i] = line[i];
+            i++;
+        }
+        last_line[i] = '\0'; 
+    }
+
+    fclose(file);   
+
+    int voter_ID = 0;
+    for (int i = 0; last_line[i] != '\0'; i++) {
+        if (last_line[i] >= '0' && last_line[i] <= '9') {
+            voter_ID = voter_ID * 10 + (last_line[i] - '0');
+        }
+    }
+
+    return voter_ID + 1;
 }
 
 char *fname(){
