@@ -13,6 +13,10 @@ int numbers[6];
 int choice;
 
 void showContent();
+void party_requests();
+void candidate_requests();
+void set_election_start_time();
+void set_election_end_time();
 
 int main(){
 
@@ -29,7 +33,35 @@ int main(){
         showContent();
         printf("\033[1;37mEnter your choice:\033[0m ");
         scanf("%d", &choice);
-    } 
+
+        switch (choice)    {
+        case 1:
+            party_requests();
+            break;
+        
+        case 2:
+            candidate_requests();
+            break;
+        
+        case 3:
+            set_election_start_time();
+            break;
+
+        case 4:
+            set_election_end_time();
+            break;
+        
+        case 5:
+            system("..\\main\\main.exe");
+            break;
+
+        case 0:
+            printf("\t\t\nThank you for using Election Management System\n");
+            exit(0);
+            break;
+        } 
+    }
+
     else {
         printf("\n\t\tInvalid Credentials! Enterd ...\n");
         sleep(1);
@@ -104,6 +136,91 @@ int *count_of_requests() {
     return numbers;
 }
 
+//------------------------------------------------------------------------------------------
+
+void party_requests() {
+    system("clear || cls");
+    printf("\n%sParty Registration Requests%s\n", COLOR, CLRRM);
+    FILE *file = fopen("..//..//database//notifications//party_notifications.txt", "r");
+    if (!file) {
+        printf("Error opening file!\n");
+        return;
+    }
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+    printf("\nPress Enter to return to the admin menu...");
+    getchar(); // To consume the newline character left by previous input
+    getchar(); // Wait for user to press Enter
+    system("clear || cls");
+    showHeader();
+    showContent();
+}
+
+void candidate_requests() {
+    system("clear || cls");
+    printf("\n%sCandidate Registration Requests%s\n", COLOR, CLRRM);
+    FILE *file = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
+    if (!file) {
+        printf("Error opening file!\n");
+        return;
+    }
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        printf("%s", line);
+    }
+    fclose(file);
+    printf("\nPress Enter to return to the admin menu...");
+    getchar(); // To consume the newline character left by previous input
+    getchar(); // Wait for user to press Enter
+    system("clear || cls");
+    showHeader();
+    showContent();
+}
+
+void set_election_start_time() {
+    char start_time[20];
+    printf("\n%sSet Election Starting Time%s\n", COLOR, CLRRM);
+    printf("Enter Election Starting Time (e.g., 8:00 AM): ");
+    scanf("%s", start_time);
+    FILE *file = fopen("..//..//database//notifications//election_time.txt", "r+");
+    if (!file) {
+        printf("Error opening file!\n");
+        return;
+    }
+    char end_time[20];
+    fscanf(file, "%s", end_time); // Read the existing end time
+    rewind(file); // Move file pointer to the beginning
+    fprintf(file, "%s\n%s\n", start_time, end_time); // Write new start time and existing end time
+    fclose(file);
+    printf("Election starting time set to %s\n", start_time);
+    sleep(2);
+    system("clear || cls");
+    main();
+}
+
+void set_election_end_time() {
+    char end_time[20];
+    printf("\n%sSet Election Ending Time%s\n", COLOR, CLRRM);
+    printf("Enter Election Ending Time (e.g., 5:00 PM): ");
+    scanf("%s", end_time);
+    FILE *file = fopen("..//..//database//notifications//election_time.txt", "r+");
+    if (!file) {
+        printf("Error opening file!\n");
+        return;
+    }
+    char start_time[20];
+    fscanf(file, "%s", start_time); // Read the existing start time
+    rewind(file); // Move file pointer to the beginning
+    fprintf(file, "%s\n%s\n", start_time, end_time); // Write existing start time and new end time
+    fclose(file);
+    printf("Election ending time set to %s\n", end_time);
+    sleep(2);
+    system("clear || cls");
+    main();
+}
 
 
 
