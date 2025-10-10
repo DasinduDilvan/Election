@@ -136,7 +136,6 @@ int *count_of_requests() {
     return numbers;
 }
 
-//------------------------------------------------------------------------------------------
 
 void party_requests() {
     system("clear || cls");
