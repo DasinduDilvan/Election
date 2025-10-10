@@ -1,28 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 const char *COLOR = "\033[1;33m";
 const char *CLRRM = "\033[0m";
 
 void showHeader();
 int credentials();
-int all_candidate_request_count();
-int all_party_request_count();
-int all_approved_candidates();
-int all_approved_parties();
-int all_rejected_candidates();
-int all_rejected_parties();
+int *count_of_requests();
+int numbers[6];
+int choice;
 
 void showContent();
-
-int arc = 0;
-int arp = 5;
-int aac = 10;
-int aap = 4;
-int rejected_candidates = 2;
-int rejected_parties = 1;
-
 
 int main(){
 
@@ -33,8 +23,12 @@ int main(){
         sleep(1);
         system("clear || cls");
         showHeader();
-        arc = all_candidate_request_count();
+
+        int *requests = count_of_requests();
+
         showContent();
+        printf("\033[1;37mEnter your choice:\033[0m ");
+        scanf("%d", &choice);
     } 
     else {
         printf("\n\t\tInvalid Credentials! Enterd ...\n");
@@ -56,9 +50,6 @@ void showHeader() {
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
     printf("║                                                                          ║\n");    
 }
-
-
-
 
 int credentials() {
     char username[50];
@@ -87,35 +78,32 @@ void showContent() {
     printf("║                                    ║                                     ║\n");
     printf("║  \033[1;32mLogged in as: Admin\033[0m               ║  \033[1;35mDashboard:\033[0m                         ║\n");
     printf("║                                    ║                                     ║\n");
-    printf("║    1.Party Register Requests       ║    Candidate Requests: %03d          ║\n", candidate_requests);
-    printf("║    2.Candidate Register Requests   ║    Party Requests: %03d              ║\n", party_requests);
-    printf("║    3.Set Election staring time     ║    Approved Candidates: %03d         ║\n", approved_candidates);
-    printf("║    4.Set Election Ending time      ║    Approved Parties: %03d            ║\n", approved_parties);
-    printf("║    5.Logout                        ║    Rejected Candidates: %03d         ║\n", rejected_candidates);
-    printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", rejected_parties);
+    printf("║    1.Party Register Requests       ║    Candidate Requests: %03d          ║\n", numbers[0]);
+    printf("║    2.Candidate Register Requests   ║    Party Requests: %03d              ║\n", numbers[1]);
+    printf("║    3.Set Election staring time     ║    Approved Candidates: %03d         ║\n", numbers[2]);
+    printf("║    4.Set Election Ending time      ║    Approved Parties: %03d            ║\n", numbers[3]);
+    printf("║    5.Logout                        ║    Rejected Candidates: %03d         ║\n", numbers[4]);
+    printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", numbers[5]);
     printf("║                                    ║                                     ║\n");
-    printf("╚════════════════════════════════════╩═════════════════════════════════════╝\n");
+    printf("╠════════════════════════════════════╩═════════════════════════════════════╝\n");
+    printf("║\n");
+    printf("╚══ ");
 }
 
-int all_candidate_request_count() {
+int *count_of_requests() {
     FILE *file = fopen("..//..//database//notifications//request_count.txt", "r");
-    if (file == NULL) {
+    if (!file) {
         printf("Error opening file!\n");
-        return 1;
+        return NULL;
     }
-
-    char line[256];
-
-    if (fgets(line, sizeof(line), file)) {
-        int i = 0;
-        while (line[i] != '\0') i++;
-        if (i > 0 && line[i-1] == '\n') line[i-1] = '\0';
-
-        printf("First line: %s\n", line);
-    } else {
-        printf("File is empty!\n");
+    int i = 0;
+    while (i < 6 && fscanf(file, "%d", &numbers[i]) == 1) {
+        i++;
     }
-
     fclose(file);
-    return 0;
+    return numbers;
 }
+
+
+
+
