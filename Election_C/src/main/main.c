@@ -23,51 +23,93 @@ int main() {
     printf("\033[1;37mEnter your choice:\033[0m ");
     scanf("%d", &choice);
     printf("\t\t\nPlease Wait....\n");
-    switch (choice)    {
+    system("cls || clear");
+switch (choice) {
     case 1:
-        system("..\\voter\\voter_login.exe");
+        #ifdef _WIN32
+            system("..\\voter\\voter_login.exe");
+        #else
+            system("../voter/voter_login");
+        #endif
         break;
-    
+
     case 2:
-        system("..\\candidate\\candidate_login.exe");
+        #ifdef _WIN32
+            system("..\\candidate\\candidate_login.exe");
+        #else
+            system("../candidate/candidate_login");
+        #endif
         break;
-    
+
     case 3:
-        system("..\\party\\party_login.exe");
+        #ifdef _WIN32
+            system("..\\party\\party_login.exe");
+        #else
+            system("../party/party_login");
+        #endif
         break;
-    
+
     case 4:
-        system("..\\voter\\voter_registration.exe");
+        #ifdef _WIN32
+            system("..\\voter\\voter_registration.exe");
+        #else
+            system("../voter/voter_registration");
+        #endif
         break;
-    
+
     case 5:
-        system("..\\candidate\\candidate_registration.exe");
+        #ifdef _WIN32
+            system("..\\candidate\\candidate_registration.exe");
+        #else
+            system("../candidate/candidate_registration");
+        #endif
         break;
-    
+
     case 6:
-        system("..\\party\\party_registration.exe");
+        #ifdef _WIN32
+            system("..\\party\\party_registration.exe");
+        #else
+            system("../party/party_registration");
+        #endif
         break;
 
     case 7:
-        system("..\\admin\\admin_login.exe");
+        #ifdef _WIN32
+            system("..\\admin\\admin_login.exe");
+        #else
+            system("../admin/admin_login");
+        #endif
         break;
 
     case 8:
-        system("..\\terms_conditions\\terms_conditions.exe");
+        #ifdef _WIN32
+            system("..\\terms_conditions\\terms_conditions.exe");
+        #else
+            system("../terms_conditions/terms_conditions");
+        #endif
         break;
 
     case 0:
-        printf("\t\t\nThank you for using Election Management System\n");
-        system("cls || clear");
-        printf("\t\t\nThank you for using Election Management System\n");
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
+        printf("\n\t\tThank you for using Election Management System\n");
         exit(0);
         break;
-    
+
     default:
-        system("cls || clear");
-        printf("\t\t\nWrong selection\n");
+        #ifdef _WIN32
+            system("cls");
+        #else
+            system("clear");
+        #endif
+        printf("\n\t\tWrong selection\n");
         break;
-    }
+}
+
+
 return 0;
 }
 
