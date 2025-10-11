@@ -1,28 +1,22 @@
-# macOS system files
+# Replace your .gitignore with these corrected patterns
+cat > .gitignore << 'EOF'
+# macOS
 .DS_Store
 .AppleDouble
-.LSOverride
 
-# VS Code
-.vscode/
-*.code-workspace
+# VS Code - use double asterisk to match any location
+**/.vscode/
 
-# Build artifacts and executables
-*.dSYM/
-DWARF/
-build/
-dist/
+# Build artifacts - FIXED patterns
+**/*.dSYM/
+**/DWARF/
 *.o
 *.out
-*.exe
-*.dll
-*.so
-*.dylib
 
-# Compiled binaries (like your main file)
+# Compiled binaries
 src/main/main
 main
 
-# System
+# System files
 Thumbs.db
-ehthumbs.db
+EOF../.vscode/
