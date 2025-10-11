@@ -1,0 +1,28 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Build artifacts and executables
+*.dSYM/
+DWARF/
+build/
+dist/
+*.o
+*.out
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Compiled binaries (like your main file)
+src/main/main
+main
+
+# System
+Thumbs.db
+ehthumbs.db
