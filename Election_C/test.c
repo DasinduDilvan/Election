@@ -2,13 +2,20 @@
 
 int main(){
     printf("Hello, World!\n");
-    FILE *file = fopen("..//..//database//source_data//voters.txt", "a");
+    char names[100];
+    FILE *file = fopen("test.txt", "r");
             if (file == NULL) {
                 printf("Error opening file!\n");
                 return 1;
             }
-            fprintf(file,"%s\n", firstname);
+            char firstname[50];
+            while(fgets(firstname, sizeof(names), file)){
+                printf("First name: %s", firstname);
+            }
+            
+
             fclose(file);
 
+            printf("aa%c", firstname[1]);
     return 0;
 }

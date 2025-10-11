@@ -94,9 +94,9 @@ int credentials() {
     printf("╠═ Enter Admin Username: ");
     scanf("%s", username);
     printf("║\n");
-    printf("╠═ Enter Admin Password: ");
+    printf("╚═ Enter Admin Password: ");
     scanf("%s", password);
-    printf("║\n");
+    //printf("║");
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
         return 1;
     } 
@@ -151,8 +151,8 @@ void party_requests() {
     }
     fclose(file);
     printf("\nPress Enter to return to the admin menu...");
-    getchar(); // To consume the newline character left by previous input
-    getchar(); // Wait for user to press Enter
+    getchar();
+    getchar(); 
     system("clear || cls");
     showHeader();
     showContent();
@@ -172,8 +172,8 @@ void candidate_requests() {
     }
     fclose(file);
     printf("\nPress Enter to return to the admin menu...");
-    getchar(); // To consume the newline character left by previous input
-    getchar(); // Wait for user to press Enter
+    getchar();
+    getchar();
     system("clear || cls");
     showHeader();
     showContent();
@@ -182,17 +182,17 @@ void candidate_requests() {
 void set_election_start_time() {
     char start_time[20];
     printf("\n%sSet Election Starting Time%s\n", COLOR, CLRRM);
-    printf("Enter Election Starting Time (e.g., 8:00 AM): ");
-    scanf("%s", start_time);
+    printf("Enter Election Starting Time (e.g., 8:00AM): ");
+    scanf("%19s", start_time);
     FILE *file = fopen("..//..//database//notifications//election_time.txt", "r+");
     if (!file) {
-        printf("Error opening file!\n");
+        printf("\nError opening file!\n");
         return;
     }
     char end_time[20];
-    fscanf(file, "%s", end_time); // Read the existing end time
-    rewind(file); // Move file pointer to the beginning
-    fprintf(file, "%s\n%s\n", start_time, end_time); // Write new start time and existing end time
+    fscanf(file, "%s", end_time); 
+    rewind(file); 
+    fprintf(file, "%s\n%s\n", start_time, end_time); 
     fclose(file);
     printf("Election starting time set to %s\n", start_time);
     sleep(2);
@@ -203,19 +203,19 @@ void set_election_start_time() {
 void set_election_end_time() {
     char end_time[20];
     printf("\n%sSet Election Ending Time%s\n", COLOR, CLRRM);
-    printf("Enter Election Ending Time (e.g., 5:00 PM): ");
-    scanf("%s", end_time);
+    printf("Enter Election Ending Time (e.g., 5:00PM): ");
+    scanf("%19s", end_time);
     FILE *file = fopen("..//..//database//notifications//election_time.txt", "r+");
     if (!file) {
         printf("Error opening file!\n");
         return;
     }
     char start_time[20];
-    fscanf(file, "%s", start_time); // Read the existing start time
-    rewind(file); // Move file pointer to the beginning
-    fprintf(file, "%s\n%s\n", start_time, end_time); // Write existing start time and new end time
+    fscanf(file, "%s", start_time);
+    rewind(file); 
+    fprintf(file, "%s\n%s\n", start_time, end_time); 
     fclose(file);
-    printf("Election ending time set to %s\n", end_time);
+    printf("\nElection ending time set to %s\n", end_time);
     sleep(2);
     system("clear || cls");
     main();
