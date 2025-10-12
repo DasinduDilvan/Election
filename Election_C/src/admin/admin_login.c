@@ -3,6 +3,12 @@
 #include <unistd.h>
 #include <string.h>
 
+#ifdef _WIN32
+    #define CLEAR_CMD "cls"
+#else
+    #define CLEAR_CMD "clear"
+#endif
+
 const char *COLOR = "\033[1;33m";
 const char *COLORG = "\033[1;32m";
 const char *COLORR = "\033[1;31m";
@@ -22,12 +28,12 @@ void set_election_start_time();
 void set_election_end_time();
 
 int main(){
-    system("clear || cls");
+    system(CLEAR_CMD);
     showHeader();
     if (credentials()) {
         printf("\n\t\tLogin Successful!\n");
         sleep(1);
-        system("clear || cls");
+        system(CLEAR_CMD);
         showHeader();
 
         int *requests = count_of_requests();
@@ -70,7 +76,6 @@ int credentials() {
     printf("║\n");
     printf("╚═ Enter Admin Password: ");
     scanf("%s", password);
-    //printf("║");
     if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
         return 1;
     } 
@@ -144,7 +149,7 @@ int *count_of_requests() {
 }
 
 void party_requests() {
-    system("clear || cls");
+    system(CLEAR_CMD);
     printf("\n║\n╠═ %sParty Registration Requests%s\n", COLOR, CLRRM);
     printf("║\n");
     FILE *file = fopen("..//..//database//notifications//party_notifications.txt", "r");
@@ -160,14 +165,13 @@ void party_requests() {
     printf("\nPress Enter to return to the admin menu...");
     getchar();
     getchar(); 
-    system("clear || cls");
+    system(CLEAR_CMD);
     showHeader();
     showContent();
     controlPanel();
 }
 
 void candidate_requests() {
-    //system("clear || cls");
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                     %sCandidate Register Requets%s                           ║\n", COLOR, CLRRM);
     printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
@@ -191,17 +195,16 @@ void candidate_requests() {
         i++;
     }
 
-        fclose(file);
-        printf("║\n");
+    fclose(file);
+    printf("║\n");
 
-        printf("\nPress Enter to return to the admin menu...");
-        getchar();
-        getchar(); 
-        system("clear || cls");
-        showHeader();
-        showContent();
-        controlPanel();
-
+    printf("\nPress Enter to return to the admin menu...");
+    getchar();
+    getchar(); 
+    system(CLEAR_CMD);
+    showHeader();
+    showContent();
+    controlPanel();
 }
 
 void set_election_start_time() {
@@ -223,7 +226,7 @@ void set_election_start_time() {
     printf("║\n");
     printf("╚═ Election starting time set to %s\n", start_time);
     sleep(3);
-    system("clear || cls");
+    system(CLEAR_CMD);
     showHeader();
     showContent();
     controlPanel();
@@ -248,11 +251,8 @@ void set_election_end_time() {
     printf("║\n");
     printf("╚═ Election ending time set to %s\n", end_time);
     sleep(3);
-    system("clear || cls");
+    system(CLEAR_CMD);
     showHeader();
     showContent();
     controlPanel();
 }
-
-
-
