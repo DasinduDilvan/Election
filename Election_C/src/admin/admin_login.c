@@ -4,6 +4,8 @@
 #include <string.h>
 
 const char *COLOR = "\033[1;33m";
+const char *COLORG = "\033[1;32m";
+const char *COLORR = "\033[1;31m";
 const char *CLRRM = "\033[0m";
 
 void showHeader();
@@ -12,6 +14,7 @@ int *count_of_requests();
 int numbers[6];
 int choice;
 
+void controlPanel();
 void showContent();
 void party_requests();
 void candidate_requests();
@@ -30,37 +33,9 @@ int main(){
         int *requests = count_of_requests();
 
         showContent();
-        printf("\033[1;37mEnter your choice:\033[0m ");
-        scanf("%d", &choice);
 
-    switch (choice){
-        case 1:
-            party_requests();
-            break;
-        
-        case 2:
-            candidate_requests();
-            break;
-        
-        case 3:
-            set_election_start_time();
-            break;
-
-        case 4:
-            set_election_end_time();
-            break;
-        
-        case 5:
-            system("..\\main\\main.exe");
-            break;
-
-        case 0:
-            printf("\t\t\nThank you for using Election Management System\n");
-            exit(0);
-            break;
-        } 
+        controlPanel();
     }
-
     else {
         printf("\n\t\tInvalid Credentials! Enterd ...\n");
         sleep(1);
@@ -118,8 +93,41 @@ void showContent() {
     printf("║                                    ║                                     ║\n");
     printf("╠════════════════════════════════════╩═════════════════════════════════════╝\n");
     printf("║\n");
-    printf("╚══ ");
+    printf("╠══ ");
 }
+
+void controlPanel(){    
+    printf("\033[1;37mEnter your choice:\033[0m ");
+    scanf("%d", &choice);
+
+    switch (choice){
+        case 1:
+            party_requests();
+            break;
+        
+        case 2:
+            candidate_requests();
+            break;
+        
+        case 3:
+            set_election_start_time();
+            break;
+
+        case 4:
+            set_election_end_time();
+            break;
+        
+        case 5:
+            system("..\\main\\main.exe");
+            break;
+
+        case 0:
+            printf("\t\t\nThank you for using Election Management System\n");
+            exit(0);
+            break;
+        } 
+}
+
 
 int *count_of_requests() {
     FILE *file = fopen("..//..//database//notifications//request_count.txt", "r");
@@ -137,7 +145,7 @@ int *count_of_requests() {
 
 void party_requests() {
     system("clear || cls");
-    printf("\n\n╔═ %sParty Registration Requests%s\n", COLOR, CLRRM);
+    printf("\n║\n╠═ %sParty Registration Requests%s\n", COLOR, CLRRM);
     printf("║\n");
     FILE *file = fopen("..//..//database//notifications//party_notifications.txt", "r");
     if (!file) {
@@ -155,28 +163,45 @@ void party_requests() {
     system("clear || cls");
     showHeader();
     showContent();
+    controlPanel();
 }
 
 void candidate_requests() {
-    system("clear || cls");
-    printf("\n\n╔═ %sCandidate Registration Requests%s\n", COLOR, CLRRM);
-    printf("║\n");
+    //system("clear || cls");
+    printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                     %sCandidate Register Requets%s                           ║\n", COLOR, CLRRM);
+    printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
+    printf("║  1.%sAccept Request%s     ║                                                  ║\n", COLORG, CLRRM);
+    printf("║  2.%sReject Request%s     ║                                                  ║\n", COLORR, CLRRM);
+    printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
     FILE *file = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
     if (!file) {
         printf("Error opening file!\n");
         return;
     }
-    char line[256];
-    while (fgets(line, sizeof(line), file)) {
-        printf("%s", line);
+    char line[9][50];
+    int i = 0;
+    char dataName[9][50]={"Candidte ID","Candidate Name","no","No","Party Name","Candidate NIC","No","no","Area"};
+    while (fgets(line[i], sizeof(line[i]), file)) {
+        if (i==2 || i==3 || i==4 || i==7 || i==9) {
+            i++;
+            continue;
+        }
+        printf("╠═ %s : %s", dataName[i], line[i]);
+        i++;
     }
-    fclose(file);
-    printf("\nPress Enter to return to the admin menu...");
-    getchar();
-    getchar();
-    system("clear || cls");
-    showHeader();
-    showContent();
+
+        fclose(file);
+        printf("║\n");
+
+        printf("\nPress Enter to return to the admin menu...");
+        getchar();
+        getchar(); 
+        system("clear || cls");
+        showHeader();
+        showContent();
+        controlPanel();
+
 }
 
 void set_election_start_time() {
@@ -197,9 +222,11 @@ void set_election_start_time() {
     fclose(file);
     printf("║\n");
     printf("╚═ Election starting time set to %s\n", start_time);
-    sleep(2);
+    sleep(3);
     system("clear || cls");
-    main();
+    showHeader();
+    showContent();
+    controlPanel();
 }
 
 void set_election_end_time() {
@@ -220,9 +247,11 @@ void set_election_end_time() {
     fclose(file);
     printf("║\n");
     printf("╚═ Election ending time set to %s\n", end_time);
-    sleep(2);
+    sleep(3);
     system("clear || cls");
-    main();
+    showHeader();
+    showContent();
+    controlPanel();
 }
 
 
