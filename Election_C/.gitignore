@@ -1,4 +1,4 @@
-# Replace your .gitignore with these corrected patterns
+# Completely rewrite your .gitignore with clean patterns
 cat > .gitignore << 'EOF'
 # macOS
 .DS_Store
@@ -6,8 +6,11 @@ cat > .gitignore << 'EOF'
 
 # VS Code - use double asterisk to match any location
 **/.vscode/
+../.vscode/
 
-# Build artifacts - FIXED patterns
+# Build artifacts
+*.dSYM
+**/*.dSYM
 **/*.dSYM/
 **/DWARF/
 *.o
@@ -17,6 +20,8 @@ cat > .gitignore << 'EOF'
 src/main/main
 main
 
+.exe
+
 # System files
 Thumbs.db
-EOF../.vscode/
+EOF
