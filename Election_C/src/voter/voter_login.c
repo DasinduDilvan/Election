@@ -1,6 +1,14 @@
-#include <stdio.h> 
+#include <stdio.h>
+#include <string.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#ifdef _WIN32
+    #define CLEAR_CMD "cls"
+#else
+    #define CLEAR_CMD "clear"
+#endif
 
 const char *COLOR = "\033[1;33m";
 const char *CLRRM = "\033[0m";
@@ -9,6 +17,10 @@ void showHeader();
 void showContent();
 char *username();
 char *password();
+char *loginMessage;
+void showContent();
+
+char *authenticate(char *username,char *password);
 
 int main(){
 
@@ -17,6 +29,20 @@ int main(){
     char *user_name = username();
     char *pass_word = password();
 
+    char *loginMessage = authenticate(user_name,pass_word);
+    if(loginMessage != NULL){
+
+        printf("\n\t\tLogin Successful!\n");
+        sleep(1);
+        system(CLEAR_CMD);
+        showHeader();
+        printf("Welcome %s\n",loginMessage);
+        showContent();
+
+    }
+    else{
+        printf("lofin F");
+    }
     return 0;
 }
 
@@ -31,10 +57,29 @@ void showHeader() {
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                                Voter Login                               ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                               %sAdmin Login%s                                ║\n", COLOR, CLRRM);
+    printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
+    printf("║\n");
 
 }
+
+void showContent() {
+    printf("╠════════════════════════════════════╦═════════════════════════════════════╣\n");
+    printf("║                                    ║                                     ║\n");
+    printf("║  \033[1;32mLogged in as: Admin\033 ║                                  \033[1;35mDashboard:\033[0m        ║\n");
+    printf("║                                    ║                                     ║\n");
+    printf("║    1.Party Register Requests       ║    Candidate Requests:              ║\n"); 
+    printf("║    2.Candidate Register Requests   ║    Party Requests:                  ║\n" );
+    printf("║    3.Set Election staring time     ║    Approved Candidates:             ║\n" );
+    printf("║    4.Set Election Ending time      ║    Approved Parties:                ║\n");
+    printf("║    5.Logout                        ║    Rejected Candidates:             ║\n");
+    printf("║    0.Exit                          ║    Rejected Parties:                ║\n");
+    printf("║                                    ║                                     ║\n");
+    printf("╠════════════════════════════════════╩═════════════════════════════════════╝\n");
+    printf("║\n");
+    printf("╠══ ");
+}
+
     char *username(){
     static char username[20];
     printf("║\n");
@@ -43,7 +88,7 @@ void showHeader() {
     return username;
     }
 
-char *password() {
+    char *password() {
     static char password[20];
     printf("║\n");
     printf("╠═ Enter Password: ");
@@ -52,6 +97,57 @@ char *password() {
 }
 
 
+char *authenticate(char *username,char *password){
+    
+    #ifdef _WIN32
+        FILE *fp = fopen("..\\..\\database\\source_data\\voter.txt", "r");
+    #else
+        FILE *fp = fopen("../../database/source_data/voters.txt", "r");
+    #endif
+    if (!fp) return NULL; //error opening file
+
+    char line[100];
+    int lineCounter=0;
+
+    char name[100]="";
+    char fileUsername[100] = "";
+    char filePassword[100] = "";
+
+    while(fgets(line,sizeof(line),fp)){
+        line[strcspn(line, "\n")] = '\0';
+        lineCounter=lineCounter+1;
+        
+        if(lineCounter==2){
+            strcpy(name,line);
+        }
+
+        if(lineCounter==4){
+            strcpy(fileUsername,line);
+            
+
+        }
+        else if(lineCounter==5){
+            strcpy(filePassword,line);
+
+        }
+        
+        if (lineCounter==10){
+            if(strcmp(username,fileUsername) ==0 && strcmp(password,filePassword) ==0 ){
+                
+                return username;
+            }
+
+        lineCounter=0;
+        fileUsername[0] = '\0';
+        filePassword[0] = '\0';
+
+        }
+        
+    }
+    fclose(fp);
+
+    return NULL;
 
 
+}
 

@@ -25,3 +25,7 @@ main
 # System files
 Thumbs.db
 EOF
+
+voter/voter_login
+voter/voter_registration
+admin/admin_login
