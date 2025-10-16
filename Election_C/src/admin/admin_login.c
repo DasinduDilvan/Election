@@ -133,7 +133,6 @@ void controlPanel(){
         } 
 }
 
-
 int *count_of_requests() {
     FILE *file = fopen("..//..//database//notifications//request_count.txt", "r");
     if (!file) {
@@ -178,25 +177,55 @@ void candidate_requests() {
     printf("║  1.%sAccept Request%s     ║                                                  ║\n", COLORG, CLRRM);
     printf("║  2.%sReject Request%s     ║                                                  ║\n", COLORR, CLRRM);
     printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
+    printf("║\n");
     FILE *file = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
-    if (!file) {
-        printf("Error opening file!\n");
-        return;
-    }
-    char line[9][50];
-    int i = 0;
-    char dataName[9][50]={"Candidte ID","Candidate Name","no","No","Party Name","Candidate NIC","No","no","Area"};
-    while (fgets(line[i], sizeof(line[i]), file)) {
-        if (i==2 || i==3 || i==4 || i==7 || i==9) {
-            i++;
-            continue;
+        if (!file) {
+            printf("Error opening file!\n");
+            return;
         }
-        printf("╠═ %s : %s", dataName[i], line[i]);
-        i++;
-    }
+            char line[9][50];
+            char *dataset[9];
+            int i = 0;
+            char dataName[9][50]={"Candidte ID","Candidate Name","no","No","Party Name","Candidate NIC","No","no","Area"};
+                while (fgets(line[i], sizeof(line[i]), file)) {
+                    if (i==2 || i==3 || i==4 || i==7 || i==9) {
+                        i++;
+                        continue;
+                    }
+                    dataset[i] = line[i];
+                        printf("╠═ %s : %s", dataName[i], dataset[i]);
+                        
+                        
+                        if (i + 1 != i){  
+                                fputs(line[i], file);
+                                }
+
+                        i++;
+                    if (i >= 9) break;
+                }
+
+    printf("║\n");
+    printf("╠═ Enter Decision (1/2): ");
+    int decision;
+    scanf("%d", &decision);
 
     fclose(file);
-    printf("║\n");
+    if (decision == 1) {
+        printf("║\n");
+        printf("╚═ Request Accepted!\n");
+    } else if (decision == 2) {
+        printf("║\n");
+        printf("╚═ Request Rejected!\n");
+    } else {
+        printf("║\n");
+        printf("╚═ Invalid choice!\n");
+        sleep(2);
+        system(CLEAR_CMD);
+        showHeader();
+        showContent();
+        candidate_requests();
+    }
+
 
     printf("\nPress Enter to return to the admin menu...");
     getchar();
