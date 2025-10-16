@@ -1,0 +1,27 @@
+# Completely rewrite your .gitignore with clean patterns
+cat > .gitignore << 'EOF'
+# macOS
+.DS_Store
+.AppleDouble
+
+# VS Code - use double asterisk to match any location
+**/.vscode/
+../.vscode/
+
+# Build artifacts
+*.dSYM
+**/*.dSYM
+**/*.dSYM/
+**/DWARF/
+*.o
+*.out
+
+# Compiled binaries
+src/main/main
+main
+
+.exe
+
+# System files
+Thumbs.db
+EOF

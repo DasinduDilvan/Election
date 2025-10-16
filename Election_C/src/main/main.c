@@ -124,7 +124,11 @@ void showHeader() {
 
 void showContent() {
 
-    FILE *file = fopen("..//..//database//notifications//election_time.txt", "r");
+    #ifdef _WIN32
+        FILE *file = fopen("..\\..\\database\\notifications\\election_time.txt", "r");
+    #else
+        FILE *file = fopen("../../database/notifications/election_time.txt", "r");
+    #endif
     if (!file) {
         printf("Error opening file!\n");
         return;
@@ -143,7 +147,11 @@ char *voters;
 char *candidates;
 char *parties;
 
-    FILE *file2 = fopen("..//..//database//notifications//request_count.txt", "r");
+    #ifdef _WIN32
+        FILE *file2 = fopen("..\\..\\database\\notifications\\request_count.txt", "r");
+    #else
+        FILE *file2 = fopen("../../database/notifications/request_count.txt", "r");
+    #endif
     if (!file2) {
         printf("Error opening file!\n");
         return;
