@@ -14,6 +14,10 @@ char * electionStartTime;
 char * electionEndtTime; 
 
 int main() {
+    #ifdef _WIN32
+        system("chcp 65001");
+    #endif
+
     system("cls || clear");
     showHeader();
     showContent();

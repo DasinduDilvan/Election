@@ -20,6 +20,10 @@ int *count_of_requests();
 int numbers[6];
 int choice;
 
+int noOfCandidateRequestLines();
+int noOfPartyRequestLines();
+int showCandidateFirstLine();
+int reWriteCandidateRequestFile(int x);
 void controlPanel();
 void showContent();
 void party_requests();
@@ -158,6 +162,7 @@ void party_requests() {
     }
     char line[256];
     while (fgets(line, sizeof(line), file)) {
+        
         printf("%s", line);
     }
     fclose(file);
@@ -171,6 +176,7 @@ void party_requests() {
 }
 
 void candidate_requests() {
+    system(CLEAR_CMD);
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                     %sCandidate Register Requets%s                           ║\n", COLOR, CLRRM);
     printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
@@ -178,41 +184,26 @@ void candidate_requests() {
     printf("║  2.%sReject Request%s     ║                                                  ║\n", COLORR, CLRRM);
     printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
     printf("║\n");
-    FILE *file = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
-        if (!file) {
-            printf("Error opening file!\n");
-            return;
-        }
-            char line[9][50];
-            char *dataset[9];
-            int i = 0;
-            char dataName[9][50]={"Candidte ID","Candidate Name","no","No","Party Name","Candidate NIC","No","no","Area"};
-                while (fgets(line[i], sizeof(line[i]), file)) {
-                    if (i==2 || i==3 || i==4 || i==7 || i==9) {
-                        i++;
-                        continue;
-                    }
-                    dataset[i] = line[i];
-                        printf("╠═ %s : %s", dataName[i], dataset[i]);
-                        
-                        
-                        if (i + 1 != i){  
-                                fputs(line[i], file);
-                                }
 
-                        i++;
-                    if (i >= 9) break;
-                }
+    int countOfCandidateRequestLines = noOfCandidateRequestLines();
+    int countOfPartyRequestLines = noOfPartyRequestLines();
+    //printf("║  Total Candidate Requests: %d\n", countOfCandidateRequestLines);
+    //printf("║  Total Voter Requests: %d\n", countOfPartyRequestLines);
+    showCandidateFirstLine();
+    reWriteCandidateRequestFile(countOfCandidateRequestLines);
+
+        
 
     printf("║\n");
     printf("╠═ Enter Decision (1/2): ");
     int decision;
     scanf("%d", &decision);
 
-    fclose(file);
+    //fclose(readfile);
     if (decision == 1) {
         printf("║\n");
         printf("╚═ Request Accepted!\n");
+
     } else if (decision == 2) {
         printf("║\n");
         printf("╚═ Request Rejected!\n");
@@ -223,6 +214,7 @@ void candidate_requests() {
         system(CLEAR_CMD);
         showHeader();
         showContent();
+        printf("\n");
         candidate_requests();
     }
 
@@ -235,6 +227,111 @@ void candidate_requests() {
     showContent();
     controlPanel();
 }
+
+
+int noOfCandidateRequestLines(){
+    int number=0;
+    char line[1024];
+    FILE *readCandidate = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
+    if (!readCandidate) {
+        printf("Error opening file! candidate_notifications.txt\n");
+        return 0;
+    }
+    while (fgets(line, sizeof(line), readCandidate)) {
+        number++;
+    }
+    fclose(readCandidate);
+    return number-1;
+
+    //FILE *requestCount = fopen("..//..//database//notifications//request_count.txt", "r+");
+    //fprintf(requestCount, "%d\n%d\n", count[0], count[1]);
+    //fclose(requestCount);
+}
+
+int noOfPartyRequestLines(){
+    int number=0;
+    char line[1024];
+    FILE *readParty = fopen("..//..//database//notifications//party_notifications.txt", "r");
+    if (!readParty) {
+        printf("Error opening file! Party_notifications.txt\n");
+        return 0;
+    }
+    while (fgets(line, sizeof(line), readParty)) {
+        number++;
+    }
+    fclose(readParty);
+
+    return number-1;
+}
+
+int showCandidateFirstLine(){
+    FILE *readfile = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
+        if (!readfile) {
+            printf("Error opening file!\n");
+            return 0;
+        }
+        
+        char buffer[1024];   
+        char line[50][50];      
+        int i = 0;
+        char *dataName[9]={"Candidate ID","Candidate First Name","Candidate Last Name","No","Party Name","Candidate NIC","Candidate Gender","Date of Birth","ElectionArea"};
+
+        if (fgets(buffer, sizeof(buffer), readfile)) {
+            buffer[strcspn(buffer, "\n")] = 0; 
+
+            char *token = strtok(buffer, "#@!@#");
+            while (token != NULL && i < 50) {
+                strcpy(line[i], token);  
+                i++;
+                token = strtok(NULL, "#@!@#");
+            }
+            int j=0;
+            while(j<i){
+                if(j==3 || j==4){
+                    j++;
+                    continue;
+                }
+                printf("║ \t%-20s : %s\n",dataName[j],line[j]);
+                j++;
+            }
+        }
+
+        fclose(readfile);
+}
+
+int reWriteCandidateRequestFile(int x){
+    FILE *readfile = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
+        if (!readfile) {
+            printf("Error opening file!\n");
+            return 0;
+        }
+        
+        int i = 1;
+        char line[x][50];      
+
+        
+        while (fgets(line[i], sizeof(line[i]), readfile)) {
+            if (i==0){
+                i++;
+
+                continue;
+            }
+                printf("%s\n",line[i]);
+            }
+
+        
+        fclose(readfile);
+
+        FILE *writefile = fopen("..//..//database//notifications//candidate_notifications.txt", "w");
+        if (!writefile) {
+            printf("Error opening file for writing!\n");
+            return 0;
+        }
+
+        fclose(writefile);
+}
+
+
 
 void set_election_start_time() {
     char start_time[20];

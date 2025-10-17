@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 #ifdef _WIN32
-    #define CLEAR_CMD "cls"
+    #define CLEAR_CMD "clear"
 #else
     #define CLEAR_CMD "clear"
 #endif
@@ -41,8 +41,10 @@ int main(){
 
     }
     else{
-        printf("lofin F");
+        printf("lodin Faild\n");
+        sleep(2);
     }
+    
     return 0;
 }
 
