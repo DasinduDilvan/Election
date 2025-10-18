@@ -22,16 +22,18 @@ int choice;
 
 int noOfCandidateRequestLines();
 int noOfPartyRequestLines();
-int showCandidateFirstLine();
 int reWriteCandidateRequestFile(int x);
 void controlPanel();
 void showContent();
 void party_requests();
-void candidate_requests();
+int candidate_requests();
 void set_election_start_time();
 void set_election_end_time();
 
 int main(){
+    #ifdef _WIN32
+        system("chcp 65001");
+    #endif  
     system(CLEAR_CMD);
     showHeader();
     if (credentials()) {
@@ -175,7 +177,7 @@ void party_requests() {
     controlPanel();
 }
 
-void candidate_requests() {
+int candidate_requests() {
     system(CLEAR_CMD);
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                     %sCandidate Register Requets%s                           ║\n", COLOR, CLRRM);
@@ -189,7 +191,80 @@ void candidate_requests() {
     int countOfPartyRequestLines = noOfPartyRequestLines();
     //printf("║  Total Candidate Requests: %d\n", countOfCandidateRequestLines);
     //printf("║  Total Voter Requests: %d\n", countOfPartyRequestLines);
-    showCandidateFirstLine();
+    
+    
+FILE *readfile = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
+    if (!readfile) {
+        printf("Error opening source file!\n");
+        return 1;
+    }
+
+    char firstLine[1024];
+    char otherLines[1000][1024];
+    int count = 0;
+
+    // --- Read first line ---
+    if (fgets(firstLine, sizeof(firstLine), readfile)) {
+        firstLine[strcspn(firstLine, "\n")] = 0; // remove newline
+    } else {
+        printf("No data found!\n");
+        fclose(readfile);
+        return 0;
+    }
+
+    // --- Read remaining lines ---
+    while (fgets(otherLines[count], sizeof(otherLines[count]), readfile)) {
+        otherLines[count][strcspn(otherLines[count], "\n")] = 0;
+        count++;
+    }
+    fclose(readfile);
+
+    char *dataName[9] = {
+        "Candidate ID",
+        "Candidate First Name",
+        "Candidate Last Name",
+        "No",
+        "Party Name",
+        "Candidate NIC",
+        "Candidate Gender",
+        "Date of Birth",
+        "Election Area"
+    };
+
+    char *token;
+    char *line[10];
+    int i = 0;
+
+    token = strtok(firstLine, "#@!@#");
+    while (token != NULL && i < 10) {
+        line[i++] = token;
+        token = strtok(NULL, "#@!@#");
+    }
+
+    FILE *updateFile = fopen("..//..//database//notifications//candidate_notifications.txt", "w");
+    if (!updateFile) {
+        printf("Error reopening notifications file for update!\n");
+        return 1;
+    }
+
+    for (int k = 0; k < count; k++) {
+        fprintf(updateFile, "%s\n", otherLines[k]);
+    }
+
+    fclose(updateFile);
+
+    int j = 0;
+    while( j < i && j < 9) {
+        if (j==3 || j==4){
+            j++;
+            continue;
+        }
+        printf("║ %-20s : %s\n", dataName[j], line[j]);
+        j++;
+    }
+    printf("%s", line[1]);
+
+    
     reWriteCandidateRequestFile(countOfCandidateRequestLines);
 
         
@@ -199,12 +274,29 @@ void candidate_requests() {
     int decision;
     scanf("%d", &decision);
 
+
+
+
     //fclose(readfile);
     if (decision == 1) {
-        printf("║\n");
+        FILE *writefile = fopen("..//..//database//source_data//candidates.txt", "a");
+        if (!writefile) {
+            printf("Error opening file for writing!\n");
+            return 0;
+        }
+        fprintf(writefile, "%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n", line[0], line[1], line[2], line[5], line[4], line[6], line[7]);
+        fclose(writefile);
+        printf("║\n");      
         printf("╚═ Request Accepted!\n");
 
     } else if (decision == 2) {
+        FILE *rejectfile = fopen("..//..//database//notifications//rejected_candidates.txt", "a");
+        if (!rejectfile) {
+            printf("Error opening file for writing!\n");
+            return 0;
+        }
+        fprintf(rejectfile, "%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n", line[0], line[1], line[2], line[5], line[4], line[6], line[7]);
+        fclose(rejectfile);
         printf("║\n");
         printf("╚═ Request Rejected!\n");
     } else {
@@ -219,7 +311,7 @@ void candidate_requests() {
     }
 
 
-    printf("\nPress Enter to return to the admin menu...");
+    printf("\n\nPress Enter to return to the admin menu...");
     getchar();
     getchar(); 
     system(CLEAR_CMD);
@@ -264,41 +356,6 @@ int noOfPartyRequestLines(){
     return number-1;
 }
 
-int showCandidateFirstLine(){
-    FILE *readfile = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
-        if (!readfile) {
-            printf("Error opening file!\n");
-            return 0;
-        }
-        
-        char buffer[1024];   
-        char line[50][50];      
-        int i = 0;
-        char *dataName[9]={"Candidate ID","Candidate First Name","Candidate Last Name","No","Party Name","Candidate NIC","Candidate Gender","Date of Birth","ElectionArea"};
-
-        if (fgets(buffer, sizeof(buffer), readfile)) {
-            buffer[strcspn(buffer, "\n")] = 0; 
-
-            char *token = strtok(buffer, "#@!@#");
-            while (token != NULL && i < 50) {
-                strcpy(line[i], token);  
-                i++;
-                token = strtok(NULL, "#@!@#");
-            }
-            int j=0;
-            while(j<i){
-                if(j==3 || j==4){
-                    j++;
-                    continue;
-                }
-                printf("║ \t%-20s : %s\n",dataName[j],line[j]);
-                j++;
-            }
-        }
-
-        fclose(readfile);
-}
-
 int reWriteCandidateRequestFile(int x){
     FILE *readfile = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
         if (!readfile) {
@@ -306,18 +363,22 @@ int reWriteCandidateRequestFile(int x){
             return 0;
         }
         
-        int i = 1;
+        int i = 0;
         char line[x][50];      
 
-        
         while (fgets(line[i], sizeof(line[i]), readfile)) {
-            if (i==0){
+            if (i==1){
                 i++;
 
                 continue;
             }
-                printf("%s\n",line[i]);
-            }
+                fprintf(readfile, "%s\n",line[i]);
+                if (i >= x) {
+                    printf("No more candidate requests.\n");
+                    break;
+                }
+        }
+        
 
         
         fclose(readfile);
