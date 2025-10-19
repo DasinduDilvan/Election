@@ -194,11 +194,11 @@ int candidate_requests() {
             fgets(line[i], sizeof(line[i]), readfile);
             if(i==0){
                 firstline = line[i];
-                token = strtok(firstline, "#@!@#");
+                token = strtok(firstline, "¥");
                 while (token && i < 9) {
                     parts[i] = token;
                     i++;
-                    token = strtok(NULL, "#@!@#");
+                    token = strtok(NULL, "¥");
                 }            
                 for (int j = 0; j < i; j++) {
                     printf("║\t%-20s : %s\n", dataName[j], parts[j]);
@@ -245,7 +245,6 @@ int candidate_requests() {
 
         printf("check two");
         
-        //fprintf(writefile, "%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n", line[0], line[1], line[2], line[5], line[4], line[6], line[7]);
         
         fclose(writefile);
         printf("║\n");      
@@ -261,7 +260,6 @@ int candidate_requests() {
         }
         fprintf(rejectfile, "%s\n", firstline);
         
-        //fprintf(rejectfile, "%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n", line[0], line[1], line[2], line[5], line[4], line[6], line[7]);
         
         fclose(rejectfile);
         printf("║\n");

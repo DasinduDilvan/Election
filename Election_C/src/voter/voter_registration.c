@@ -57,14 +57,14 @@ int main() {
             return 1;
         }
 
-        fprintf(file, "#@!@#%s", firstname);
-        fprintf(file, "#@!@#%s", lastname);
-        fprintf(file, "#@!@#%s", user_name);
-        fprintf(file, "#@!@#%s", pass_word);
-        fprintf(file, "#@!@#%s", NIC_num);
-        fprintf(file, "#@!@#%s", gender_mf);
-        fprintf(file, "#@!@#%s", Dateofbirth);
-        fprintf(file, "#@!@#%s\n", election_area);
+        fprintf(file, "¥%s", firstname);
+        fprintf(file, "¥%s", lastname);
+        fprintf(file, "¥%s", user_name);
+        fprintf(file, "¥%s", pass_word);
+        fprintf(file, "¥%s", NIC_num);
+        fprintf(file, "¥%s", gender_mf);
+        fprintf(file, "¥%s", Dateofbirth);
+        fprintf(file, "¥%s\n", election_area);
         fprintf(file, "%d", voter_ID_num);
         fclose(file);
 

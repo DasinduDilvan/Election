@@ -49,7 +49,7 @@ int main(){
             return 1;
         }
 
-        fprintf(file, "#@#%s#@#%s#@#%s#@#%s\n%d", party_name, user_name, pass_word, color, leader, Party_ID);
+        fprintf(file, "¥%s¥%s¥%s¥%s\n%d", party_name, user_name, pass_word, color, leader, Party_ID);
         
         fclose(file);
 

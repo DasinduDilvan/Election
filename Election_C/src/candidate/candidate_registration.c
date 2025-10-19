@@ -55,7 +55,7 @@ int main(){
             return 1;
         }
 
-fprintf(file, "#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n%d", 
+fprintf(file, "¥%s¥%s¥%s¥%s¥%s¥%s¥%s\n%d", 
                 firstname, 
                 lastname, 
                 user_name, 

@@ -149,7 +149,6 @@ char *authenticate(char *username,char *password){
     fclose(fp);
 
     return NULL;
-
-
+    
 }
 
