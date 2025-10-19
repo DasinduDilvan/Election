@@ -56,15 +56,9 @@ int main() {
             return 1;
         }
 
-        fprintf(file, "%s\n", firstname);
-        fprintf(file, "%s\n", lastname);
-        fprintf(file, "%s\n", user_name);
-        fprintf(file, "%s\n", pass_word);
-        fprintf(file, "%s\n", NIC_num);
-        fprintf(file, "%s\n", gender_mf);
-        fprintf(file, "%s\n", Dateofbirth);
-        fprintf(file, "%s\n", election_area);
-        fprintf(file, "%d\n\n", voter_ID_num);
+        fprintf(file,"%s,%s,%s,%s,%s,%s,%s,%s,%d\n",firstname,lastname,user_name,pass_word,NIC_num,gender_mf,Dateofbirth,election_area,voter_ID_num);
+
+        
         fclose(file);
 
         messageSuccess();

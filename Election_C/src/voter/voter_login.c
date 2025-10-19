@@ -57,7 +57,7 @@ void showHeader() {
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                               %sAdmin Login%s                                ║\n", COLOR, CLRRM);
+    printf("║                               %sVoter Login%s                                ║\n", COLOR, CLRRM);
     printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
     printf("║\n");
 
@@ -66,7 +66,7 @@ void showHeader() {
 void showContent() {
     printf("╠════════════════════════════════════╦═════════════════════════════════════╣\n");
     printf("║                                    ║                                     ║\n");
-    printf("║  \033[1;32mLogged in as: Admin\033 ║                                  \033[1;35mDashboard:\033[0m        ║\n");
+    printf("║  \033[1;32mLogged in as: Voter\033 ║                                  \033[1;35mDashboard:\033[0m        ║\n");
     printf("║                                    ║                                     ║\n");
     printf("║    1.Party Register Requests       ║    Candidate Requests:              ║\n"); 
     printf("║    2.Candidate Register Requests   ║    Party Requests:                  ║\n" );
