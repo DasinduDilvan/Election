@@ -19,6 +19,8 @@ char *partyNumber();
 char confirm();
 
 int main(){
+    system("cls || clear");
+
     showCandidateHeader();
     
     
@@ -30,7 +32,6 @@ int main(){
     char *NIC_num = NIC();
     char *gender_mf  = gender();
     char *party_num = partyNumber(); 
-    char *approval_status = "PENDING"; 
 
     char confirm_save;
     printf("║\n");
@@ -48,13 +49,13 @@ int main(){
         printf("╠═ Registration confirmed. Status set to PENDING for Admin Approval.\n");
 
 
-        FILE *file = fopen("../../database/notifications/candidate_notifications.txt", "a");
+        FILE *file = fopen("..//..//database//notifications//candidate_notifications.txt", "a");
         if (file == NULL) {
             printf("Error opening file for candidate data!\n");
             return 1;
         }
 
-fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%d\n", 
+fprintf(file, "#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n%d", 
                 firstname, 
                 lastname, 
                 user_name, 
@@ -62,7 +63,6 @@ fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%d\n",
                 NIC_num, 
                 gender_mf, 
                 party_num, 
-                approval_status,
                 candidate_ID
         );
         
@@ -72,8 +72,8 @@ fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%d\n",
         
         printf("\n");
         printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-        printf("║                    %sCandidate Registration saved%s                     ║\n", COLOR, CLRRM);
-        printf("║                     Waiting on Administrator approval                    ║\n");
+        printf("║                       %sCandidate Registration saved%s                       ║\n", COLOR, CLRRM);
+        printf("║                       Waiting on Administrator approval                  ║\n");
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
     }
     return 0;
@@ -88,7 +88,9 @@ void showCandidateHeader(){
     printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
     printf("║                                                                          ║\n");
-    printf("╠══════════════════════════════════╦═══════════════════════════════════════╣\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                          %sCandidate Registraion%s                           ║\n", COLOR, CLRRM);
+    printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
 
 
 }

@@ -4,18 +4,25 @@
 #include <string.h>
 
 void showHeader();
+int userCount(int location);
 void showContent();
 
 const char *COLOR = "\033[1;33m";
 const char *CLRRM = "\033[0m";
 
 int choice;
+int counts[3];
 char * electionStartTime;
 char * electionEndtTime; 
 
 int main() {
+    #ifdef _WIN32
+        system("chcp 65001");
+    #endif
+
     system("cls || clear");
     showHeader();
+    
     showContent();
 
     printf("\033[1;37mEnter your choice:\033[0m ");
@@ -124,56 +131,16 @@ void showHeader() {
 
 void showContent() {
 
-    #ifdef _WIN32
-        FILE *file = fopen("..\\..\\database\\notifications\\election_time.txt", "r");
-    #else
-        FILE *file = fopen("../../database/notifications/election_time.txt", "r");
-    #endif
-    if (!file) {
-        printf("Error opening file!\n");
-        return;
-    }
-    char line[2][100];
-    while (fgets(line[0], sizeof(line), file)) {
-        electionStartTime = line[0];
-        electionStartTime[strcspn(electionStartTime, "\n")] = '\0';
-        fgets(line[1], sizeof(line), file);
-        electionEndtTime = line[1];
-        electionEndtTime[strcspn(electionEndtTime, "\n")] = '\0';
-    }  
-    fclose(file);
-
-char *voters;
-char *candidates;
-char *parties;
-
-    #ifdef _WIN32
-        FILE *file2 = fopen("..\\..\\database\\notifications\\request_count.txt", "r");
-    #else
-        FILE *file2 = fopen("../../database/notifications/request_count.txt", "r");
-    #endif
-    if (!file2) {
-        printf("Error opening file!\n");
-        return;
-    }
-    char line2[8][100];
-    while (fgets(line2[6], sizeof(line2) - 6, file2)) {
-        voters = line2[6];
-        voters[strcspn(voters, "\n")] = '\0';
-        fgets(line2[4], sizeof(line2) - 6, file2);
-        candidates = line2[4];
-        candidates[strcspn(candidates, "\n")] = '\0';
-        fgets(line2[5], sizeof(line2) - 6, file2);
-        parties = line2[5];      
-        parties[strcspn(parties, "\n")] = '\0';
-    }
+        for(int i=0; i<3; i++){
+            counts[i] = userCount(i);
+        }
 
     printf("║                                  ║                                       ║\n");
     printf("║   \033[1;32mMAIN MENU:\033[0m                     ║  \033[1;33mELECTION NEWS:\033[0m                       ║\n");
     printf("║                                  ║                                       ║\n");
-    printf("║     1. Voter Login               ║  Number of Registered Voters   : %-3s  ║\n", voters);
-    printf("║     2. Candidate Login           ║  Number of Registered Candidates:%-2s   ║\n", candidates);
-    printf("║     3. Party Login               ║  Number of Registered Parties  : %-2s   ║\n", parties);
+    printf("║     1. Voter Login               ║  Number of Registered Voters   : %-3d  ║\n", counts[0]);
+    printf("║     2. Candidate Login           ║  Number of Registered Candidates:%-2d   ║\n", counts[1]);
+    printf("║     3. Party Login               ║  Number of Registered Parties  : %-2d   ║\n", counts[2]);
     printf("║     4. Voter Registration        ║                                       ║\n");
     printf("║     5. Candidate Registration    ╠═══════════════════════════════════════╣\n");
     printf("║     6. Party Registration        ║                                       ║\n");
@@ -184,5 +151,26 @@ char *parties;
     printf("╠══════════════════════════════════╩═══════════════════════════════════════╝\n");
     printf("║\n");
     printf("╚══ ");
+}
+
+int userCount(int location){
+    char *fileDir; 
+    if (location==0){fileDir = "..//..//database//source_data//voters.txt";}
+    else if(location==1){fileDir = "..//..//database//source_data//candidates.txt";}
+    else if(location==2){fileDir = "..//..//database//source_data//party.txt";}
+    else {return 0;}
+    
+    int number=0;
+    char line[1024];
+    FILE *readfile = fopen(fileDir, "r");
+    if (!readfile) {
+        printf("Error opening file! %s\n", location);
+        return 0;
+    }
+    while (fgets(line, sizeof(line), readfile)) {
+        number++;
+    }
+    fclose(readfile);
+    return number;
 }
 
