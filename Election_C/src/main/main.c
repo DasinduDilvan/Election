@@ -12,8 +12,8 @@ const char *CLRRM = "\033[0m";
 
 int choice;
 int counts[3];
-char * electionStartTime;
-char * electionEndtTime; 
+char electionStartTime[12];
+char electionEndTime[12]; 
 
 int main() {
     #ifdef _WIN32
@@ -136,9 +136,23 @@ void showContent() {
         for(int i=0; i<3; i++){
             counts[i] = userCount(i);
         }
+        #ifdef _WIN32
+        FILE *file = fopen("..\\\\..\\\\database\\\\notifications\\\\election_time.txt", "r");
+        #else
+        FILE *file = fopen("../../database/notifications/election_time.txt", "r");
+        #endif
+        if (file == NULL) {
+            printf("Error: Could not open time file\n");
+        return;
+        }
+        fgets(electionStartTime,12,file);
+        fgets(electionEndTime,12,file);
+        fclose(file);
+        electionStartTime[strcspn(electionStartTime, "\n")] = '\0';
+        electionEndTime[strcspn(electionEndTime, "\n")] = '\0';
 
     printf("║                                  ║                                       ║\n");
-    printf("║   \033[1;32mMAIN MENU:\033[0m                     ║  \033[1;33mELECTION NEWS:\033[0m                       ║\n");
+    printf("║   \033[1;32mMAIN MENU:\033[0m                     ║  \033[1;34mELECTION NEWS:\033[0m                       ║\n");
     printf("║                                  ║                                       ║\n");
     printf("║     1. Voter Login               ║  Number of Registered Voters   : %-3d  ║\n", counts[0]);
     printf("║     2. Candidate Login           ║  Number of Registered Candidates:%-2d   ║\n", counts[1]);
@@ -146,9 +160,9 @@ void showContent() {
     printf("║     4. Voter Registration        ║                                       ║\n");
     printf("║     5. Candidate Registration    ╠═══════════════════════════════════════╣\n");
     printf("║     6. Party Registration        ║                                       ║\n");
-    printf("║     7. Admin Login               ║  \033[1;34mELECTION Schedule:\033[0m                   ║\n");
+    printf("║     7. Admin Login               ║  \033[1;31mELECTION Schedule:\033[0m                   ║\n");
     printf("║     8. Terms and Conditions      ║                                       ║\n");
-    printf("║     0. Exit                      ║     Start: %-7s & End: %-7s     ║\n", electionStartTime, electionEndtTime);
+    printf("║     0. Exit                      ║     Start: %-7s & End: %-7s     ║\n",electionStartTime, electionEndTime);
     printf("║                                  ║                                       ║\n");
     printf("╠══════════════════════════════════╩═══════════════════════════════════════╝\n");
     printf("║\n");
@@ -166,7 +180,7 @@ int userCount(int location){
     char line[1024];
     FILE *readfile = fopen(fileDir, "r");
     if (!readfile) {
-        printf("Error opening file! %s\n", location);
+        printf("Error opening file! %d\n", location);
         return 0;
     }
     while (fgets(line, sizeof(line), readfile)) {

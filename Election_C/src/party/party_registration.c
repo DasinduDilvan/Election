@@ -8,7 +8,6 @@ const char *COLOR = "\033[1;33m";
 const char *CLRRM = "\033[0m";
 
 void showPartyHeader();
-int partyID(); 
 char *partyname();
 char *username();
 char *password();
@@ -49,7 +48,7 @@ int main(){
             return 1;
         }
 
-        fprintf(file, "¥%s¥%s¥%s¥%s\n%d", party_name, user_name, pass_word, color, leader, Party_ID);
+        fprintf(file, "¥%s¥%s¥%s¥%s\n", party_name, user_name, pass_word, color, leader);
         
         fclose(file);
 
@@ -81,43 +80,11 @@ void showPartyHeader(){
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
 }
 
-int partyID(){
-    #ifdef _WIN32
-        FILE *file = fopen("..\\..\\database\\notifications\\party_notifications.txt", "r");
-    #else
-        FILE *file = fopen("../../database/notifications/party_notifications.txt", "r");
-    #endif
-
-    if (file == NULL) {
-        printf("Error opening file!\n");
-        return 0;
-    }
-
-    char line[512];
-    char last_line[512] = "";
-
-    while (fgets(line, sizeof(line), file)) {
-        strcpy(last_line, line);
-    }
-
-    fclose(file);
-
-    int party_ID = 0;
-    for (int i = 0; last_line[i] != '\0'; i++) {
-        if (last_line[i] >= '0' && last_line[i] <= '9') {
-            party_ID = party_ID * 10 + (last_line[i] - '0');
-        }
-    }
-
-    return party_ID + 1;
-}
-
-
 char *partyname(){
     static char partyname[50];
     printf("║\n");
     printf("╠═ Enter Party Name: ");
-    scanf(" %[^\n]", partyname);
+    scanf(" %49s[^\n]", partyname);
     return partyname;
 }
 

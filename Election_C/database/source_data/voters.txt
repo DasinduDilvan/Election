@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 1001¥Dilvan¥Dilvan¥Dasi24¥234rd¥346red¥m¥34/23/234/¥Piliyandala
 1002¥aaaaa¥bbbbbb¥cccccc¥dddddd¥111111¥m¥22/22/2222¥eeeeee
 1003¥FirstName¥LastName¥UserName¥PassWord¥NICNumber¥Gender¥DateOfBirth¥ElectionArea
 1004
+=======
+
+>>>>>>> 4c5fb3610006400337324a7dc020f7662e9b4230

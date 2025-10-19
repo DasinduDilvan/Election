@@ -3,5 +3,5 @@
 131¥Dasindu1¥Dasindu2¥DasinduUsername¥DasinduPassword¥DasinduNIC¥M¥1
 101¥Dasindu1¥Dasindu2¥DasinduUsername¥DasinduPassword¥DasinduNIC¥M¥1
 151¥Dasindu1¥Dasindu2¥DasinduUsername¥DasinduPassword¥DasinduNIC¥M¥1
-
-
+101¥Dasindu2¥Dasindu3¥DilvanUsename¥DilvanPassword¥DilvanNIC¥m¥2
+102¥Dasindu1¥Dasindu2¥DasinduUsername¥DasinduPassword¥DasinduNIC¥M¥1
