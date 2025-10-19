@@ -1,0 +1,9 @@
+101#@!@#Dasindu1#@!@#Dasindu2#@!@#DasinduUsername#@!@#DasinduPassword#@!@#DasinduNIC#@!@#M#@!@#1
+102#@!@#Dasindu2#@!@#Dasindu3#@!@#DilvanUsename#@!@#DilvanPassword#@!@#DilvanNIC#@!@#m#@!@#2
+103#@!@#Wijethunga#@!@#Wijethunga2#@!@#WijethungaUsername#@!@#WijethungaPassword#@!@#WijethungaNIC#@!@#m#@!@#3
+104#@!@#Maduka1#@!@#Maduka2#@!@#MadukaUesername#@!@#MadukaPassword#@!@#MadukaNIC#@!@#m#@!@#1
+105#@!@#Manaram#@!@#Manaram2#@!@#ManaramUsername#@!@#ManaramPassword#@!@#ManaramNIC#@!@#m#@!@#2
+106#@!@#Hiruni#@!@#Hiruni2#@!@#HiruniUsrname#@!@#HituniPassword#@!@#HiruniNIC#@!@#f#@!@#1
+107#@!@#chethana#@!@#Chethana2#@!@#ChethanaUsername#@!@#chethanaPassword#@!@#ChethanaNIC#@!@#f#@!@#2
+108#@!@#Sendiay1#@!@#Sendiya2#@!@#SendiyaUsername#@!@#SendiyaPassword#@!@#SendiyaNIC#@!@#m#@!@#3
+109
