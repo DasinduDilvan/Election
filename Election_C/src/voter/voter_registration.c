@@ -21,6 +21,7 @@ void messageSuccess();
 void messageCanceled();
 
 int main() {
+    system("clear || cls");
     showHeader();
 
     char *firstname = fname();
@@ -46,7 +47,7 @@ int main() {
 
         // Cross-platform file path
         #ifdef _WIN32
-            FILE *file = fopen("..\\\\..\\\\database\\\\source_data\\\\voters.txt", "a");
+            FILE *file = fopen("..\\..\\database\\source_data\\\\voters.txt", "a");
         #else
             FILE *file = fopen("../../database/source_data/voters.txt", "a");
         #endif
@@ -56,9 +57,15 @@ int main() {
             return 1;
         }
 
-        fprintf(file,"%s,%s,%s,%s,%s,%s,%s,%s,%d\n",firstname,lastname,user_name,pass_word,NIC_num,gender_mf,Dateofbirth,election_area,voter_ID_num);
-
-        
+        fprintf(file, "¥%s", firstname);
+        fprintf(file, "¥%s", lastname);
+        fprintf(file, "¥%s", user_name);
+        fprintf(file, "¥%s", pass_word);
+        fprintf(file, "¥%s", NIC_num);
+        fprintf(file, "¥%s", gender_mf);
+        fprintf(file, "¥%s", Dateofbirth);
+        fprintf(file, "¥%s\n", election_area);
+        fprintf(file, "¥%d", voter_ID_num);
         fclose(file);
 
         messageSuccess();
