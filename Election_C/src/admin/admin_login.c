@@ -5,8 +5,12 @@
 
 #ifdef _WIN32
     #define CLEAR_CMD "cls"
+    #define PATH_SEPARATOR "\\"
+    #define MAIN_PROGRAM "..\\main\\main.exe"
 #else
     #define CLEAR_CMD "clear"
+    #define PATH_SEPARATOR "/"
+    #define MAIN_PROGRAM "../main/main"
 #endif
 
 const char *COLOR = "\033[1;33m";
@@ -16,18 +20,24 @@ const char *CLRRM = "\033[0m";
 
 void showHeader();
 int credentials();
-int *count_of_requests();
-int numbers[6];
+int counts[6];
 int choice;
+
+int countOfRequests(int location);
+
+int reWriteCandidateRequestFile(int x);
 
 void controlPanel();
 void showContent();
-void party_requests();
-void candidate_requests();
+int party_requests();
+int candidate_requests();
 void set_election_start_time();
 void set_election_end_time();
 
 int main(){
+    #ifdef _WIN32
+        system("chcp 65001");
+    #endif  
     system(CLEAR_CMD);
     showHeader();
     if (credentials()) {
@@ -36,8 +46,6 @@ int main(){
         system(CLEAR_CMD);
         showHeader();
 
-        int *requests = count_of_requests();
-
         showContent();
 
         controlPanel();
@@ -45,7 +53,7 @@ int main(){
     else {
         printf("\n\t\tInvalid Credentials! Enterd ...\n");
         sleep(1);
-        system("..\\main\\main.exe");
+        system(MAIN_PROGRAM);
     }
     
     return 0;
@@ -85,16 +93,21 @@ int credentials() {
 }
 
 void showContent() {
+    for(int i=0; i<6; i++){
+        counts[i] = countOfRequests(i);
+        //printf("%d:%d\n", i,counts[i]);
+    }
+
     printf("╠════════════════════════════════════╦═════════════════════════════════════╣\n");
     printf("║                                    ║                                     ║\n");
     printf("║  \033[1;32mLogged in as: Admin\033[0m               ║  \033[1;35mDashboard:\033[0m                         ║\n");
     printf("║                                    ║                                     ║\n");
-    printf("║    1.Party Register Requests       ║    Candidate Requests: %03d          ║\n", numbers[0]);
-    printf("║    2.Candidate Register Requests   ║    Party Requests: %03d              ║\n", numbers[1]);
-    printf("║    3.Set Election staring time     ║    Approved Candidates: %03d         ║\n", numbers[2]);
-    printf("║    4.Set Election Ending time      ║    Approved Parties: %03d            ║\n", numbers[3]);
-    printf("║    5.Logout                        ║    Rejected Candidates: %03d         ║\n", numbers[4]);
-    printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", numbers[5]);
+    printf("║    1.Party Register Requests       ║    Candidate Requests: %03d          ║\n", counts[0]);
+    printf("║    2.Candidate Register Requests   ║    Party Requests: %03d              ║\n", counts[1]);
+    printf("║    3.Set Election staring time     ║    Approved Candidates: %03d         ║\n", counts[2]);
+    printf("║    4.Set Election Ending time      ║    Approved Parties: %03d            ║\n", counts[3]);
+    printf("║    5.Logout                        ║    Rejected Candidates: %03d         ║\n", counts[4]);
+    printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", counts[5]);
     printf("║                                    ║                                     ║\n");
     printf("╠════════════════════════════════════╩═════════════════════════════════════╝\n");
     printf("║\n");
@@ -123,7 +136,7 @@ void controlPanel(){
             break;
         
         case 5:
-            system("..\\main\\main.exe");
+            system(MAIN_PROGRAM);
             break;
 
         case 0:
@@ -134,31 +147,22 @@ void controlPanel(){
 }
 
 
-int *count_of_requests() {
-    FILE *file = fopen("..//..//database//notifications//request_count.txt", "r");
-    if (!file) {
-        printf("Error opening file!\n");
-        return NULL;
-    }
-    int i = 0;
-    while (i < 6 && fscanf(file, "%d", &numbers[i]) == 1) {
-        i++;
-    }
-    fclose(file);
-    return numbers;
-}
-
-void party_requests() {
+int party_requests() {
     system(CLEAR_CMD);
     printf("\n║\n╠═ %sParty Registration Requests%s\n", COLOR, CLRRM);
     printf("║\n");
-    FILE *file = fopen("..//..//database//notifications//party_notifications.txt", "r");
+    #ifdef _WIN32
+        FILE *file = fopen("..\\..\\database\\notifications\\party_notifications.txt", "r");
+    #else
+        FILE *file = fopen("../../database/notifications/party_notifications.txt", "r");
+    #endif
     if (!file) {
         printf("Error opening file!\n");
-        return;
+        return 0;
     }
     char line[256];
     while (fgets(line, sizeof(line), file)) {
+        
         printf("%s", line);
     }
     fclose(file);
@@ -169,43 +173,178 @@ void party_requests() {
     showHeader();
     showContent();
     controlPanel();
+    return 1;
 }
 
-void candidate_requests() {
+int candidate_requests() {
+    system(CLEAR_CMD);
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                     %sCandidate Register Requets%s                           ║\n", COLOR, CLRRM);
     printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
     printf("║  1.%sAccept Request%s     ║                                                  ║\n", COLORG, CLRRM);
     printf("║  2.%sReject Request%s     ║                                                  ║\n", COLORR, CLRRM);
     printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
-    FILE *file = fopen("..//..//database//notifications//candidate_notifications.txt", "r");
-    if (!file) {
-        printf("Error opening file!\n");
-        return;
-    }
-    char line[9][50];
-    int i = 0;
-    char dataName[9][50]={"Candidte ID","Candidate Name","no","No","Party Name","Candidate NIC","No","no","Area"};
-    while (fgets(line[i], sizeof(line[i]), file)) {
-        if (i==2 || i==3 || i==4 || i==7 || i==9) {
-            i++;
-            continue;
-        }
-        printf("╠═ %s : %s", dataName[i], line[i]);
-        i++;
-    }
-
-    fclose(file);
     printf("║\n");
 
-    printf("\nPress Enter to return to the admin menu...");
+    #ifdef _WIN32
+        FILE *readfile = fopen("..\\..\\database\\notifications\\candidate_notifications.txt", "r");
+    #else
+        FILE *readfile = fopen("../../database/notifications/candidate_notifications.txt", "r");
+    #endif
+        if (!readfile) {
+            printf("Error opening file! CN to read\n");
+            return 0;
+        }
+        
+        int i = 0;
+        char line[counts[0]-1][200];  
+        char *firstline;
+        char *token;
+        char *parts[10];
+        char otherlines[counts[0]-1][200];
+        char *dataName[9] = {"Candidate ID","Candidate First Name","Candidate Last Name","No","Party Name","Candidate NIC","Candidate Gender","Date of Birth","Election Area"};
+        while ( i <= counts[0]-1) {
+            fgets(line[i], sizeof(line[i]), readfile);
+            if(i==0){
+                firstline = line[i];
+                token = strtok(firstline, "#@!@#");
+                while (token && i < 9) {
+                    parts[i] = token;
+                    i++;
+                    token = strtok(NULL, "#@!@#");
+                }            
+                for (int j = 0; j < i; j++) {
+                    printf("║\t%-20s : %s\n", dataName[j], parts[j]);
+                }
+                i++;
+                continue;
+            }
+            strcpy(otherlines[i], line[i]);
+            
+            printf("%s", otherlines[i]);
+            i++;
+            if(i<=counts[0]-1){break;}
+        }
+
+        fclose(readfile);
+
+        #ifdef _WIN32
+            FILE *rewritefile = fopen("..\\..\\database\\notifications\\candidate_notifications.txt", "w");
+        #else
+            FILE *rewritefile = fopen("../../database/notifications/candidate_notifications.txt", "w");
+        #endif
+            if (!rewritefile) {
+                printf("Error opening file! CN to read\n");
+                return 0;
+            }
+            for(int j=1; j<=counts[0]; j++){
+                fprintf(rewritefile, "%s", otherlines[j]);
+            }
+        fclose(rewritefile);
+        fclose(readfile);
+
+        
+
+    printf("║\n");
+    printf("╠═ Enter Decision (1/2): ");
+    int decision;
+    scanf("%d", &decision);
+
+    printf("check one");
+
+    if (decision == 1) {
+        #ifdef _WIN32
+            FILE *writefile = fopen("..\\..\\database\\source_data\\candidates.txt", "a");
+        #else
+            FILE *writefile = fopen("../../database/source_data/candidates.txt", "a");
+        #endif
+        if (!writefile) {
+            printf("Error opening file for writing!\n");
+            return 0;
+        }
+        fprintf(writefile, "%c\n", firstline[0]);
+
+        printf("check two");
+        
+        //fprintf(writefile, "%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n", line[0], line[1], line[2], line[5], line[4], line[6], line[7]);
+        
+        fclose(writefile);
+        printf("║\n");      
+        printf("╚═ Request Accepted!\n");
+
+        printf("check three");
+
+    } else if (decision == 2) {
+        #ifdef _WIN32
+            FILE *rejectfile = fopen("..\\..\\database\\notifications\\rejected_candidates.txt", "a");
+        #else
+            FILE *rejectfile = fopen("../../database/notifications/rejected_candidates.txt", "a");
+        #endif
+        if (!rejectfile) {
+            printf("Error opening file for writing!\n");
+            return 0;
+        }
+        fprintf(rejectfile, "%s\n", firstline);
+        
+        //fprintf(rejectfile, "%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s#@!@#%s\n", line[0], line[1], line[2], line[5], line[4], line[6], line[7]);
+        
+        fclose(rejectfile);
+        printf("║\n");
+        printf("╚═ Request Rejected!\n");
+    } else {
+        printf("║\n");
+        printf("╚═ Invalid choice!\n");
+        sleep(2);
+        system(CLEAR_CMD);
+        showHeader();
+        showContent();
+        printf("\n");
+        candidate_requests();
+    }
+
+    printf("\n\nPress Enter to return to the admin menu...");
     getchar();
     getchar(); 
     system(CLEAR_CMD);
     showHeader();
     showContent();
     controlPanel();
+return 1;
 }
+
+
+int countOfRequests(int location){
+    char *fileDir; 
+    #ifdef _WIN32
+        if (location==0){fileDir = "..\\..\\database\\notifications\\candidate_notifications.txt";}
+        else if(location==1){fileDir = "..\\..\\database\\notifications\\party_notifications.txt";}
+        else if(location==2){fileDir = "..\\..\\database\\source_data\\candidates.txt";}
+        else if(location==3){fileDir = "..\\..\\database\\source_data\\party.txt";}
+        else if(location==4){fileDir = "..\\..\\database\\notifications\\rejected_candidates.txt";}
+        else if(location==5){fileDir = "..\\..\\database\\notifications\\rejected_parties.txt";}
+    #else
+        if (location==0){fileDir = "../../database/notifications/candidate_notifications.txt";}
+        else if(location==1){fileDir = "../../database/notifications/party_notifications.txt";}
+        else if(location==2){fileDir = "../../database/source_data/candidates.txt";}
+        else if(location==3){fileDir = "../../database/source_data/party.txt";}
+        else if(location==4){fileDir = "../../database/notifications/rejected_candidates.txt";}
+        else if(location==5){fileDir = "../../database/notifications/rejected_parties.txt";}
+    #endif
+    
+    int number=0;
+    char line[1024];
+    FILE *readCandidate = fopen(fileDir, "r");
+    if (!readCandidate) {
+        printf("Error opening file! %d\n", location);
+        return 0;
+    }
+    while (fgets(line, sizeof(line), readCandidate)) {
+        number++;
+    }
+    fclose(readCandidate);
+    return number;
+}
+
 
 void set_election_start_time() {
     char start_time[20];
@@ -213,7 +352,11 @@ void set_election_start_time() {
     printf("║\n");
     printf("╠═ Enter Starting Time (Ex: 8:00AM): ");
     scanf("%19s", start_time);
-    FILE *file = fopen("..//..//database//notifications//election_time.txt", "r+");
+    #ifdef _WIN32
+        FILE *file = fopen("..\\..\\database\\notifications\\election_time.txt", "r+");
+    #else
+        FILE *file = fopen("../../database/notifications/election_time.txt", "r+");
+    #endif
     if (!file) {
         printf("\nError opening file!\n");
         return;
@@ -238,7 +381,11 @@ void set_election_end_time() {
     printf("║\n");
     printf("╚═ Enter Ending Time (Ex: 5:00PM): ");
     scanf("%19s", end_time);
-    FILE *file = fopen("..//..//database//notifications//election_time.txt", "r+");
+    #ifdef _WIN32
+        FILE *file = fopen("..\\..\\database\\notifications\\election_time.txt", "r+");
+    #else
+        FILE *file = fopen("../../database/notifications/election_time.txt", "r+");
+    #endif
     if (!file) {
         printf("Error opening file!\n");
         return;
