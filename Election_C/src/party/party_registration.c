@@ -4,10 +4,10 @@
 #include <string.h>
 
 
-const char *COLOR = "\033[1;33m";
-const char *CLRRM = "\033[0m";
+const char *PRCOLOR = "\033[1;33m";
+const char *PRCLRRM = "\033[0m";
 
-void party_registration();
+void party_register();
 void showPartyHeader();
 
 struct party{
@@ -24,7 +24,7 @@ char confirm();
 
 int getPartyData();
 
-void party_registration{}{
+void party_register(){
     system("cls || clear");
     showPartyHeader();
 
@@ -58,7 +58,7 @@ void party_registration{}{
         
         printf("║\n");
         printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-        printf("║                         %sParty Registration saved%s                         ║\n", COLOR, CLRRM);
+        printf("║                         %sParty Registration saved%s                         ║\n", PRCOLOR, PRCLRRM);
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
     }
 
@@ -73,11 +73,11 @@ void showPartyHeader(){
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", PRCOLOR, PRCLRRM);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
 }

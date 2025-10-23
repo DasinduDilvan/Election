@@ -3,13 +3,13 @@
 #include <unistd.h>
 #include <string.h>
 
-//#include "../admin/admin_login.h"
-//#include "../candidate/candidate_login.h"
-//#include "../candidate/candidate_registration.h"
+#include "../admin/admin_login.h"
+#include "../candidate/candidate_login.h"
+#include "../candidate/candidate_registration.h"
 #include "../party/party_login.h"
-//#include "../party/party_registration.h"
-//#include "../voter/voter_login.h"
-//#include "../voter/voter_registration.h"
+#include "../party/party_registration.h"
+#include "../voter/voter_login.h"
+#include "../voter/voter_registration.h"
 
 
 void showMainHeader();
@@ -20,7 +20,7 @@ const char *COLORYLO = "\033[1;33m";
 const char *MAINCLRRM = "\033[0m";
 
 int choice;
-int counts[3];
+int linecounts[3];
 char electionStartTime[12];
 char electionEndTime[12]; 
 
@@ -39,60 +39,28 @@ int main() {
     printf("\t\t\nPlease Wait....\n");
     switch (choice) {
     case 1:
-        #ifdef _WIN32
-            system("..\\voter\\voter_login.exe");
-        #else
-            system("../voter/voter_login");
-        #endif
+        voter_login();
         break;
-
     case 2:
-        #ifdef _WIN32
-            system("..\\candidate\\candidate_login.exe");
-        #else
-            system("../candidate/candidate_login");
-        #endif
+        candidate_login();
         break;
-
     case 3:
-        #ifdef _WIN32
-            //system("..\\party\\party_login.exe");
-            party_login();
-        #else
-            system("../party/party_login");
-        #endif
+        party_login();
         break;
-
     case 4:
-        #ifdef _WIN32
-            system("..\\voter\\voter_registration.exe");
-        #else
-            system("../voter/voter_registration");
-        #endif
+        //voter_register();
         break;
 
     case 5:
-        #ifdef _WIN32
-            system("..\\candidate\\candidate_registration.exe");
-        #else
-            system("../candidate/candidate_registration");
-        #endif
+        //candidate_register();
         break;
 
     case 6:
-        #ifdef _WIN32
-            system("..\\party\\party_registration.exe");
-        #else
-            system("../party/party_registration");
-        #endif
+        //party_register();
         break;
 
     case 7:
-        #ifdef _WIN32
-            system("..\\admin\\admin_login.exe");
-        #else
-            system("../admin/admin_login");
-        #endif
+        admin_login();
         break;
 
     case 8:
@@ -144,12 +112,12 @@ void showMainHeader() {
 void showContent() {
 
         for(int i=0; i<3; i++){
-            counts[i] = userCount(i);
+            linecounts[i] = userCount(i);
         }
         #ifdef _WIN32
-        FILE *file = fopen("..\\\\..\\\\database\\\\notifications\\\\election_time.txt", "r");
+        FILE *file = fopen("..\\database\\notifications\\election_time.txt", "r");
         #else
-        FILE *file = fopen("../../database/notifications/election_time.txt", "r");
+        FILE *file = fopen("../database/notifications/election_time.txt", "r");
         #endif
         if (file == NULL) {
             printf("Error: Could not open time file\n");
@@ -181,9 +149,9 @@ void showContent() {
 
 int userCount(int location){
     char *fileDir; 
-    if (location==0){fileDir = "..//..//database//source_data//voters.txt";}
-    else if(location==1){fileDir = "..//..//database//source_data//candidates.txt";}
-    else if(location==2){fileDir = "..//..//database//source_data//party.txt";}
+    if (location==0){fileDir = "..//database//source_data//voters.txt";}
+    else if(location==1){fileDir = "..//database//source_data//candidates.txt";}
+    else if(location==2){fileDir = "..//database//source_data//party.txt";}
     else {return 0;}
     
     int number=0;
@@ -195,7 +163,7 @@ int userCount(int location){
     }
     while (fgets(line, sizeof(line), readfile)) {
         number++;
-    }
+    }   
     fclose(readfile);
     return number;
 }

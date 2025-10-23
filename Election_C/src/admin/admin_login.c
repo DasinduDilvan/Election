@@ -13,40 +13,40 @@
     #define MAIN_PROGRAM "../main/main"
 #endif
 
-const char *COLOR = "\033[1;33m";
-const char *COLORG = "\033[1;32m";
-const char *COLORR = "\033[1;31m";
-const char *CLRRM = "\033[0m";
+const char *COLORADM = "\033[1;33m";
+const char *COLORGADM = "\033[1;32m";
+const char *COLORRADM = "\033[1;31m";
+const char *CLRRMADM = "\033[0m";
 
-void showHeader();
+void admin_login();
+void showAdminHeader();
 int credentials();
 int counts[6];
 int choice;
 
 int countOfRequests(int location);
-
 int reWriteCandidateRequestFile(int x);
 
 void controlPanel();
-void showContent();
+void showContentofAdmin();
 int party_requests();
 int candidate_requests();
 void set_election_start_time();
 void set_election_end_time();
 
-int main(){
+void admin_login(){
     #ifdef _WIN32
         system("chcp 65001");
     #endif  
     system(CLEAR_CMD);
-    showHeader();
+    showAdminHeader();
     if (credentials()) {
         printf("\n\t\tLogin Successful!\n");
         sleep(1);
         system(CLEAR_CMD);
-        showHeader();
+        showAdminHeader();
 
-        showContent();
+        showContentofAdmin();
 
         controlPanel();
     }
@@ -56,18 +56,17 @@ int main(){
         system(MAIN_PROGRAM);
     }
     
-    return 0;
 }
 
-void showHeader() {
+void showAdminHeader() {
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLORADM, CLRRMADM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLORADM, CLRRMADM);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLORADM, CLRRMADM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORADM, CLRRMADM);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORADM, CLRRMADM);
     printf("║                                                                          ║\n");    
 }
 
@@ -76,7 +75,7 @@ int credentials() {
     char password[50];
 
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                               %sAdmin Login%s                                ║\n", COLOR, CLRRM);
+    printf("║                               %sAdmin Login%s                                ║\n", COLORADM, CLRRMADM);
     printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
     printf("║\n");
     printf("╠═ Enter Admin Username: ");
@@ -92,7 +91,7 @@ int credentials() {
     }
 }
 
-void showContent() {
+void showContentofAdmin() {
     for(int i=0; i<6; i++){
         counts[i] = countOfRequests(i);
         //printf("%d:%d\n", i,counts[i]);
@@ -146,17 +145,17 @@ void controlPanel(){
 int candidate_requests() {
     system(CLEAR_CMD);
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                     %sCandidate Register Requests%s                          ║\n", COLOR, CLRRM);
+    printf("║                     %sCandidate Register Requests%s                          ║\n", COLORADM, CLRRMADM);
     printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
-    printf("║  1.%sAccept Request%s     ║    You can Accept or Reject the Candidates,      ║\n", COLORG, CLRRM);
-    printf("║  2.%sReject Request%s     ║    Who Waiting for Admin approval.               ║\n", COLORR, CLRRM);
+    printf("║  1.%sAccept Request%s     ║    You can Accept or Reject the Candidates,      ║\n", COLORGADM, CLRRMADM);
+    printf("║  2.%sReject Request%s     ║    Who Waiting for Admin approval.               ║\n", COLORRADM, CLRRMADM);
     printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
     printf("║\n");
 
     #ifdef _WIN32
-        FILE *readfile = fopen("..\\..\\database\\notifications\\candidate_notifications.txt", "r");
+        FILE *readfile = fopen("..\\database\\notifications\\candidate_notifications.txt", "r");
     #else
-        FILE *readfile = fopen("../../database/notifications/candidate_notifications.txt", "r");
+        FILE *readfile = fopen("../database/notifications/candidate_notifications.txt", "r");
     #endif
     
     if (!readfile) {    
@@ -239,9 +238,9 @@ int candidate_requests() {
     } else if (decision == 2) {
         // Reject: Add to rejected_candidates.txt
         #ifdef _WIN32
-            FILE *rejectfile = fopen("..\\..\\database\\notifications\\rejected_candidates.txt", "a");
+            FILE *rejectfile = fopen("..\\database\\notifications\\rejected_candidates.txt", "a");
         #else
-            FILE *rejectfile = fopen("../../database/notifications/rejected_candidates.txt", "a");
+            FILE *rejectfile = fopen("../database/notifications/rejected_candidates.txt", "a");
         #endif
         
         if (!rejectfile) {
@@ -267,17 +266,17 @@ int candidate_requests() {
         for(int x = 0; x < partCount; x++) free(parts[x]);
         sleep(2);
         system(CLEAR_CMD);
-        showHeader();
-        showContent();
+        showAdminHeader();
+        showContentofAdmin();
         controlPanel();
         return 1;
     }
     
     // Rewrite file without first line
     #ifdef _WIN32
-        FILE *rewritefile = fopen("..\\..\\database\\notifications\\candidate_notifications.txt", "w");
+        FILE *rewritefile = fopen("..\\database\\notifications\\candidate_notifications.txt", "w");
     #else
-        FILE *rewritefile = fopen("../../database/notifications/candidate_notifications.txt", "w");
+        FILE *rewritefile = fopen("../database/notifications/candidate_notifications.txt", "w");
     #endif
     
     if (!rewritefile) {
@@ -302,8 +301,8 @@ int candidate_requests() {
     getchar();
     getchar(); 
     system(CLEAR_CMD);
-    showHeader();
-    showContent();
+    showAdminHeader();
+    showContentofAdmin();
     controlPanel();
     
     return 1;
@@ -315,17 +314,17 @@ int candidate_requests() {
 int party_requests() {
     system(CLEAR_CMD);
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                        %sParty Register Requests%s                           ║\n", COLOR, CLRRM);
+    printf("║                        %sParty Register Requests%s                           ║\n", COLORADM, CLRRMADM);
     printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
-    printf("║  1.%sAccept Request%s     ║    You can Accept or Reject the Parties,      ║\n", COLORG, CLRRM);
-    printf("║  2.%sReject Request%s     ║    Who Waiting for Admin approval.            ║\n", COLORR, CLRRM);
+    printf("║  1.%sAccept Request%s     ║    You can Accept or Reject the Parties,      ║\n", COLORGADM, CLRRMADM);
+    printf("║  2.%sReject Request%s     ║    Who Waiting for Admin approval.            ║\n", COLORRADM, CLRRMADM);
     printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
     printf("║\n");
 
     #ifdef _WIN32
-        FILE *readfile = fopen("..\\..\\database\\notifications\\party_notifications.txt", "r");
+        FILE *readfile = fopen("..\\database\\notifications\\party_notifications.txt", "r");
     #else
-        FILE *readfile = fopen("../../database/notifications/party_notifications.txt", "r");
+        FILE *readfile = fopen("../database/notifications/party_notifications.txt", "r");
     #endif
     
     if (!readfile) {    
@@ -351,8 +350,8 @@ int party_requests() {
         getchar();
         getchar();
         system(CLEAR_CMD);
-        showHeader();
-        showContent();
+        showAdminHeader();
+        showContentofAdmin();
         controlPanel();
         return 0;
     }
@@ -385,9 +384,9 @@ int party_requests() {
     if (decision == 1) {
         // Accept: Add to party.txt
         #ifdef _WIN32
-            FILE *writefile = fopen("..\\..\\database\\source_data\\party.txt", "a");
+            FILE *writefile = fopen("..\\database\\source_data\\party.txt", "a");
         #else
-            FILE *writefile = fopen("../../database/source_data/party.txt", "a");
+            FILE *writefile = fopen("../database/source_data/party.txt", "a");
         #endif
         
         if (!writefile) {
@@ -411,9 +410,9 @@ int party_requests() {
     } else if (decision == 2) {
         // Reject: Add to rejected_parties.txt
         #ifdef _WIN32
-            FILE *rejectfile = fopen("..\\..\\database\\notifications\\rejected_parties.txt", "a");
+            FILE *rejectfile = fopen("..\\database\\notifications\\rejected_parties.txt", "a");
         #else
-            FILE *rejectfile = fopen("../../database/notifications/rejected_parties.txt", "a");
+            FILE *rejectfile = fopen("../database/notifications/rejected_parties.txt", "a");
         #endif
         
         if (!rejectfile) {
@@ -439,17 +438,17 @@ int party_requests() {
         for(int x = 0; x < partCount; x++) free(parts[x]);
         sleep(2);
         system(CLEAR_CMD);
-        showHeader();
-        showContent();
+        showAdminHeader();
+        showContentofAdmin();
         controlPanel();
         return 1;
     }
     
     // Rewrite file without first line
     #ifdef _WIN32
-        FILE *rewritefile = fopen("..\\..\\database\\notifications\\party_notifications.txt", "w");
+        FILE *rewritefile = fopen("..\\database\\notifications\\party_notifications.txt", "w");
     #else
-        FILE *rewritefile = fopen("../../database/notifications/party_notifications.txt", "w");
+        FILE *rewritefile = fopen("../database/notifications/party_notifications.txt", "w");
     #endif
     
     if (!rewritefile) {
@@ -474,8 +473,8 @@ int party_requests() {
     getchar();
     getchar(); 
     system(CLEAR_CMD);
-    showHeader();
-    showContent();
+    showAdminHeader();
+    showContentofAdmin();
     controlPanel();
     
     return 1;
@@ -487,19 +486,19 @@ int party_requests() {
 int countOfRequests(int location){
     char *fileDir; 
     #ifdef _WIN32
-        if (location==0){fileDir = "..\\..\\database\\notifications\\candidate_notifications.txt";}
-        else if(location==1){fileDir = "..\\..\\database\\notifications\\party_notifications.txt";}
-        else if(location==2){fileDir = "..\\..\\database\\source_data\\candidates.txt";}
-        else if(location==3){fileDir = "..\\..\\database\\source_data\\party.txt";}
-        else if(location==4){fileDir = "..\\..\\database\\notifications\\rejected_candidates.txt";}
-        else if(location==5){fileDir = "..\\..\\database\\notifications\\rejected_parties.txt";}
+        if (location==0){fileDir = "..\\database\\notifications\\candidate_notifications.txt";}
+        else if(location==1){fileDir = "..\\database\\notifications\\party_notifications.txt";}
+        else if(location==2){fileDir = "..\\database\\source_data\\candidates.txt";}
+        else if(location==3){fileDir = "..\\database\\source_data\\party.txt";}
+        else if(location==4){fileDir = "..\\database\\notifications\\rejected_candidates.txt";}
+        else if(location==5){fileDir = "..\\database\\notifications\\rejected_parties.txt";}
     #else
-        if (location==0){fileDir = "../../database/notifications/candidate_notifications.txt";}
-        else if(location==1){fileDir = "../../database/notifications/party_notifications.txt";}
-        else if(location==2){fileDir = "../../database/source_data/candidates.txt";}
-        else if(location==3){fileDir = "../../database/source_data/party.txt";}
-        else if(location==4){fileDir = "../../database/notifications/rejected_candidates.txt";}
-        else if(location==5){fileDir = "../../database/notifications/rejected_parties.txt";}
+        if (location==0){fileDir = "../database/notifications/candidate_notifications.txt";}
+        else if(location==1){fileDir = "../database/notifications/party_notifications.txt";}
+        else if(location==2){fileDir = "../database/source_data/candidates.txt";}
+        else if(location==3){fileDir = "../database/source_data/party.txt";}
+        else if(location==4){fileDir = "../database/notifications/rejected_candidates.txt";}
+        else if(location==5){fileDir = "../database/notifications/rejected_parties.txt";}
     #endif
     
     int number=0;
@@ -520,14 +519,14 @@ int countOfRequests(int location){
 
 void set_election_start_time() {
     char start_time[20];
-    printf("\n\n╔═ %sSet Election Starting Time%s\n", COLOR, CLRRM);
+    printf("\n\n╔═ %sSet Election Starting Time%s\n", COLORADM, CLRRMADM);
     printf("║\n");
     printf("╠═ Enter Starting Time (Ex: 8:00AM): ");
     scanf("%19s", start_time);
     #ifdef _WIN32
-        FILE *file = fopen("..\\..\\database\\notifications\\election_time.txt", "r+");
+        FILE *file = fopen("..\\database\\notifications\\election_time.txt", "r+");
     #else
-        FILE *file = fopen("../../database/notifications/election_time.txt", "r+");
+        FILE *file = fopen("../database/notifications/election_time.txt", "r+");
     #endif
     if (!file) {
         printf("\nError opening file!\n");
@@ -542,8 +541,8 @@ void set_election_start_time() {
     printf("╚═ Election starting time set to %s\n", start_time);
     sleep(3);
     system(CLEAR_CMD);
-    showHeader();
-    showContent();
+    showAdminHeader();
+    showContentofAdmin();
     controlPanel();
 }
 
@@ -551,14 +550,14 @@ void set_election_start_time() {
 
 void set_election_end_time() {
     char end_time[20];
-    printf("\n%s\n╔═ Set Election Ending Time%s\n", COLOR, CLRRM);
+    printf("\n%s\n╔═ Set Election Ending Time%s\n", COLORADM, CLRRMADM);
     printf("║\n");
     printf("╚═ Enter Ending Time (Ex: 5:00PM): ");
     scanf("%19s", end_time);
     #ifdef _WIN32
-        FILE *file = fopen("..\\..\\database\\notifications\\election_time.txt", "r+");
+        FILE *file = fopen("..\\database\\notifications\\election_time.txt", "r+");
     #else
-        FILE *file = fopen("../../database/notifications/election_time.txt", "r+");
+        FILE *file = fopen("../database/notifications/election_time.txt", "r+");
     #endif
     if (!file) {
         printf("Error opening file!\n");
@@ -574,8 +573,8 @@ void set_election_end_time() {
     printf("╚═ Election ending time set to %s\n", end_time);
     sleep(3);
     system(CLEAR_CMD);
-    showHeader();
-    showContent();
+    showAdminHeader();
+    showContentofAdmin();
     controlPanel();
 }
 

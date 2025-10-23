@@ -23,6 +23,6 @@ void showPartyLoginHeader();
 void showPartyDetails();
 char *getUsername();
 char *getPassword();
-char *authenticate(char *username, char *password);
+char *partyauthenticate(char *username, char *password);
 
 #endif

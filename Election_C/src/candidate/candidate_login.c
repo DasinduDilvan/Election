@@ -79,8 +79,6 @@ void showCandidateDetails() {
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
     printf("║                        %sCandidate Information%s                             ║\n", CDCOLOR, CDCLRRM);
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                                                                          ║\n");
-    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
 }
 
 char *getCandidateUsername(){
@@ -105,9 +103,9 @@ char *getCandidatePassword() {
 char *authenticateCandidate(char *username, char *password){
     
     #ifdef _WIN32
-        FILE *candidateApproved = fopen("..\\..\\database\\source_data\\candidates.txt", "r");
+        FILE *candidateApproved = fopen("..\\database\\source_data\\candidates.txt", "r");
     #else
-        FILE *candidateApproved = fopen("../../database/source_data/candidates.txt", "r");
+        FILE *candidateApproved = fopen("../database/source_data/candidates.txt", "r");
     #endif
     
     if (!candidateApproved) {

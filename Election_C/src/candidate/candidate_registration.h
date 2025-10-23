@@ -21,7 +21,7 @@ typedef struct {
 
 extern Candidate candidatedetails;
 
-// 🛠 Function prototypes
+void candidate_register();
 void showCandidateHeader();
 int getCandidateData();
 

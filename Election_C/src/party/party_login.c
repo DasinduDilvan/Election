@@ -17,7 +17,7 @@ void showPartyLoginHeader();
 void showPartyDetails();
 char *getUsername();
 char *getPassword();
-char *authenticate(char *username, char *password);
+char *partyauthenticate(char *username, char *password);
 
 // Global variables to store login info
 char *loginMessage;
@@ -36,7 +36,7 @@ void party_login(){
     // Store username for later use
     strcpy(user_name, input_username);
     
-    loginMessage = authenticate(input_username, input_password);
+    loginMessage = partyauthenticate(input_username, input_password);
     
     if(loginMessage != NULL && strcmp(loginMessage, "Wrong username password or your Registration rejected") != 0){
         printf("\n\t\tLogin Successful!\n");
@@ -172,7 +172,7 @@ char *getPassword() {
     return password;
 }
 
-char *authenticate(char *username, char *password){
+char *partyauthenticate(char *username, char *password){
     
     #ifdef _WIN32
         FILE *partyApproved = fopen("..\\database\\source_data\\party.txt", "r");

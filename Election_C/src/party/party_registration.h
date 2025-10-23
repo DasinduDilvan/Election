@@ -6,8 +6,8 @@
 #include <string.h>
 
 // 🎨 Terminal color constants (extern prevents multiple definition errors)
-extern const char *COLOR;
-extern const char *CLRRM;
+extern const char *PRCOLOR;
+extern const char *PRCLRRM;
 
 typedef struct {
     int Party_ID;
@@ -21,7 +21,7 @@ typedef struct {
 
 extern Party partydetails;
 
-// 🛠 Function prototypes
+void party_register();
 void showPartyHeader();
 int getPartyData();
 
