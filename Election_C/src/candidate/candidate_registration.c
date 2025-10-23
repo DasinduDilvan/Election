@@ -52,6 +52,8 @@ int main() {
         printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
         printf("║                       %sCandidate Registration saved%s                       ║\n", COLOR, CLRRM);
         printf("║                       Waiting on Administrator approval                  ║\n");
+        printf("║                       %sCandidate Registration saved%s                       ║\n", COLOR, CLRRM);
+        printf("║                       Waiting on Administrator approval                  ║\n");
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
     }
 
