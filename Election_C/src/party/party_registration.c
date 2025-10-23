@@ -4,33 +4,35 @@
 #include <string.h>
 
 
-const char *COLOR = "\033[1;33m";
-const char *CLRRM = "\033[0m";
+const char *PRCOLOR = "\033[1;33m";
+const char *PRCLRRM = "\033[0m";
 
+void party_register();
 void showPartyHeader();
-int partyID(); 
-char *partyname();
-char *username();
-char *password();
-char *partycolor();
-char *partyleader(); 
+
+struct party{
+    int Party_ID;
+    char Party_Name[50];
+    char Username[50];
+    char Password[20];
+    char Party_Color[20];
+    char Party_Leader[20];
+    char Symbol[50];
+}partydetails;
+
 char confirm();
 
-int main(){
+int getPartyData();
+
+void party_register(){
     system("cls || clear");
     showPartyHeader();
-    
-    char *party_name = partyname();
-    char *user_name = username();
-    char *pass_word = password();
-    char *color = partycolor();
-    char *leader  = partyleader();
+
+    getPartyData();
 
     char confirm_save;
     printf("║\n");
     printf("╠═ Confirm Party Registration (y/n): ");
-
-        int Party_ID = partyID();
    
     scanf(" %c", &confirm_save); 
 
@@ -49,15 +51,14 @@ int main(){
             return 1;
         }
 
-        fprintf(file, "¥%s¥%s¥%s¥%s\n%d", party_name, user_name, pass_word, color, leader, Party_ID);
+        fprintf(file, "¥%s¥%s¥%s¥%s¥%s¥%s\n%d", partydetails.Party_Name, partydetails.Username, partydetails. partydetails.Party_Color, partydetails.Party_Leader, partydetails.Symbol, partydetails.Party_ID);
         
         fclose(file);
 
         
         printf("║\n");
         printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-        printf("║                         %sParty Registration saved%s                         ║\n", COLOR, CLRRM);
-        printf("║                     Waiting on Administrator approval                    ║\n");
+        printf("║                         %sParty Registration saved%s                         ║\n", PRCOLOR, PRCLRRM);
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
     }
 
@@ -66,22 +67,22 @@ int main(){
     getchar();
     system("..\\main\\main.exe");
 
-    return 0;
+    //return 0;
 }
 void showPartyHeader(){
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", PRCOLOR, PRCLRRM);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", PRCOLOR, PRCLRRM);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
 }
 
-int partyID(){
+int getPartyData(){
     #ifdef _WIN32
         FILE *file = fopen("..\\..\\database\\notifications\\party_notifications.txt", "r");
     #else
@@ -102,53 +103,38 @@ int partyID(){
 
     fclose(file);
 
-    int party_ID = 0;
+    //int party_ID = 0;
     for (int i = 0; last_line[i] != '\0'; i++) {
         if (last_line[i] >= '0' && last_line[i] <= '9') {
-            party_ID = party_ID * 10 + (last_line[i] - '0');
+            partydetails.Party_ID = partydetails.Party_ID * 10 + (last_line[i] - '0');
         }
     }
+    ++partydetails.Party_ID;
 
-    return party_ID + 1;
-}
+    //return party_ID =+ 1;
 
-
-char *partyname(){
-    static char partyname[50];
     printf("║\n");
     printf("╠═ Enter Party Name: ");
-    scanf(" %49s[^\n]", partyname);
-    return partyname;
-}
+    scanf(" %49s[^\n]", partydetails.Party_Name);
 
-char *username(){
-    static char username[50];
     printf("║\n");
     printf("╠═ Enter Username: ");
-    scanf("%49s", username);
-    return username;
-}
+    scanf("%49s", partydetails.Username);
 
-char *password(){
-    static char password[20];
     printf("║\n");
     printf("╠═ Enter Password: ");
-    scanf("%19s", password);
-    return password;
-}
+    scanf("%19s", partydetails.Password);
 
-char *partycolor(){
-    static char color[20];
     printf("║\n");
     printf("╠═ Enter Party Color: ");
-    scanf("%19s", color);
-    return color;
-}
+    scanf("%19s", partydetails.Party_Color);
 
-char *partyleader(){
-    static char leader[20];
     printf("║\n");
     printf("╠═ Enter Party Leader: ");
-    scanf("%19s", leader);
-    return leader;
+    scanf("%19s", partydetails.Party_Leader);
+
+    printf("║\n");
+    printf("╠═ Enter Party Symbol: ");
+    scanf(" %49s[^\n]", partydetails.Symbol);
 }
+

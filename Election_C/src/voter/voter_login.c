@@ -10,62 +10,62 @@
     #define CLEAR_CMD "clear"
 #endif
 
-const char *COLOR = "\033[1;33m";
-const char *CLRRM = "\033[0m";
+const char *COLORVL = "\033[1;33m";
+const char *CLRRMVL = "\033[0m";
 
-void showHeader();
-void showContent();
+void voter_login();
+void showVoterLogHeader();
+void showContentofVL();
 char *username();
 char *password();
 char *loginMessage;
-void showContent();
+void showContentofVL();
 
-char *authenticate(char *username,char *password);
+char *voterauthenticate(char *username,char *password);
 
-int main(){
+void voter_login(){
 
     system("clear || cls");
-    showHeader();
+    showVoterLogHeader();
     char *user_name = username();
     char *pass_word = password();
 
-    char *loginMessage = authenticate(user_name,pass_word);
+    char *loginMessage = voterauthenticate(user_name,pass_word);
     if(loginMessage != NULL){
 
         printf("\n\t\tLogin Successful!\n");
         sleep(1);
         system(CLEAR_CMD);
-        showHeader();
+        showVoterLogHeader();
         printf("Welcome %s\n",loginMessage);
-        showContent();
+        showContentofVL();
 
     }
     else{
         printf("lodin Faild\n");
         sleep(2);
     }
-    
-    return 0;
+   
 }
 
-void showHeader() {
+void showVoterLogHeader() {
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLORVL, CLRRMVL);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLORVL, CLRRMVL);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLORVL, CLRRMVL);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORVL, CLRRMVL);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORVL, CLRRMVL);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                               %sVoter Login%s                                ║\n", COLOR, CLRRM);
+    printf("║                               %sVoter Login%s                                ║\n", COLORVL, CLRRMVL);
     printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
     printf("║\n");
 
 }
 
-void showContent() {
+void showContentofVL() {
     printf("╠════════════════════════════════════╦═════════════════════════════════════╣\n");
     printf("║                                    ║                                     ║\n");
     printf("║  \033[1;32mLogged in as: Voter\033 ║                                  \033[1;35mDashboard:\033[0m        ║\n");
@@ -99,12 +99,12 @@ void showContent() {
 }
 
 
-char *authenticate(char *username,char *password){
+char *voterauthenticate(char *username,char *password){
     
     #ifdef _WIN32
-        FILE *fp = fopen("..\\..\\database\\source_data\\voter.txt", "r");
+        FILE *fp = fopen("..\\database\\source_data\\voter.txt", "r");
     #else
-        FILE *fp = fopen("../../database/source_data/voters.txt", "r");
+        FILE *fp = fopen("../database/source_data/voters.txt", "r");
     #endif
     if (!fp) return NULL; //error opening file
 
@@ -149,7 +149,6 @@ char *authenticate(char *username,char *password){
     fclose(fp);
 
     return NULL;
-
-
+    
 }
 

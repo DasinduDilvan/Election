@@ -16,12 +16,19 @@ struct candidate {
     char Party_Number[10];
 } candidatedetails;
 
+void candidate_register();
 void showCandidateHeader();
 int getCandidateData();
+int getCandidateData();
 
-int main() {
+void candidate_register(){
+    #ifdef _WIN32
+        system("chcp 65001");
+    #endif 
     system("cls || clear");
     showCandidateHeader();
+
+    getCandidateData();
 
     getCandidateData();
 
@@ -29,15 +36,18 @@ int main() {
     printf("║\n");
     printf("╠═ Confirm Candidate Registration (y/n): ");
     scanf(" %c", &confirm_save);
+    scanf(" %c", &confirm_save);
 
     if (confirm_save != 'y' && confirm_save != 'Y') {
-        printf("║\n");
+        printf("║\n");printf("║\n");
         printf("╠═ Registration cancelled.\n");
         return 0;
+    } else {
     } else {
         printf("║\n");
         printf("╠═ Registration confirmed. Status set to PENDING for Admin Approval.\n");
 
+        FILE *file = fopen("../../database/notifications/candidate_notifications.txt", "a");
         FILE *file = fopen("../../database/notifications/candidate_notifications.txt", "a");
         if (file == NULL) {
             printf("Error opening file for candidate data!\n");
@@ -45,15 +55,14 @@ int main() {
         }
 
         fprintf(file, "¥%s¥%s¥%s¥%s¥%s¥%s¥%s\n%d", candidatedetails.First_Name, candidatedetails.Last_Name, candidatedetails.Username, candidatedetails.Password, candidatedetails.NIC, candidatedetails.Gender, candidatedetails.Party_Number, candidatedetails.Candidate_ID);
+        fprintf(file, "¥%s¥%s¥%s¥%s¥%s¥%s¥%s\n%d", candidatedetails.First_Name, candidatedetails.Last_Name, candidatedetails.Username, candidatedetails.Password, candidatedetails.NIC, candidatedetails.Gender, candidatedetails.Party_Number, candidatedetails.Candidate_ID);
 
         fclose(file);
 
         printf("║\n");
+        printf("║\n");
         printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-        printf("║                       %sCandidate Registration saved%s                       ║\n", COLOR, CLRRM);
-        printf("║                       Waiting on Administrator approval                  ║\n");
-        printf("║                       %sCandidate Registration saved%s                       ║\n", COLOR, CLRRM);
-        printf("║                       Waiting on Administrator approval                  ║\n");
+        printf("║                        %sCandidate Registration saved%s                      ║\n", COLOR, CLRRM);
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
     }
 
@@ -61,8 +70,15 @@ int main() {
     getchar();
     getchar();
     system("..\\main\\main.exe");
+
+    printf("\nPress Enter to return to the main menu...");
+    getchar();
+    getchar();
+    system("..\\main\\main.exe");
     return 0;
 }
+
+void showCandidateHeader() {
 
 void showCandidateHeader() {
     printf("\n");
@@ -112,6 +128,43 @@ void showCandidateHeader() {
 }
 
 int getCandidateData() {
+    printf("║                          %sCandidate Registration%s                          ║\n", COLOR, CLRRM);
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");  
+    printf("║    Parties you can register from:                                        ║ \n");  //╝
+    
+    #ifdef _WIN32
+        FILE *readParties = fopen("..\\..\\database\\source_data\\party.txt", "r");
+    #else
+        FILE *readParties = fopen("../../database/source_data/party.txt", "r");
+    #endif
+
+    if (!readParties) {printf("Error opening file to read parties!\n");   return;    }
+
+    char line[512];
+    const char *delimiter = "¥"; 
+
+    while (fgets(line, sizeof(line), readParties)) {
+
+        line[strcspn(line, "\n")] = '\0';
+
+        char *token = strtok(line, delimiter);
+        int index = 0;
+
+        while (token != NULL) {
+            if (index == 0)
+                printf("║\t%s : ", token);
+            else if (index == 1)
+                printf("%-20s                                           ║\n", token);
+
+            token = strtok(NULL, delimiter);
+            index++;
+        }
+    }
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n"); 
+    fclose(readParties);
+}
+
+int getCandidateData() {
     #ifdef _WIN32
         FILE *file = fopen("..\\..\\database\\notifications\\candidate_notifications.txt", "r");
     #else
@@ -124,7 +177,15 @@ int getCandidateData() {
     } else {
         char line[512];
         char last_line[512] = "";
+        candidatedetails.Candidate_ID = 1;
+    } else {
+        char line[512];
+        char last_line[512] = "";
 
+        while (fgets(line, sizeof(line), file)) {
+            strcpy(last_line, line);
+        }
+        fclose(file);
         while (fgets(line, sizeof(line), file)) {
             strcpy(last_line, line);
         }
@@ -139,20 +200,33 @@ int getCandidateData() {
         ++candidatedetails.Candidate_ID;
     }
 
+        candidatedetails.Candidate_ID = 0;
+        for (int i = 0; last_line[i] != '\0'; i++) {
+            if (last_line[i] >= '0' && last_line[i] <= '9') {
+                candidatedetails.Candidate_ID = candidatedetails.Candidate_ID * 10 + (last_line[i] - '0');
+            }
+        }
+        ++candidatedetails.Candidate_ID;
+    }
+
     printf("║\n");
     printf("╠═ Enter First Name: ");
+    scanf("%49s", candidatedetails.First_Name);
     scanf("%49s", candidatedetails.First_Name);
 
     printf("║\n");
     printf("╠═ Enter Last Name: ");
     scanf("%49s", candidatedetails.Last_Name);
+    scanf("%49s", candidatedetails.Last_Name);
 
     printf("║\n");
     printf("╠═ Enter Username: ");
     scanf("%49s", candidatedetails.Username);
+    scanf("%49s", candidatedetails.Username);
 
     printf("║\n");
     printf("╠═ Enter Password: ");
+    scanf("%19s", candidatedetails.Password);
     scanf("%19s", candidatedetails.Password);
 
     printf("║\n");
@@ -163,7 +237,17 @@ int getCandidateData() {
     printf("╠═ Enter Gender (m/f): ");
     scanf("%9s", candidatedetails.Gender);
 
+    scanf("%19s", candidatedetails.NIC);
+
     printf("║\n");
+    printf("╠═ Enter Gender (m/f): ");
+    scanf("%9s", candidatedetails.Gender);
+
+    printf("║\n");
+    printf("╠═ Enter Party Number: ");
+    scanf("%9s", candidatedetails.Party_Number);
+
+    return candidatedetails.Candidate_ID;
     printf("╠═ Enter Party Number: ");
     scanf("%9s", candidatedetails.Party_Number);
 

@@ -2,114 +2,121 @@
 #include <string.h>
 #include <stdlib.h>
 
-const char *COLOR = "\033[1;33m";
-const char *CLRRM = "\033[0m";
+const char *COLORVR = "\033[1;33m";
+const char *CLRRMVR = "\033[0m";
 
-void showHeader();
-char *voterID();
-char *fname();
-char *lname();
-char *username();
-char *password();
-char *NIC();
-char *gender();
-char *dob();
-char *area();
-char confirm();
+struct voterReg {
+    char firstname[20];
+    char lastname[20];
+    char username[20];
+    char password[20];
+    char NIC[20];
+    char gender[10];
+    char dob[15];
+    char area[30];
+    int voterID;
+};
+
+void voter_register();
+void showVoterRegHeader();
+void getVoterDetails(struct voterReg voter);
 int make_voter_ID();
+void saveVoterToFile(struct voterReg voter);
 void messageSuccess();
 void messageCanceled();
 
-int main() {
+void voter_register(){
     system("clear || cls");
-    showHeader();
+    showVoterRegHeader();
 
-    char *firstname = fname();
-    char *lastname = lname();
-    char *user_name = username();
-    char *pass_word = password();
-    char *NIC_num = NIC();
-    char *gender_mf = gender();
-    char *Dateofbirth = dob();
-    char *election_area = area();
+    struct voterReg voter;
+    
+    getVoterDetails(voter);
+    
     char confirm_save;
-
     printf("║\n");
     printf("╠═ Confirm Registration (y/n): ");
     scanf(" %c", &confirm_save);
 
     if (confirm_save == 'y' || confirm_save == 'Y') {
-
-        int voter_ID_num = make_voter_ID();
-
+        voter.voterID = make_voter_ID();
+        
         printf("║\n");
         printf("╠═ Registration confirmed.\n");
-
-        // Cross-platform file path
-        #ifdef _WIN32
-            FILE *file = fopen("..\\..\\database\\source_data\\\\voters.txt", "a");
-        #else
-            FILE *file = fopen("../../database/source_data/voters.txt", "a");
-        #endif
-
-        if (file == NULL) {
-            printf("Error opening file!\n");
-            return 1;
-        }
-
-        fprintf(file, "¥%s", firstname);
-        fprintf(file, "¥%s", lastname);
-        fprintf(file, "¥%s", user_name);
-        fprintf(file, "¥%s", pass_word);
-        fprintf(file, "¥%s", NIC_num);
-        fprintf(file, "¥%s", gender_mf);
-        fprintf(file, "¥%s", Dateofbirth);
-        fprintf(file, "¥%s\n", election_area);
-        fprintf(file, "¥%d", voter_ID_num);
-        fclose(file);
-
+        
+        saveVoterToFile(voter);
         messageSuccess();
     }
     else {
         printf("║\n");
         printf("╠═ Registration cancelled.\n");
         messageCanceled();
-        return 0;
     }
-
-    return 0;
+    
+    printf("Press Enter to return to the main menu...");
+    getchar();
+    getchar();
+    voter_register();
 }
 
-// -------------------------------------------------------------------------
-// FUNCTIONS
-// -------------------------------------------------------------------------
-
-void showHeader() {
+void showVoterRegHeader() {
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORVR, CLRRMVR);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
     printf("║                            Voter Registration                            ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
 }
 
+void getVoterDetails(struct voterReg voter) {
+    printf("║\n");
+    printf("╠═ Enter First Name: ");
+    scanf("%19s", voter.firstname);
+    
+    printf("║\n");
+    printf("╠═ Enter Last Name: ");
+    scanf("%19s", voter.lastname);
+    
+    printf("║\n");
+    printf("╠═ Enter Username: ");
+    scanf("%19s", voter.username);
+    
+    printf("║\n");
+    printf("╠═ Enter Password: ");
+    scanf("%19s", voter.password);
+    
+    printf("║\n");
+    printf("╠═ Enter NIC: ");
+    scanf("%19s", voter.NIC);
+    
+    printf("║\n");
+    printf("╠═ Enter Gender (m/f): ");
+    scanf("%9s", voter.gender);
+    
+    printf("║\n");
+    printf("╠═ Enter Date of Birth (DD/MM/YYYY): ");
+    scanf("%14s", voter.dob);
+    
+    printf("║\n");
+    printf("╠═ Enter Area: ");
+    scanf("%29s", voter.area);
+}
+
 int make_voter_ID() {
-    // Cross-platform file path
     #ifdef _WIN32
-        FILE *file = fopen("..\\\\..\\\\database\\\\source_data\\\\voters.txt", "r");
+        FILE *file = fopen("..\\database\\source_data\\voters.txt", "r");
     #else
-        FILE *file = fopen("../../database/source_data/voters.txt", "r");
+        FILE *file = fopen("../database/source_data/voters.txt", "r");
     #endif
 
     if (file == NULL) {
-        printf("Error opening file!\n");
-        return 1;
+        return 1; // First voter
     }
 
     char line[512];
@@ -131,82 +138,33 @@ int make_voter_ID() {
     return voter_ID + 1;
 }
 
-// Input functions
-char *fname() {
-    static char fname[20];
-    printf("║\n");
-    printf("╠═ Enter First Name: ");
-    scanf("%19s", fname);
-    return fname;
+void saveVoterToFile(struct voterReg voter) {
+    #ifdef _WIN32
+        FILE *file = fopen("..\\database\\source_data\\voters.txt", "a");
+    #else
+        FILE *file = fopen("../database/source_data/voters.txt", "a");
+    #endif
+
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    fprintf(file, "%d¥%s¥%s¥%s¥%s¥%s¥%s¥%s¥%s\n", voter.voterID, voter.firstname, voter.lastname, voter.username, voter.password, voter.NIC, voter.gender, voter.dob, voter.area);
+    
+    fclose(file);
 }
 
-char *lname() {
-    static char lname[20];
-    printf("║\n");
-    printf("╠═ Enter Last Name: ");
-    scanf("%19s", lname);
-    return lname;
-}
-
-char *username() {
-    static char username[20];
-    printf("║\n");
-    printf("╠═ Enter Username: ");
-    scanf("%19s", username);
-    return username;
-}
-
-char *password() {
-    static char password[20];
-    printf("║\n");
-    printf("╠═ Enter Password: ");
-    scanf("%19s", password);
-    return password;
-}
-
-char *NIC() {
-    static char NIC[20];
-    printf("║\n");
-    printf("╠═ Enter NIC: ");
-    scanf("%19s", NIC);
-    return NIC;
-}
-
-char *gender() {
-    static char gender[10];
-    printf("║\n");
-    printf("╠═ Enter Gender (m/f): ");
-    scanf("%9s", gender);
-    return gender;
-}
-
-char *dob() {
-    static char dob[15];
-    printf("║\n");
-    printf("╠═ Enter Date of Birth (DD/MM/YYYY): ");
-    scanf("%14s", dob);
-    return dob;
-}
-
-char *area() {
-    static char area[30];
-    printf("║\n");
-    printf("╠═ Enter Area: ");
-    scanf("%29s", area);
-    return area;
-}
-
-// Messages
 void messageSuccess() {
     printf("║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                        %sRegistration Successful!%s                          ║\n", COLOR, CLRRM);
+    printf("║                        %sRegistration Successful!%s                          ║\n", COLORVR, CLRRMVR);
     printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
 }
 
 void messageCanceled() {
     printf("║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                         %sRegistration Canceled!%s                           ║\n", COLOR, CLRRM);
+    printf("║                         %sRegistration Canceled!%s                           ║\n", COLORVR, CLRRMVR);
     printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
 }

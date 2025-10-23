@@ -9,7 +9,7 @@
     #define CLEAR_CMD "clear"
 #endif
 
-const char *CDCOLOR = "\033[1;36m"; 
+const char *CDCOLOR = "\033[1;36m";  // Cyan color for candidate
 const char *CDCLRRM = "\033[0m";
 
 void candidate_login();
@@ -19,6 +19,7 @@ char *getCandidateUsername();
 char *getCandidatePassword();
 char *authenticateCandidate(char *username, char *password);
 
+// Global variables to store login info
 char *candidateLoginMessage;
 char candidate_user_name[20];
 
@@ -30,6 +31,7 @@ void candidate_login(){
     char *input_username = getCandidateUsername();
     char *input_password = getCandidatePassword();
     
+    // Store username for later use
     strcpy(candidate_user_name, input_username);
     
     candidateLoginMessage = authenticateCandidate(input_username, input_password);
@@ -77,72 +79,6 @@ void showCandidateDetails() {
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
     printf("║                        %sCandidate Information%s                             ║\n", CDCOLOR, CDCLRRM);
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                                                                          ║\n");
-    
-    #ifdef _WIN32
-        FILE *candidateFile = fopen("..\\..\\database\\source_data\\candidates.txt", "r");
-    #else
-        FILE *candidateFile = fopen("../../database/source_data/candidates.txt", "r");
-    #endif
-    
-    if (!candidateFile) {
-        printf("║                  Error: Unable to load candidate data                   ║\n");
-        printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
-        return;
-    }
-    
-    char line[256];
-    int found = 0;
-    
-    while(fgets(line, sizeof(line), candidateFile)){
-        line[strcspn(line, "\n")] = '\0';
-        
-        char lineCopy[256];
-        strcpy(lineCopy, line);
-        
-        char *token = strtok(lineCopy, "¥");
-        int fieldIndex = 0;
-        char candidateID[50] = "";
-        char username[50] = "";
-        char candidateName[100] = "";
-        char district[100] = "";
-        char partyName[100] = "";
-        
-        while(token != NULL){
-            switch(fieldIndex){
-                case 0: strcpy(candidateID, token); break;
-                case 1: strcpy(username, token); break;
-                case 2: break; // Password
-                case 3: strcpy(candidateName, token); break;
-                case 4: strcpy(district, token); break;
-                case 5: strcpy(partyName, token); break;
-            }
-            token = strtok(NULL, "¥");
-            fieldIndex++;
-        }
-        
-        if(strcmp(username, candidate_user_name) == 0){
-            found = 1;
-            printf("║    Candidate ID :    %04s                                                ║\n", candidateID);
-            printf("║    Name         :    %-50s  ║\n", candidateName);
-            printf("║    District     :    %-50s  ║\n", district);
-            printf("║    Party        :    %-50s  ║\n", partyName);
-            printf("║    Username     :    %-50s  ║\n", username);
-            printf("║                                                                          ║\n");
-            printf("║    \033[1;36mStatus\033[0m       :    \033[1;32mApproved for Election\033[0m                               ║\n");
-            break;
-        }
-    }
-    
-    fclose(candidateFile);
-    
-    if(!found){
-        printf("║  Candidate details not found                                            ║\n");
-        printf("║                                                                          ║\n");
-    }
-    
-    printf("║                                                                          ║\n");
-    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
 }
 
 char *getCandidateUsername(){
@@ -167,9 +103,9 @@ char *getCandidatePassword() {
 char *authenticateCandidate(char *username, char *password){
     
     #ifdef _WIN32
-        FILE *candidateApproved = fopen("..\\..\\database\\source_data\\candidates.txt", "r");
+        FILE *candidateApproved = fopen("..\\database\\source_data\\candidates.txt", "r");
     #else
-        FILE *candidateApproved = fopen("../../database/source_data/candidates.txt", "r");
+        FILE *candidateApproved = fopen("../database/source_data/candidates.txt", "r");
     #endif
     
     if (!candidateApproved) {
@@ -177,7 +113,7 @@ char *authenticateCandidate(char *username, char *password){
     }
     char line[256];
     
-
+    // Check in approved candidates only
     while(fgets(line, sizeof(line), candidateApproved)){
         line[strcspn(line, "\n")] = '\0';
         
@@ -206,6 +142,7 @@ char *authenticateCandidate(char *username, char *password){
         }
     }
     
+    // Not found in file
     fclose(candidateApproved);
     return "Wrong username password or your Registration rejected";
 }
