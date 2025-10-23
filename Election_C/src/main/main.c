@@ -3,12 +3,21 @@
 #include <unistd.h>
 #include <string.h>
 
-void showHeader();
+//#include "../admin/admin_login.h"
+//#include "../candidate/candidate_login.h"
+//#include "../candidate/candidate_registration.h"
+#include "../party/party_login.h"
+//#include "../party/party_registration.h"
+//#include "../voter/voter_login.h"
+//#include "../voter/voter_registration.h"
+
+
+void showMainHeader();
 int userCount(int location);
 void showContent();
 
-const char *COLOR = "\033[1;33m";
-const char *CLRRM = "\033[0m";
+const char *COLORYLO = "\033[1;33m";
+const char *MAINCLRRM = "\033[0m";
 
 int choice;
 int counts[3];
@@ -21,7 +30,7 @@ int main() {
     #endif
 
     system("cls || clear");
-    showHeader();
+    showMainHeader();
     
     showContent();
 
@@ -47,7 +56,8 @@ int main() {
 
     case 3:
         #ifdef _WIN32
-            system("..\\party\\party_login.exe");
+            //system("..\\party\\party_login.exe");
+            party_login();
         #else
             system("../party/party_login");
         #endif
@@ -116,15 +126,15 @@ int main() {
 return 0;
 }
 
-void showHeader() {
+void showMainHeader() {
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLORYLO, MAINCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLORYLO, MAINCLRRM);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLORYLO, MAINCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORYLO, MAINCLRRM);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORYLO, MAINCLRRM);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════╦═══════════════════════════════════════╣\n");
 }
@@ -154,9 +164,9 @@ void showContent() {
     printf("║                                  ║                                       ║\n");
     printf("║   \033[1;32mMAIN MENU:\033[0m                     ║  \033[1;34mELECTION NEWS:\033[0m                       ║\n");
     printf("║                                  ║                                       ║\n");
-    printf("║     1. Voter Login               ║  Number of Registered Voters   : %-3d  ║\n", counts[0]);
-    printf("║     2. Candidate Login           ║  Number of Registered Candidates:%-2d   ║\n", counts[1]);
-    printf("║     3. Party Login               ║  Number of Registered Parties  : %-2d   ║\n", counts[2]);
+    printf("║     1. Voter Login               ║    No of Registered Voters    : %-2d    ║\n", counts[0]);
+    printf("║     2. Candidate Login           ║    No of Registered Candidates: %-2d    ║\n", counts[1]);
+    printf("║     3. Party Login               ║    No of Registered Parties   : %-2d    ║\n", counts[2]);
     printf("║     4. Voter Registration        ║                                       ║\n");
     printf("║     5. Candidate Registration    ╠═══════════════════════════════════════╣\n");
     printf("║     6. Party Registration        ║                                       ║\n");

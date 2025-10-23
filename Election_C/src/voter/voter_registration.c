@@ -76,6 +76,10 @@ int main() {
         messageCanceled();
         return 0;
     }
+    printf("Press Enter to return to the main menu...");
+    getchar();
+    getchar();
+    system("..\\main\\main.exe");
 
     return 0;
 }

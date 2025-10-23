@@ -102,10 +102,10 @@ void showContent() {
     printf("║                                    ║                                     ║\n");
     printf("║  \033[1;32mLogged in as: Admin\033[0m               ║  \033[1;35mDashboard:\033[0m                         ║\n");
     printf("║                                    ║                                     ║\n");
-    printf("║    1.Party Register Requests       ║    Candidate Requests: \033[1;33m%03d\033[0m          ║\n", counts[0]);
+    printf("║    1.Party Register Requests       ║    Candidate Requests: \033[1;33m%03d\033[0m          ║\n", counts[0]-1);
     printf("║    2.Candidate Register Requests   ║    Approved Candidates: %03d         ║\n", counts[2]);
     printf("║    3.Set Election staring time     ║    Rejected Candidates: %03d         ║\n", counts[4]);
-    printf("║    4.Set Election Ending time      ║    Party Requests: \033[1;33m%03d\033[0m              ║\n", counts[1]);
+    printf("║    4.Set Election Ending time      ║    Party Requests: \033[1;33m%03d\033[0m              ║\n", counts[1]-1);
     printf("║    5.Logout                        ║    Approved Parties: %03d            ║\n", counts[3]);
     printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", counts[5]);
     printf("║                                    ║                                     ║\n");
@@ -213,9 +213,9 @@ int candidate_requests() {
     if (decision == 1) {
         // Accept: Add to candidates.txt
         #ifdef _WIN32
-            FILE *writefile = fopen("..\\..\\database\\source_data\\candidates.txt", "a");
+            FILE *writefile = fopen("..\\database\\source_data\\candidates.txt", "a");
         #else
-            FILE *writefile = fopen("../../database/source_data/candidates.txt", "a");
+            FILE *writefile = fopen("../database/source_data/candidates.txt", "a");
         #endif
         
         if (!writefile) {
@@ -336,7 +336,7 @@ int party_requests() {
     char lines[100][200]; 
     char firstline[200]; 
     char *parts[10];  
-    char *dataName[5] = {"Party ID", "Party Name", "Party Leader", "Party Symbol", "Registration Date"};
+    char *dataName[5] = {"Party ID", "Party Name", "Party Color", "Party Leader", "Symbol"};    
     
     int lineCount = 0;
     

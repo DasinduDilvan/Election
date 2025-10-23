@@ -4,91 +4,167 @@
 #include <unistd.h>
 
 #ifdef _WIN32
-    #define CLEAR_CMD "clear"
+    #define CLEAR_CMD "cls"
 #else
     #define CLEAR_CMD "clear"
 #endif
 
-const char *COLOR = "\033[1;33m";
-const char *CLRRM = "\033[0m";
+const char *PLCOLOR = "\033[1;33m";
+const char *PLCLRRM = "\033[0m";
 
-void showHeader();
-void showContent();
-char *username();
-char *password();
-void showContent();
+void party_login();
+void showPartyLoginHeader();
+void showPartyDetails();
+char *getUsername();
+char *getPassword();
+char *authenticate(char *username, char *password);
 
+// Global variables to store login info
 char *loginMessage;
-char *authenticate(char *username,char *password);
+char user_name[20];
 
-int main(){
+//party_login();
+
+void party_login(){
     system("chcp 65001");
     system("clear || cls");
-    showHeader();
-    char *user_name = username();
-    char *pass_word = password();
-
-    char *loginMessage = authenticate(user_name,pass_word);
-    if(loginMessage != NULL){
-
+    showPartyLoginHeader();
+    
+    char *input_username = getUsername();
+    char *input_password = getPassword();
+    
+    // Store username for later use
+    strcpy(user_name, input_username);
+    
+    loginMessage = authenticate(input_username, input_password);
+    
+    if(loginMessage != NULL && strcmp(loginMessage, "Wrong username password or your Registration rejected") != 0){
         printf("\n\t\tLogin Successful!\n");
-        sleep(1);
+        printf("\t\t%s\n", loginMessage);
+        sleep(2);
         system(CLEAR_CMD);
-        showHeader();
-        printf("Welcome %s\n",loginMessage);
-        showContent();
-
+        showPartyLoginHeader();
+        showPartyDetails();
+        
+        printf("\n  Press Enter to go back to home...");
+        getchar();
+        getchar();
+        system("..\\main\\main.exe");
     }
     else{
-        printf("lodin Faild\n");
+        printf("\n\tLogin Failed!");
+        if(loginMessage != NULL){
+            printf("\t%s\n", loginMessage);
+        }
         sleep(2);
+        printf("║\n");
+        printf("╠═  Press Enter to go back to home...");
+        getchar();
+        getchar();
+        system("..\\main\\main.exe");
     }
-    
-    return 0;
+
+    //return 0;
 }
 
-void showHeader() {
+void showPartyLoginHeader() {
     printf("\n");
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLOR, CLRRM);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLOR, CLRRM);
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", PLCOLOR, PLCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", PLCOLOR, PLCLRRM);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", PLCOLOR, PLCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", PLCOLOR, PLCLRRM);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", PLCOLOR, PLCLRRM);
     printf("║                                                                          ║\n");
+}
+
+void showPartyDetails() {
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                               %sAdmin Login%s                                ║\n", COLOR, CLRRM);
+    printf("║                          %sParty Information%s                               ║\n", PLCOLOR, PLCLRRM);
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                          ║\n");
+    
+    // Read party details from file
+    #ifdef _WIN32
+        FILE *partyFile = fopen("..\\database\\source_data\\party.txt", "r");
+    #else
+        FILE *partyFile = fopen("../database/source_data/party.txt", "r");
+    #endif
+    
+    if (!partyFile) {
+        printf("║                  Error: Unable to load party deta                        ║\n");
+        printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+        return;
+    }
+    
+    char line[256];
+    int found = 0;
+    
+    while(fgets(line, sizeof(line), partyFile)){
+        line[strcspn(line, "\n")] = '\0';
+        
+        char lineCopy[256];
+        strcpy(lineCopy, line);
+        
+        char *token = strtok(lineCopy, "¥");
+        int fieldIndex = 0;
+        char partyID[50] = "";
+        char username[50] = "";
+        char partyName[100] = "";
+        char leaderName[100] = "";
+        char symbol[50] = "";
+        
+        while(token != NULL){
+            switch(fieldIndex){
+                case 0: strcpy(partyID, token); break;
+                case 1: strcpy(username, token); break;
+                case 2: break; // Skip password
+                case 3: strcpy(partyName, token); break;
+                case 4: strcpy(leaderName, token); break;
+                case 5: strcpy(symbol, token); break;
+            }
+            token = strtok(NULL, "¥");
+            fieldIndex++;
+        }
+        
+        // Check if this is the logged-in user's party
+        if(strcmp(username, user_name) == 0){
+            found = 1;
+            printf("║    Party ID     :    %04s                                                ║\n", partyID);
+            printf("║    Party Name   :    %-50s  ║\n", partyName);
+            printf("║    Leader Name  :    %-50s  ║\n", leaderName);
+            printf("║    Symbol       :    %-50s  ║\n", symbol);
+            printf("║    Username     :    %-50s  ║\n", username);
+            printf("║                                                                          ║\n");
+            printf("║    \033[1;33mStatus\033[0m       :    \033[1;32mApproved for Election\033[0m                               ║\n");
+            break;
+        }
+    }
+    
+    fclose(partyFile);
+    
+    if(!found){
+        printf("║  Party details not found                                                ║\n");
+        printf("║                                                                          ║\n");
+    }
+    
+    printf("║                                                                          ║\n");
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+}
+
+char *getUsername(){
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                               %sParty Login%s                                ║\n", PLCOLOR, PLCLRRM);
     printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
     printf("║\n");
-
-}
-
-void showContent() {
-    printf("╠════════════════════════════════════╦═════════════════════════════════════╣\n");
-    printf("║                                    ║                                     ║\n");
-    printf("║  \033[1;32mLogged in as: Admin\033 ║                                  \033[1;35mDashboard:\033[0m        ║\n");
-    printf("║                                    ║                                     ║\n");
-    printf("║    1.Party Register Requests       ║    Candidate Requests:              ║\n"); 
-    printf("║    2.Candidate Register Requests   ║    Party Requests:                  ║\n" );
-    printf("║    3.Set Election staring time     ║    Approved Candidates:             ║\n" );
-    printf("║    4.Set Election Ending time      ║    Approved Parties:                ║\n");
-    printf("║    5.Logout                        ║    Rejected Candidates:             ║\n");
-    printf("║    0.Exit                          ║    Rejected Parties:                ║\n");
-    printf("║                                    ║                                     ║\n");
-    printf("╠════════════════════════════════════╩═════════════════════════════════════╝\n");
-    printf("║\n");
-    printf("╠══ ");
-}
-
-char *username(){
     static char username[20];
     printf("╠═ Enter Username: ");
     scanf("%19s", username);
     return username;
-    }
+}
 
-char *password() {
+char *getPassword() {
     static char password[20];
     printf("║\n");
     printf("╠═ Enter Password: ");
@@ -96,72 +172,49 @@ char *password() {
     return password;
 }
 
-
-char *authenticate(char *username,char *password){
+char *authenticate(char *username, char *password){
     
     #ifdef _WIN32
-        FILE *partyApproved = fopen("..\\..\\database\\source_data\\party.txt", "r");
-        FILE *partyPending = fopen("..\\..\\database\\notifications\\party_notification.txt", "r");
-        FILE *partyRejected = fopen("..\\..\\database\\notifications\\rejected_parties.txt", "r");
+        FILE *partyApproved = fopen("..\\database\\source_data\\party.txt", "r");
     #else
-        FILE *partyApproved = fopen("../../database/source_data/party.txt", "r");
-        FILE *partyPending = fopen("../../database/notifications/party_notification.txt", "r");
-        FILE *partyRejected = fopen("../../database/notifications/rejected_parties.txt", "r");
+        FILE *partyApproved = fopen("../database/source_data/party.txt", "r");
     #endif
-    if (!partyApproved) return NULL;
-    if (!partyPending) return NULL;
-    if (!partyRejected) return NULL;
-
     
+    if (!partyApproved) {
+        return "Wrong username password or your Registration rejected";
+    }
+    char line[256];
     
-    for(int i=0;i<3;i++){
-        char line[100];
-        int lineCounter=0;
-
-        char name[100]="";
+    // Check in approved parties only
+    while(fgets(line, sizeof(line), partyApproved)){
+        line[strcspn(line, "\n")] = '\0';
+        
+        char lineCopy[256];
+        strcpy(lineCopy, line);
+        
+        char *token = strtok(lineCopy, "¥");
+        int fieldIndex = 0;
         char fileUsername[100] = "";
         char filePassword[100] = "";
-
-        while(fgets(line,sizeof(line),partyApproved)){
-            line[strcspn(line, "\n")] = '\0';
-            lineCounter=lineCounter+1;
-            
-            if(lineCounter==2){
-                strcpy(name,line);
+        
+        while(token != NULL){
+            if(fieldIndex == 2){
+                strcpy(fileUsername, token);
             }
-
-            if(lineCounter==4){
-                strcpy(fileUsername,line);
-                
-
+            else if(fieldIndex == 3){
+                strcpy(filePassword, token);
             }
-            else if(lineCounter==5){
-                strcpy(filePassword,line);
-
-            }
-            
-            if (lineCounter==10){
-                if(strcmp(username,fileUsername) ==0 && strcmp(password,filePassword) ==0 ){
-                    
-                    return username;
-                }
-
-            lineCounter=0;
-            fileUsername[0] = '\0';
-            filePassword[0] = '\0';
-
-            }
-            
+            token = strtok(NULL, "¥");
+            fieldIndex++;
         }
-
+        
+        if(strcmp(fileUsername, username) == 0 && strcmp(filePassword, password) == 0){
+            fclose(partyApproved);
+            return "Party has been approved for the Election";
+        }
     }
-
+    
+    // Not found in file
     fclose(partyApproved);
-    fclose(partyPending);
-    fclose(partyRejected);
-
-    return NULL;
-
-
+    return "Wrong username password or your Registration rejected";
 }
-

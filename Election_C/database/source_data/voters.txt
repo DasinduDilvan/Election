@@ -1,8 +1,10 @@
-<<<<<<< HEAD
 1001¥Dilvan¥Dilvan¥Dasi24¥234rd¥346red¥m¥34/23/234/¥Piliyandala
 1002¥aaaaa¥bbbbbb¥cccccc¥dddddd¥111111¥m¥22/22/2222¥eeeeee
 1003¥FirstName¥LastName¥UserName¥PassWord¥NICNumber¥Gender¥DateOfBirth¥ElectionArea
-1004
-=======
-
->>>>>>> 4c5fb3610006400337324a7dc020f7662e9b4230
+1004#@!@#Sahan#@!@#Rashmika#@!@#Sahan123#@!@#Saahan123#@!@#2004259923#@!@#m#@!@#23/2/2004#@!@#Matara
+1005¥Geeth¥Beba¥Geeth123¥Geeth123¥20049539¥m¥22/5/2004¥Matara
+1006¥Maduka¥Manaram¥Madu123¥Manaran@#321¥20043484930¥m¥15/11/2004¥Panadura
+1007¥Sendiya¥Sendiya¥sendi1234¥Send03¥2004923492¥m¥5/¥Thissa
+1008¥Hiruni¥Chethana¥Hiruni123¥Hirun@#2113¥20049385843¥f¥16/4/2004¥Colombo
+1009¥Votername¥voterlname¥uname¥pword¥23452345¥m¥23/12/1413¥colombo
+1010
