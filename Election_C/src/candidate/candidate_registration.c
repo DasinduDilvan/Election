@@ -1,14 +1,12 @@
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 
 const char *COLOR = "\033[1;33m";
 const char *CLRRM = "\033[0m";
 
 void showCandidateHeader();
-int candidateID(); 
+char *candidateID(); 
 char *fname();
 char *lname();
 char *username();
@@ -48,13 +46,13 @@ int main(){
         printf("╠═ Registration confirmed. Status set to PENDING for Admin Approval.\n");
 
 
-        FILE *file = fopen("../../database/notifications/candidate_notifications.txt", "a");
+        FILE *file = fopen("../../database/source_data/candidates.txt", "a");
         if (file == NULL) {
             printf("Error opening file for candidate data!\n");
             return 1;
         }
 
-fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%d\n", 
+fprintf(file, "%s,%s,%s,%s,%s,%s,%s,%s,%s\n", 
                 firstname, 
                 lastname, 
                 user_name, 
@@ -95,7 +93,7 @@ void showCandidateHeader(){
 
 
 
-int candidateID(){
+char candidateID(){
     #ifdef _WIN32
         FILE *file = fopen("..\\..\\database\\notifications\\candidate_notifications.txt", "r");
     #else
