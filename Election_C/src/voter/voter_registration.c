@@ -17,7 +17,7 @@ struct voterReg {
     int voterID;
 };
 
-void voter_register();
+void registerVoters();
 void showVoterRegHeader();
 void getVoterDetails(struct voterReg voter);
 int make_voter_ID();
@@ -25,7 +25,7 @@ void saveVoterToFile(struct voterReg voter);
 void messageSuccess();
 void messageCanceled();
 
-void voter_register(){
+void registerVoters(){
     system("clear || cls");
     showVoterRegHeader();
 
@@ -56,7 +56,7 @@ void voter_register(){
     printf("Press Enter to return to the main menu...");
     getchar();
     getchar();
-    voter_register();
+    voterRegister();
 }
 
 void showVoterRegHeader() {
