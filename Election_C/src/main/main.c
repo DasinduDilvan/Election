@@ -48,7 +48,7 @@ int main() {
         party_login();
         break;
     case 4:
-        //voter_register();
+        //registerVoters();
         break;
 
     case 5:

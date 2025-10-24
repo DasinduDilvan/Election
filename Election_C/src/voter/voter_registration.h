@@ -20,7 +20,7 @@ struct voterReg {
     int voterID;
 };
 
-void voter_register();
+void registerVoters();
 void showVoterRegHeader();
 void getVoterDetails(struct voterReg voter);
 int make_voter_ID();
