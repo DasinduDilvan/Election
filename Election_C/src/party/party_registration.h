@@ -21,7 +21,7 @@ typedef struct {
 
 extern Party partydetails;
 
-void party_register();
+int party_register();
 void showPartyHeader();
 int getPartyData();
 

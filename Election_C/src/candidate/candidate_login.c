@@ -3,13 +3,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "../main/main.h"
+
 #ifdef _WIN32
     #define CLEAR_CMD "cls"
 #else
     #define CLEAR_CMD "clear"
 #endif
 
-const char *CDCOLOR = "\033[1;36m";  // Cyan color for candidate
+const char *CDCOLOR = "\033[1;33m";
 const char *CDCLRRM = "\033[0m";
 
 void candidate_login();
@@ -44,10 +46,8 @@ void candidate_login(){
         showCandidateLoginHeader();
         showCandidateDetails();
         
-        printf("\n  Press Enter to go back to home...");
-        getchar();
-        getchar();
-        system("..\\main\\main.exe");
+        sleep(2);
+        main_menu();
     }
     else{
         printf("\n\tLogin Failed!");
@@ -55,11 +55,9 @@ void candidate_login(){
             printf("\t%s\n", candidateLoginMessage);
         }
         sleep(2);
-        printf("║\n");
-        printf("╠═  Press Enter to go back to home...");
-        getchar();
-        getchar();
-        system("..\\main\\main.exe");
+        printf("\n");
+        sleep(2);
+        main_menu();
     }
 }
 
@@ -68,7 +66,7 @@ void showCandidateLoginHeader() {
     printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                                                                          ║\n");
     printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", CDCOLOR, CDCLRRM);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", CDCLRRM, CDCLRRM);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", CDCOLOR, CDCLRRM);
     printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", CDCOLOR, CDCLRRM);
     printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", CDCOLOR, CDCLRRM);
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", CDCOLOR, CDCLRRM);
@@ -120,7 +118,7 @@ char *authenticateCandidate(char *username, char *password){
         char lineCopy[256];
         strcpy(lineCopy, line);
         
-        char *token = strtok(lineCopy, "¥");
+        char *token = strtok(lineCopy, "<@|@>");
         int fieldIndex = 0;
         char fileUsername[100] = "";
         char filePassword[100] = "";
@@ -132,7 +130,7 @@ char *authenticateCandidate(char *username, char *password){
             else if(fieldIndex == 2){
                 strcpy(filePassword, token);
             }
-            token = strtok(NULL, "¥");
+            token = strtok(NULL, "<@|@>");
             fieldIndex++;
         }
         

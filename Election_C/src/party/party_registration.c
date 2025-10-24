@@ -3,11 +3,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../main/main.h"
 
 const char *PRCOLOR = "\033[1;33m";
 const char *PRCLRRM = "\033[0m";
 
-void party_register();
+int party_register();
 void showPartyHeader();
 
 struct party{
@@ -24,7 +25,7 @@ char confirm();
 
 int getPartyData();
 
-void party_register(){
+int party_register(){
     system("cls || clear");
     showPartyHeader();
 
@@ -39,35 +40,43 @@ void party_register(){
     if (confirm_save != 'y' && confirm_save != 'Y') {
         printf("║\n");
         printf("╠═ Registration cancelled.\n");
-        return 0;
+        printf("║\n");
+        printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
+        printf("║                       %sParty Registration Canceled%s                        ║\n", PRCOLOR, PRCLRRM);
+        printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+        printf("\n  Press Enter to return to the main menu...");
+        getchar();
+        getchar();
+        main_menu();
     }
     else {
         printf("║\n");
         printf("╠═ Registration confirmed. Status set to PENDING for Admin Approval.\n");
 
-        FILE *file = fopen("../../database/notifications/party_notifications.txt", "a");
+        FILE *file = fopen("../database/notifications/party_notifications.txt", "a");
         if (file == NULL) {
             printf("Error opening file for party data!\n");
             return 1;
         }
 
-        fprintf(file, "¥%s¥%s¥%s¥%s¥%s¥%s\n%d", partydetails.Party_Name, partydetails.Username, partydetails. partydetails.Party_Color, partydetails.Party_Leader, partydetails.Symbol, partydetails.Party_ID);
+        fprintf(file, "<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s\n%d", partydetails.Party_Name, partydetails.Username, partydetails.Password, partydetails.Party_Color, partydetails.Party_Leader, partydetails.Symbol, partydetails.Party_ID);
         
         fclose(file);
-
         
         printf("║\n");
         printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-        printf("║                         %sParty Registration saved%s                         ║\n", PRCOLOR, PRCLRRM);
+        printf("║                   %sParty Registration Request Created%s                     ║\n", PRCOLOR, PRCLRRM);
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+        sleep(5 );
+        main_menu();
     }
 
-    printf("Press Enter to return to the main menu...");
+    printf("\n  Press Enter to return to the main menu...");
     getchar();
     getchar();
-    system("..\\main\\main.exe");
+    main_menu();
 
-    //return 0;
+    return 0;
 }
 void showPartyHeader(){
     printf("\n");
@@ -80,13 +89,15 @@ void showPartyHeader(){
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", PRCOLOR, PRCLRRM);
     printf("║                                                                          ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                            %sParty Registration%s                            ║\n", PRCOLOR, PRCLRRM);
+    printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
 }
 
 int getPartyData(){
     #ifdef _WIN32
-        FILE *file = fopen("..\\..\\database\\notifications\\party_notifications.txt", "r");
+        FILE *file = fopen("..\\database\\notifications\\party_notifications.txt", "r");
     #else
-        FILE *file = fopen("../../database/notifications/party_notifications.txt", "r");
+        FILE *file = fopen("../database/notifications/party_notifications.txt", "r");
     #endif
 
     if (file == NULL) {
@@ -103,7 +114,6 @@ int getPartyData(){
 
     fclose(file);
 
-    //int party_ID = 0;
     for (int i = 0; last_line[i] != '\0'; i++) {
         if (last_line[i] >= '0' && last_line[i] <= '9') {
             partydetails.Party_ID = partydetails.Party_ID * 10 + (last_line[i] - '0');
@@ -111,7 +121,6 @@ int getPartyData(){
     }
     ++partydetails.Party_ID;
 
-    //return party_ID =+ 1;
 
     printf("║\n");
     printf("╠═ Enter Party Name: ");

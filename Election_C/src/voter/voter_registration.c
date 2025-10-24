@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "../main/main.h"
+
 const char *COLORVR = "\033[1;33m";
 const char *CLRRMVR = "\033[0m";
 
@@ -56,7 +58,7 @@ void registerVoters(){
     printf("Press Enter to return to the main menu...");
     getchar();
     getchar();
-    voterRegister();
+    main_menu();
 }
 
 void showVoterRegHeader() {
@@ -77,35 +79,35 @@ void showVoterRegHeader() {
 void getVoterDetails(struct voterReg voter) {
     printf("║\n");
     printf("╠═ Enter First Name: ");
-    scanf("%19s", voter.firstname);
+    scanf("%s", voter.firstname);
     
     printf("║\n");
     printf("╠═ Enter Last Name: ");
-    scanf("%19s", voter.lastname);
+    scanf("%s", voter.lastname);
     
     printf("║\n");
     printf("╠═ Enter Username: ");
-    scanf("%19s", voter.username);
+    scanf("%s", voter.username);
     
     printf("║\n");
     printf("╠═ Enter Password: ");
-    scanf("%19s", voter.password);
+    scanf("%s", voter.password);
     
     printf("║\n");
     printf("╠═ Enter NIC: ");
-    scanf("%19s", voter.NIC);
+    scanf("%s", voter.NIC);
     
     printf("║\n");
     printf("╠═ Enter Gender (m/f): ");
-    scanf("%9s", voter.gender);
+    scanf("%s", voter.gender);
     
     printf("║\n");
     printf("╠═ Enter Date of Birth (DD/MM/YYYY): ");
-    scanf("%14s", voter.dob);
+    scanf("%s", voter.dob);
     
     printf("║\n");
     printf("╠═ Enter Area: ");
-    scanf("%29s", voter.area);
+    scanf("%s", voter.area);
 }
 
 int make_voter_ID() {
@@ -150,7 +152,7 @@ void saveVoterToFile(struct voterReg voter) {
         return;
     }
 
-    fprintf(file, "%d¥%s¥%s¥%s¥%s¥%s¥%s¥%s¥%s\n", voter.voterID, voter.firstname, voter.lastname, voter.username, voter.password, voter.NIC, voter.gender, voter.dob, voter.area);
+    fprintf(file, "<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s\n%d", voter.firstname, voter.lastname, voter.username, voter.password, voter.NIC, voter.gender, voter.dob, voter.area, voter.voterID);
     
     fclose(file);
 }
