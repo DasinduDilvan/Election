@@ -85,7 +85,7 @@ void displayMenu(VoterInfo *voter) {
             case 3:
                 printf("\n\t\tLogging out...\n");
                 sleep(1);
-                return;
+                main_menu();
             case 4:
                 printf("\n\t\tExiting...\n");
                 sleep(1);
@@ -312,47 +312,46 @@ void castVote(VoterInfo *voter) {
     printf("║                            Cast Your Vote                                ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n\n");
 
-    char inputID[20];
-    printf("Enter Voter ID to vote (or 0 to cancel): ");
-    scanf("%19s", inputID);
+    char candidateID[20];
+    printf("Enter Candidate ID to vote (or 0 to cancel): ");
+    scanf("%19s", candidateID);
     getchar();
 
-    if(strcmp(inputID, "0") == 0) {
+    if (strcmp(candidateID, "0") == 0) {
         printf("\n\tVote cancelled.\n");
         return;
     }
 
-
+    // ✅ Open candidates file to verify candidate exists
     #ifdef _WIN32
-        FILE *fc = fopen("..\\database\\source_data\\voters.txt", "r");
+        FILE *fc = fopen("..\\database\\source_data\\candidates.txt", "r");
     #else
-        FILE *fc = fopen("../database/source_data/voters.txt", "r");
+        FILE *fc = fopen("../database/source_data/candidates.txt", "r");
     #endif
 
-    if(!fc) {
-        printf("\nError: Cannot open voters file.\n");
+    if (!fc) {
+        printf("\nError: Cannot open candidates file.\n");
         return;
     }
 
     char line[400];
     int found = 0;
-    char voterID[20], fname[50], lname[50], username[50], password[50], nic[30], gender[10], partyID[20];
+    char id[20], fname[50], lname[50], partyID[20];
 
- 
-    while(fgets(line, sizeof(line), fc)) {
+    while (fgets(line, sizeof(line), fc)) {
         line[strcspn(line, "\n")] = '\0';
 
         char *token = strtok(line, "<@|@>");
-        if(!token) continue;
-        strcpy(voterID, token);
+        if (!token) continue;
+        strcpy(id, token);
 
-        if(strcmp(voterID, inputID) == 0) {
+        if (strcmp(id, candidateID) == 0) {
             strcpy(fname, strtok(NULL, "<@|@>"));
             strcpy(lname, strtok(NULL, "<@|@>"));
-            strcpy(username, strtok(NULL, "<@|@>"));
-            strcpy(password, strtok(NULL, "<@|@>"));
-            strcpy(nic, strtok(NULL, "<@|@>"));
-            strcpy(gender, strtok(NULL, "<@|@>"));
+            strtok(NULL, "<@|@>"); // username (skip)
+            strtok(NULL, "<@|@>"); // password (skip)
+            strtok(NULL, "<@|@>"); // nic (skip)
+            strtok(NULL, "<@|@>"); // gender (skip)
             strcpy(partyID, strtok(NULL, "<@|@>"));
             found = 1;
             break;
@@ -361,11 +360,12 @@ void castVote(VoterInfo *voter) {
 
     fclose(fc);
 
-    if(!found) {
-        printf("\nInvalid Voter ID!\n");
+    if (!found) {
+        printf("\nInvalid Candidate ID!\n");
         return;
     }
 
+    // ✅ Read existing results file safely (with "r")
     #ifdef _WIN32
         FILE *fr = fopen("..\\database\\election_result\\results.txt", "r");
     #else
@@ -375,46 +375,46 @@ void castVote(VoterInfo *voter) {
     FILE *temp = tmpfile();
     int updated = 0;
 
-    if(fr) {
+    if (fr) {
         char buffer[200];
-        while(fgets(buffer, sizeof(buffer), fr)) {
+        while (fgets(buffer, sizeof(buffer), fr)) {
             buffer[strcspn(buffer, "\n")] = '\0';
 
             char existingCand[20], existingParty[20];
             int votes;
 
-            if(sscanf(buffer, "%[^¥]¥%[^¥]¥%d", existingCand, existingParty, &votes) == 3) {
-                if(strcmp(existingCand, voterID) == 0) {
+            if (sscanf(buffer, "%[^¥]¥%[^¥]¥%d", existingCand, existingParty, &votes) == 3) {
+                if (strcmp(existingCand, candidateID) == 0) {
                     votes++;
-                    fprintf(temp, "%s¥%s¥%d\n", existingCand, existingParty, votes);
                     updated = 1;
-                } else {
-                    fprintf(temp, "%s\n", buffer);
                 }
+                fprintf(temp, "%s¥%s¥%d\n", existingCand, existingParty, votes);
             }
         }
         fclose(fr);
     }
 
-    if(!updated) {
-        fprintf(temp, "%s¥%s¥1\n", voterID, partyID);
+    if (!updated) {
+        fprintf(temp, "%s¥%s¥1\n", candidateID, partyID);
     }
 
+    // ✅ Now overwrite results file safely
     #ifdef _WIN32
         FILE *fw = fopen("..\\database\\election_result\\results.txt", "w");
     #else
         FILE *fw = fopen("../database/election_result/results.txt", "w");
     #endif
 
-    if(fw) {
+    if (fw) {
         rewind(temp);
         char copy[200];
-        while(fgets(copy, sizeof(copy), temp)) {
-            fprintf(fw, "%s", copy);
+        while (fgets(copy, sizeof(copy), temp)) {
+            fputs(copy, fw);
         }
         fclose(fw);
     }
 
     fclose(temp);
-    printf("\n✓ Vote successfully cast for Candidate ID: %s (Party ID: %s)\n", voterID, partyID);
+    printf("\n✓ Vote successfully cast for Candidate ID: %s (%s %s, Party ID: %s)\n",
+           candidateID, fname, lname, partyID);
 }

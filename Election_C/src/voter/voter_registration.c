@@ -21,7 +21,7 @@ struct voterReg {
 
 void registerVoters();
 void showVoterRegHeader();
-void getVoterDetails(struct voterReg voter);
+void getVoterDetails(struct voterReg *voter);
 int make_voter_ID();
 void saveVoterToFile(struct voterReg voter);
 void messageSuccess();
@@ -33,7 +33,7 @@ void registerVoters(){
 
     struct voterReg voter;
     
-    getVoterDetails(voter);
+    getVoterDetails(&voter);
     
     char confirm_save;
     printf("║\n");
@@ -61,53 +61,40 @@ void registerVoters(){
     main_menu();
 }
 
-void showVoterRegHeader() {
-    printf("\n");
-    printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                                                                          ║\n");
-    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLORVR, CLRRMVR);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLORVR, CLRRMVR);
-    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLORVR, CLRRMVR);
-    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORVR, CLRRMVR);
-    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORVR, CLRRMVR);
-    printf("║                                                                          ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
-    printf("║                            Voter Registration                            ║\n");
-    printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
-}
 
-void getVoterDetails(struct voterReg voter) {
+
+void getVoterDetails(struct voterReg *voter) {
     printf("║\n");
     printf("╠═ Enter First Name: ");
-    scanf("%s", voter.firstname);
+    scanf("%19s", voter->firstname);
     
     printf("║\n");
     printf("╠═ Enter Last Name: ");
-    scanf("%s", voter.lastname);
+    scanf("%19s", voter->lastname);
     
     printf("║\n");
     printf("╠═ Enter Username: ");
-    scanf("%s", voter.username);
+    scanf("%19s", voter->username);
     
     printf("║\n");
     printf("╠═ Enter Password: ");
-    scanf("%s", voter.password);
+    scanf("%19s", voter->password);
     
     printf("║\n");
     printf("╠═ Enter NIC: ");
-    scanf("%s", voter.NIC);
+    scanf("%19s", voter->NIC);
     
     printf("║\n");
     printf("╠═ Enter Gender (m/f): ");
-    scanf("%s", voter.gender);
+    scanf("%9s", voter->gender);
     
     printf("║\n");
     printf("╠═ Enter Date of Birth (DD/MM/YYYY): ");
-    scanf("%s", voter.dob);
+    scanf("%14s", voter->dob);
     
     printf("║\n");
     printf("╠═ Enter Area: ");
-    scanf("%s", voter.area);
+    scanf("%29s", voter->area);
 }
 
 int make_voter_ID() {
@@ -157,16 +144,3 @@ void saveVoterToFile(struct voterReg voter) {
     fclose(file);
 }
 
-void messageSuccess() {
-    printf("║\n");
-    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                        %sRegistration Successful!%s                          ║\n", COLORVR, CLRRMVR);
-    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
-}
-
-void messageCanceled() {
-    printf("║\n");
-    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                         %sRegistration Canceled!%s                           ║\n", COLORVR, CLRRMVR);
-    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
-}

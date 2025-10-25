@@ -145,5 +145,6 @@ int getPartyData(){
     printf("║\n");
     printf("╠═ Enter Party Symbol: ");
     scanf(" %49s[^\n]", partydetails.Symbol);
+    return 1;
 }
 

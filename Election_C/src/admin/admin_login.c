@@ -88,6 +88,7 @@ int credentials() {
     } 
     else {
         main_menu();
+        return 0;
     }
 }
 

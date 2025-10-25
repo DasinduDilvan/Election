@@ -129,7 +129,7 @@ void showPartyDetails() {
         // Check if this is the logged-in user's party
         if(strcmp(username, user_name) == 0){
             found = 1;
-            printf("║    Party ID     :    %04s                                                ║\n", partyID);
+            printf("║    Party ID     :    %4s                                                ║\n", partyID);
             printf("║    Party Name   :    %-50s  ║\n", partyName);
             printf("║    Leader Name  :    %-50s  ║\n", leaderName);
             printf("║    Symbol       :    %-50s  ║\n", symbol);
