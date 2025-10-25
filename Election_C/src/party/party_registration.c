@@ -56,9 +56,9 @@ int party_register(){
         printf("║                            %sParty Request Saved%s                           ║\n", PRCOLOR, PRCLRRM);
         printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
         printf("Press Enter to return to the main menu...");
-        getchar();
-        getchar();
-        firstFunction();
+        //getchar();
+        //getchar();
+        //firstFunction();
 
         FILE *file = fopen("../database/notifications/party_notifications.txt", "a");
         if (file == NULL) {
@@ -67,6 +67,7 @@ int party_register(){
         }
 
         fprintf(file, "<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s\n%d", partydetails.Party_Name, partydetails.Username, partydetails.Password, partydetails.Party_Color, partydetails.Party_Leader, partydetails.Symbol, partydetails.Party_ID);
+        
         
         fclose(file);
         

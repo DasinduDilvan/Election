@@ -43,10 +43,16 @@ void party_login(){
     if(loginMessage != NULL && strcmp(loginMessage, "Wrong username password or your Registration rejected") != 0){
         printf("\n\t\tLogin Successful!\n");
         printf("\t\t%s\n", loginMessage);
-        sleep(2);
-        system(CLEAR_CMD);
-        showPartyLoginHeader();
-        showPartyDetails();
+        getchar();
+        getchar();
+        printf("Press Enter to return to the main menu...");
+        while (getchar() != '\n');
+        firstFunction();
+
+        //sleep(2);
+        //system(CLEAR_CMD);
+        //showPartyLoginHeader();
+        //showPartyDetails();
         
         sleep(2);
         firstFunction();
