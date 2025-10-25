@@ -16,6 +16,7 @@ const char *MAINCLRRM = "\033[0m";
 #define MAX_LINE_RESULT 256
 #define MAX_NAME_RESULT 100
 
+int firstFunction();
 void main_menu();
 int view_results();
 int showResultContent();
@@ -36,37 +37,69 @@ int main() {
         system("chcp 65001");
     #endif
     system("cls || clear");
+    firstFunction();
+    return 0;
+}
 
-            FILE *file = fopen("../database/notifications/election_time.txt", "r");
-                if (file == NULL) {
-                    printf("Error opening file!\n");
-                    return 1;
-                }
+int firstFunction() {
+    system("cls || clear");
 
-                char line[100];
-                int lineCount = 0;
+    FILE *file = fopen("../database/notifications/election_time.txt", "r");
+        if (file == NULL) {
+            printf("Error opening file!\n");
+            return 1;
+        }
 
-                while (fgets(line, sizeof(line), file)) {
-                    lineCount++;
-                    if (lineCount == 3) {
-                        line[strcspn(line, "\n")] = '\0';
+        char line[100];
+        int lineCount = 0;
+        int check_true = 5;
 
-                        if (strcmp(line, "TRUE") == 0)
-                            //view_results();
-                            int  showResultContent();
-                        else if (strcmp(line, "FALSE") == 0)
-                            main_menu();
-                        else
-                            main_menu();
+        while (fgets(line, sizeof(line), file)) {
+            lineCount++;
+            if (lineCount == 3) {
+                line[strcspn(line, "\n")] = '\0';
 
+                if (strcmp(line, "TRUE") == 0){
+                    //view_results();
+                    check_true = showResultContent();
+                    switch (check_true){
+                    case 1:
+                        admin_login();
+                        break;
+                    case 2:
+                        view_results();
+                        break;
+                    case 3:
+                        terms_conditions();
+                        break;
+                    case 0:
+                        #ifdef _WIN32
+                            system("cls");
+                        #else
+                            system("clear");
+                        #endif
+                        printf("\n\tThank you for using Election Management System\n");
+                        exit(0);
+                        break;
+                    default:
+                        firstFunction();
                         break;
                     }
                 }
+                else if (strcmp(line, "FALSE") == 0){
+                    main_menu();
+                }
+                else{
+                    main_menu();
+                }
+                break;
+            }
+        }
 
-                if (lineCount < 3)
-                    printf("File has less than 3 lines.\n");
+        if (lineCount < 3)
+            printf("File has less than 3 lines.\n");
 
-
+    fclose(file);
         sleep(2);
     return 0;
 }
@@ -187,7 +220,8 @@ void showContent() {
 
 
 int showResultContent() {
-
+    system("cls || clear");
+    showAdminHeader();
     printf("╠══════════════════════════════════╦═══════════════════════════════════════╣\n");
     printf("║                                  ║                                       ║\n");
     printf("║   \033[1;32mMAIN MENU:\033[0m                     ║  \033[1;34mELECTION NEWS:\033[0m                       ║\n");
@@ -195,7 +229,7 @@ int showResultContent() {
     printf("║     1. Admin Login               ║    Election Ended -                   ║\n");
     printf("║     2. View Results              ║                                       ║\n");
     printf("║     3. Terms and Conditions      ║         - Your able to view results   ║\n");
-    printf("║     4. Exit                      ║                                       ║\n");
+    printf("║     0. Exit                      ║                                       ║\n");
     printf("║                                  ║                                       ║\n");
     printf("╠══════════════════════════════════╩═══════════════════════════════════════╝\n");
     printf("║\n");
@@ -283,10 +317,11 @@ void terms_conditions(){
 
     getchar(); 
     getchar(); 
-    main_menu();
+    firstFunction();
 }
 
 int view_results(){
+    system("cls || clear");
     showAdminHeader();
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
     printf("║                          %sElection Results%s                                ║\n", COLORYLO, MAINCLRRM);
@@ -388,5 +423,11 @@ int view_results(){
     }
 
     fclose(fp);
+
+printf("\n  Press ENTER to return to the menu...");
+    getchar(); 
+    getchar(); 
+    firstFunction();
+    return 0;
 
 }

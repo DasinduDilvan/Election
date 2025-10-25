@@ -25,7 +25,39 @@ void showVoterRegHeader();
 void getVoterDetails(struct voterReg voter);
 int make_voter_ID();
 void saveVoterToFile(struct voterReg voter);
-void messageSuccess();
-void messageCanceled();
+
+void showVoterRegHeader() {
+    printf("\n");
+    printf("╔══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                                                                          ║\n");
+    printf("║      %s███████ ██      ███████  ██████ ████████ ██  ██████  ███    ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ████   ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s█████   ██      █████   ██         ██    ██ ██    ██ ██ ██  ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORVR, CLRRMVR);
+    printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORVR, CLRRMVR);
+    printf("║                                                                          ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                            Voter Registration                            ║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╝\n");
+}
+
+void messageSuccess() {
+    printf("║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                        %sRegistration Successful!%s                          ║\n", COLORVR, CLRRMVR);
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+}
+
+void messageCanceled() {
+    printf("║\n");
+    printf("╠══════════════════════════════════════════════════════════════════════════╗\n");
+    printf("║                         %sRegistration Canceled!%s                           ║\n", COLORVR, CLRRMVR);
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+}
+
+
+
+
+
 
 #endif 
