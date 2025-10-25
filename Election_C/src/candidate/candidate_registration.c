@@ -134,7 +134,7 @@ int getCandidateInfo() {
     #endif
 
     if (!readParties) {printf("Error opening file to read parties!\n");   return 0;    }
-
+    
     char line[512];
     const char *delimiter = "<@|@>"; 
 
@@ -157,7 +157,7 @@ int getCandidateInfo() {
     }
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n"); 
     fclose(readParties);
-    
+    return 1;
 }
 
 
