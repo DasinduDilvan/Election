@@ -39,15 +39,12 @@ void candidate_login(){
     candidateLoginMessage = authenticateCandidate(input_username, input_password);
     
     if(candidateLoginMessage != NULL && strcmp(candidateLoginMessage, "Wrong username password or your Registration rejected") != 0){
-        printf("\n\t\tLogin Successful!\n");
-        printf("\t\t%s\n", candidateLoginMessage);
-        sleep(2);
-        system(CLEAR_CMD);
-        showCandidateLoginHeader();
-        showCandidateDetails();
-        
-        sleep(2);
-        main_menu();
+        printf("\nLogin Successful!\n\n");
+        printf("%s\n", candidateLoginMessage);
+        printf("Press Enter to return to the main menu...");
+        getchar();
+        getchar();
+        firstFunction();
     }
     else{
         printf("\n\tLogin Failed!");

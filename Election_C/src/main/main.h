@@ -31,4 +31,6 @@ int view_results();
 
 int showResultContent();
 
+int firstFunction();
+
 #endif 

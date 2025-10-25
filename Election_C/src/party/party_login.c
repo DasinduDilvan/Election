@@ -49,7 +49,7 @@ void party_login(){
         showPartyDetails();
         
         sleep(2);
-        main_menu();
+        firstFunction();
     }
     else{
         printf("\n\tLogin Failed!");
@@ -59,7 +59,7 @@ void party_login(){
         sleep(2);
         printf("║\n");
         sleep(2);
-        main_menu();
+        firstFunction();
     }
 
     //return 0;

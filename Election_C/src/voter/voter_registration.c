@@ -58,7 +58,7 @@ void registerVoters(){
     printf("Press Enter to return to the main menu...");
     getchar();
     getchar();
-    main_menu();
+    firstFunction();
 }
 
 

@@ -36,10 +36,15 @@ int candidate_register(){
     printf("║\n");
     printf("╠═ Confirm Candidate Registration (y/n): ");
     scanf(" %c", &confirm_save);
+    
 
     if (confirm_save != 'y' && confirm_save != 'Y') {
         printf("║\n");printf("║\n");
         printf("╠═ Registration cancelled.\n");
+        printf("Press Enter to return to the main menu...");
+        getchar();
+        getchar();
+        firstFunction();
         return 0;
     } 
     else {
@@ -53,7 +58,7 @@ int candidate_register(){
             return 1;
         }
 
-        fprintf(file, "<@|@>%s¥%s¥%s¥%s¥%s¥%s¥%s\n%d", candidatedetails.First_Name, candidatedetails.Last_Name, candidatedetails.Username, candidatedetails.Password, candidatedetails.NIC, candidatedetails.Gender, candidatedetails.Party_Number, candidatedetails.Candidate_ID);
+        fprintf(file, "<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s<@|@>%s\n%d", candidatedetails.First_Name, candidatedetails.Last_Name, candidatedetails.Username, candidatedetails.Password, candidatedetails.NIC, candidatedetails.Gender, candidatedetails.Party_Number, candidatedetails.Candidate_ID);
         
         fclose(file);
 
@@ -219,4 +224,5 @@ int getCandidateData() {
     scanf("%9s", candidatedetails.Party_Number);
 
     return candidatedetails.Candidate_ID;
+
 }

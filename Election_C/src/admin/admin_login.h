@@ -39,4 +39,7 @@ int party_requests();
 void set_election_start_time();
 void set_election_end_time();
 
+void stopElection();
+
+
 #endif
