@@ -17,10 +17,6 @@ cat > .gitignore << 'EOF'
 *.out
 
 # Compiled binaries
-src/main/main
-main
-
-.exe
 
 # System files
 Thumbs.db
