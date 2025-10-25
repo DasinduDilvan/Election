@@ -1,3 +1,4 @@
-1¥JVP¥jvp123¥red¥Anura
-2¥UNP¥unp123¥greem¥Ranil
-4¥SJB¥sjb123¥blue¥sajja
+1<@|@>JVP<@|@>jvp123<@|@>red<@|@>Anura
+2<@|@>UNP<@|@>unp123<@|@>greem<@|@>Ranil
+4<@|@>SJB<@|@>sjb123<@|@>blue<@|@>sajja
+5<@|@>SPP<@|@>spp123<@|@>spp123<@|@>red

@@ -3,14 +3,14 @@
 #include <unistd.h>
 #include <string.h>
 
+#include "../main/main.h"
+
 #ifdef _WIN32
     #define CLEAR_CMD "cls"
     #define PATH_SEPARATOR "\\"
-    #define MAIN_PROGRAM "..\\main\\main.exe"
 #else
     #define CLEAR_CMD "clear"
     #define PATH_SEPARATOR "/"
-    #define MAIN_PROGRAM "../main/main"
 #endif
 
 const char *COLORADM = "\033[1;33m";
@@ -53,7 +53,7 @@ void admin_login(){
     else {
         printf("\n\t\tInvalid Credentials! Enterd ...\n");
         sleep(1);
-        system(MAIN_PROGRAM);
+        main_menu();
     }
     
 }
@@ -87,7 +87,7 @@ int credentials() {
         return 1;
     } 
     else {
-        return 0; 
+        main_menu();
     }
 }
 
@@ -131,9 +131,14 @@ void controlPanel(){
             set_election_end_time();
             break;
         case 5:
-            system(MAIN_PROGRAM);
+            main_menu();
             break;
         case 0:
+            #ifdef _WIN32
+                system("cls");
+            #else
+                system("clear");
+            #endif
             printf("\t\t\nThank you for using Election Management System\n");
             exit(0);
             break;
@@ -190,7 +195,7 @@ int candidate_requests() {
     // Tokenize and display first line
     char temp[200];
     strcpy(temp, firstline);
-    char *token = strtok(temp, "¥");
+    char *token = strtok(temp, "<@|@>");
     int j = 0;
     
     while (token != NULL && j < 9) {
@@ -199,7 +204,7 @@ int candidate_requests() {
         // Remove newline if present
         parts[j][strcspn(parts[j], "\n")] = 0;
         printf("║  %-20s: %s\n", dataName[j], parts[j]);
-        token = strtok(NULL, "¥");
+        token = strtok(NULL, "<@|@>");
         j++;
     }
     int partCount = j;
@@ -227,7 +232,7 @@ int candidate_requests() {
         // Write all parts with delimiter
         for(int x = 0; x < partCount; x++) {
             fprintf(writefile, "%s", parts[x]);
-            if(x < partCount - 1) fprintf(writefile, "¥");
+            if(x < partCount - 1) fprintf(writefile, "<@|@>");
         }
         fprintf(writefile, "\n");
         fclose(writefile);
@@ -316,8 +321,8 @@ int party_requests() {
     printf("║\n╠══════════════════════════════════════════════════════════════════════════╗\n");
     printf("║                        %sParty Register Requests%s                           ║\n", COLORADM, CLRRMADM);
     printf("╠═══════════════════════╦══════════════════════════════════════════════════╣\n");
-    printf("║  1.%sAccept Request%s     ║    You can Accept or Reject the Parties,      ║\n", COLORGADM, CLRRMADM);
-    printf("║  2.%sReject Request%s     ║    Who Waiting for Admin approval.            ║\n", COLORRADM, CLRRMADM);
+    printf("║  1.%sAccept Request%s     ║    You can Accept or Reject the Parties,        ║\n", COLORGADM, CLRRMADM);
+    printf("║  2.%sReject Request%s     ║    Who Waiting for Admin approval.              ║\n", COLORRADM, CLRRMADM);
     printf("╠═══════════════════════╩══════════════════════════════════════════════════╝\n");
     printf("║\n");
 
@@ -362,7 +367,7 @@ int party_requests() {
     // Tokenize and display first line
     char temp[200];
     strcpy(temp, firstline);
-    char *token = strtok(temp, "¥");
+    char *token = strtok(temp, "<@|@>");
     int j = 0;
     
     while (token != NULL && j < 5) {
@@ -371,7 +376,7 @@ int party_requests() {
         // Remove newline if present
         parts[j][strcspn(parts[j], "\n")] = 0;
         printf("║  %-20s: %s\n", dataName[j], parts[j]);
-        token = strtok(NULL, "¥");
+        token = strtok(NULL, "<@|@>");
         j++;
     }
     int partCount = j;
@@ -399,7 +404,7 @@ int party_requests() {
         // Write all parts with delimiter
         for(int x = 0; x < partCount; x++) {
             fprintf(writefile, "%s", parts[x]);
-            if(x < partCount - 1) fprintf(writefile, "¥");
+            if(x < partCount - 1) fprintf(writefile, "<@|@>");
         }
         fprintf(writefile, "\n");
         fclose(writefile);

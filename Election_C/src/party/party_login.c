@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "../main/main.h"
+
 #ifdef _WIN32
     #define CLEAR_CMD "cls"
 #else
@@ -46,10 +48,8 @@ void party_login(){
         showPartyLoginHeader();
         showPartyDetails();
         
-        printf("\n  Press Enter to go back to home...");
-        getchar();
-        getchar();
-        system("..\\main\\main.exe");
+        sleep(2);
+        main_menu();
     }
     else{
         printf("\n\tLogin Failed!");
@@ -58,10 +58,8 @@ void party_login(){
         }
         sleep(2);
         printf("║\n");
-        printf("╠═  Press Enter to go back to home...");
-        getchar();
-        getchar();
-        system("..\\main\\main.exe");
+        sleep(2);
+        main_menu();
     }
 
     //return 0;
@@ -107,7 +105,7 @@ void showPartyDetails() {
         char lineCopy[256];
         strcpy(lineCopy, line);
         
-        char *token = strtok(lineCopy, "¥");
+        char *token = strtok(lineCopy, "<@|@>");
         int fieldIndex = 0;
         char partyID[50] = "";
         char username[50] = "";
@@ -124,7 +122,7 @@ void showPartyDetails() {
                 case 4: strcpy(leaderName, token); break;
                 case 5: strcpy(symbol, token); break;
             }
-            token = strtok(NULL, "¥");
+            token = strtok(NULL, "<@|@>");
             fieldIndex++;
         }
         
@@ -192,7 +190,7 @@ char *partyauthenticate(char *username, char *password){
         char lineCopy[256];
         strcpy(lineCopy, line);
         
-        char *token = strtok(lineCopy, "¥");
+        char *token = strtok(lineCopy, "<@|@>");
         int fieldIndex = 0;
         char fileUsername[100] = "";
         char filePassword[100] = "";
@@ -204,7 +202,7 @@ char *partyauthenticate(char *username, char *password){
             else if(fieldIndex == 3){
                 strcpy(filePassword, token);
             }
-            token = strtok(NULL, "¥");
+            token = strtok(NULL, "<@|@>");
             fieldIndex++;
         }
         

@@ -21,8 +21,9 @@ typedef struct {
 
 extern Candidate candidatedetails;
 
-void candidate_register();
+int candidate_register();
 void showCandidateHeader();
 int getCandidateData();
+int getCandidateInfo();
 
 #endif

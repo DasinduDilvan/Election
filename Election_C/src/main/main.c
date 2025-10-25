@@ -11,20 +11,28 @@
 #include "../voter/voter_login.h"
 #include "../voter/voter_registration.h"
 
+const char *COLORYLO = "\033[1;33m";
+const char *MAINCLRRM = "\033[0m";
 
+void main_menu();
 void showMainHeader();
 int userCount(int location);
 void showContent();
-
-const char *COLORYLO = "\033[1;33m";
-const char *MAINCLRRM = "\033[0m";
+void terms_conditions();
 
 int choice;
 int linecounts[3];
 char electionStartTime[12];
-char electionEndTime[12]; 
+char electionEndTime[12];
+
 
 int main() {
+        main_menu();
+        sleep(2);
+    return 0;
+}
+
+void main_menu() {
     #ifdef _WIN32
         system("chcp 65001");
     #endif
@@ -48,15 +56,15 @@ int main() {
         party_login();
         break;
     case 4:
-        //registerVoters();
+        registerVoters();
         break;
 
     case 5:
-        //candidate_register();
+        candidate_register();
         break;
 
     case 6:
-        //party_register();
+        party_register();
         break;
 
     case 7:
@@ -64,11 +72,7 @@ int main() {
         break;
 
     case 8:
-        #ifdef _WIN32
-            system("..\\terms_conditions\\terms_conditions.exe");
-        #else
-            system("../terms_conditions/terms_conditions");
-        #endif
+        terms_conditions();
         break;
 
     case 0:
@@ -91,7 +95,6 @@ int main() {
         break;
 }
 
-return 0;
 }
 
 void showMainHeader() {
@@ -104,7 +107,7 @@ void showMainHeader() {
     printf("║      %s██      ██      ██      ██         ██    ██ ██    ██ ██  ██ ██%s      ║\n", COLORYLO, MAINCLRRM);
     printf("║      %s███████ ███████ ███████  ██████    ██    ██  ██████  ██   ████%s      ║\n", COLORYLO, MAINCLRRM);
     printf("║                                                                          ║\n");
-    printf("╠══════════════════════════════════╦═══════════════════════════════════════╣\n");
+    
 }
 
 
@@ -129,12 +132,13 @@ void showContent() {
         electionStartTime[strcspn(electionStartTime, "\n")] = '\0';
         electionEndTime[strcspn(electionEndTime, "\n")] = '\0';
 
+    printf("╠══════════════════════════════════╦═══════════════════════════════════════╣\n");
     printf("║                                  ║                                       ║\n");
     printf("║   \033[1;32mMAIN MENU:\033[0m                     ║  \033[1;34mELECTION NEWS:\033[0m                       ║\n");
     printf("║                                  ║                                       ║\n");
-    printf("║     1. Voter Login               ║    No of Registered Voters    : %-2d    ║\n", counts[0]);
-    printf("║     2. Candidate Login           ║    No of Registered Candidates: %-2d    ║\n", counts[1]);
-    printf("║     3. Party Login               ║    No of Registered Parties   : %-2d    ║\n", counts[2]);
+    printf("║     1. Voter Login               ║    No of Registered Voters    : %-2d    ║\n", linecounts[0]);
+    printf("║     2. Candidate Login           ║    No of Registered Candidates: %-2d    ║\n", linecounts[1]);
+    printf("║     3. Party Login               ║    No of Registered Parties   : %-2d    ║\n", linecounts[2]);
     printf("║     4. Voter Registration        ║                                       ║\n");
     printf("║     5. Candidate Registration    ╠═══════════════════════════════════════╣\n");
     printf("║     6. Party Registration        ║                                       ║\n");
@@ -166,5 +170,40 @@ int userCount(int location){
     }   
     fclose(readfile);
     return number;
+}
+
+void terms_conditions(){
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+
+    showMainHeader();
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                          %sTERMS AND CONDITIONS%s                            ║\n", COLORYLO, MAINCLRRM);
+    printf("╠══════════════════════════════════════════════════════════════════════════╣\n");
+    printf("║                                                                          ║\n");
+    printf("║  1. Users must provide valid and truthful information during             ║\n");
+    printf("║     registration as a voter, candidate, or party.                        ║\n");
+    printf("║                                                                          ║\n");
+    printf("║  2. Any attempt to fake, alter, or misuse election data may result       ║\n");
+    printf("║     in the account being *rejected by the admin*.                        ║\n");
+    printf("║                                                                          ║\n");
+    printf("║  3. Only authorized administrators have permission to modify or          ║\n");
+    printf("║     manage system configurations and election settings.                  ║\n");
+    printf("║                                                                          ║\n");
+    printf("║  4. Passwords are securely stored and not visible in plain text.         ║\n");
+    printf("║     Each user is responsible for maintaining their login credentials.    ║\n");
+    printf("║                                                                          ║\n");
+    printf("║  5. By using this system, users agree to act responsibly and follow      ║\n");
+    printf("║     the rules of fair participation throughout the election process.     ║\n");
+    printf("║                                                                          ║\n");
+    printf("╚══════════════════════════════════════════════════════════════════════════╝\n");
+    printf("\n  Press ENTER to return to the menu...");
+
+    getchar(); 
+    getchar(); 
+    main_menu();
 }
 
