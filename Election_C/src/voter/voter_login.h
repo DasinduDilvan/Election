@@ -41,12 +41,4 @@ void castVote(VoterInfo *voter);
 void showElectionTime();
 void displayMenu(VoterInfo *voter);
 
-<<<<<<< HEAD
 #endif
-=======
-
-
-
-
-#endif // VOTER_LOGIN_H
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88

@@ -316,19 +316,10 @@ void castVote(VoterInfo *voter) {
     printf("║                            Cast Your Vote                                ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n\n");
 
-<<<<<<< HEAD
-    // ✅ Step 1: Check if this voter has already voted
-    #ifdef _WIN32
-        FILE *fv = fopen("..\\database\\voted_voters.txt", "r");
-    #else
-        FILE *fv = fopen("../database/voted_voters.txt", "r");
-=======
-    // Step 1: Check if this voter has already voted
     #ifdef _WIN32
         FILE *fv = fopen("..\\database\\source_data\\voted_voters.txt", "r");
     #else
         FILE *fv = fopen("../database/source_data/voted_voters.txt", "r");
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
     #endif
 
     if (fv) {
@@ -336,11 +327,7 @@ void castVote(VoterInfo *voter) {
         while (fgets(line, sizeof(line), fv)) {
             line[strcspn(line, "\n")] = '\0';
             if (strcmp(line, voter->username) == 0) {
-<<<<<<< HEAD
-                printf("\n⚠  You have already voted! You cannot vote again.\n");
-=======
-                printf("\n⚠️  You have already voted! You cannot vote again.\n");
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
+                printf("\n!! You have already voted! You cannot vote again !!\n");
                 fclose(fv);
                 printf("\nPress Enter to return to menu...");
                 getchar();
@@ -360,11 +347,6 @@ void castVote(VoterInfo *voter) {
         return;
     }
 
-<<<<<<< HEAD
-    // ✅ Step 2: Find the candidate by ID
-=======
-    //  Step 2: Find the candidate by ID
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
     #ifdef _WIN32
         FILE *fc = fopen("..\\database\\source_data\\candidates.txt", "r");
     #else
@@ -408,11 +390,6 @@ void castVote(VoterInfo *voter) {
         return;
     }
 
-<<<<<<< HEAD
-    // ✅ Step 3: Update results.txt
-=======
-    // Step 3: Update results.txt
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
     #ifdef _WIN32
         FILE *fr = fopen("..\\database\\election_result\\results.txt", "r+");
     #else
@@ -464,15 +441,10 @@ void castVote(VoterInfo *voter) {
     fclose(fr);
     fclose(temp);
 
-<<<<<<< HEAD
-    // ✅ Step 4: Mark voter as having voted
-=======
-    //  Step 4: Mark voter as having voted
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
     #ifdef _WIN32
-        fv = fopen("..\\database\\voted_voters.txt", "a");
+        fv = fopen("..\\database\\source_data\\voted_voters.txt", "a");
     #else
-        fv = fopen("../database/voted_voters.txt", "a");
+        fv = fopen("../database/source_data/voted_voters.txt", "a");
     #endif
 
     if (fv) {
@@ -481,10 +453,5 @@ void castVote(VoterInfo *voter) {
     }
 
     printf("\n✓ Vote successfully cast for Candidate: %s %s (%s)\n", fname, lname, candID);
-<<<<<<< HEAD
-    printf("✓ Your vote has been recorded. You cannot vote again.\n");
+    printf("\n✓ Your vote has been recorded. You cannot vote again.\n");
 }
-=======
-    printf("✓ Your vote has been recorded. You cannot vote again.\n");
-}
->>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
