@@ -57,8 +57,8 @@ This project was developed as part of the Department of ICT, Faculty of Technolo
 ## System Overview
 - Programming Language: C  
 - Interface: Command-Line (CLI)  
-- Database: .txt file-based storage (no SQL/No network).  
-- OS Support: Windows & Ubuntu  
+- Database: .txt file-based storage.  
+- OS Support: Windows, Ubuntu & MacOS  
 - Version Control: Git + GitHub  
 
 ---
