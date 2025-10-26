@@ -24,5 +24,6 @@ void showCandidateDetails();
 char *getCandidateUsername();
 char *getCandidatePassword();
 char *authenticateCandidate(char *username, char *password);
+int firstFunction();
 
 #endif 

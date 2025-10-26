@@ -59,7 +59,7 @@ int firstFunction() {
             if (lineCount == 3) {
                 line[strcspn(line, "\n")] = '\0';
 
-                if (strcmp(line, "TRUE") == 0){
+                if (strcmp(line, "FALSE") == 0){
                     //view_results();
                     check_true = showResultContent();
                     switch (check_true){
@@ -86,7 +86,7 @@ int firstFunction() {
                         break;
                     }
                 }
-                else if (strcmp(line, "FALSE") == 0){
+                else if (strcmp(line, "TRUE") == 0){
                     main_menu();
                 }
                 else{
@@ -261,6 +261,7 @@ int showResultContent() {
     default:
         break;
     }
+    return 0;
 }
 
 
@@ -367,14 +368,14 @@ int view_results(){
         char partyName[MAX_NAME_RESULT] = "Unknown";
         while (fgets(pLine, sizeof(pLine), partyFile)) {
             char pid[MAX_NAME_RESULT], pname[MAX_NAME_RESULT];
-            // assuming format: partyID<@|@>partyName
+
             char *pTok = strtok(pLine, "<@|@>");
             if (pTok == NULL) continue;
             strcpy(pid, pTok);
 
             pTok = strtok(NULL, "<@|@>");
             if (pTok == NULL) continue;
-            pTok[strcspn(pTok, "\n")] = '\0'; // remove newline
+            pTok[strcspn(pTok, "\n")] = '\0'; 
             strcpy(pname, pTok);
 
             if (strcmp(pid, party_id) == 0) {
@@ -384,7 +385,6 @@ int view_results(){
         }
         fclose(partyFile);
 
-        // ----- Find candidate name -----
         FILE *candFile = fopen("../database/source_data/candidates.txt", "r");
         if (candFile == NULL) {
             printf("Error: Cannot open candidates.txt\n");
@@ -396,7 +396,7 @@ int view_results(){
         char candidateName[MAX_NAME_RESULT] = "Unknown";
         while (fgets(cLine, sizeof(cLine), candFile)) {
             char cid[MAX_NAME_RESULT], fname[MAX_NAME_RESULT], lname[MAX_NAME_RESULT];
-            // assuming format: voterID<@|@>fname<@|@>lname<@|@>username<@|@>password<@|@>NIC<@|@>partyID
+
             char *cTok = strtok(cLine, "<@|@>");
             if (cTok == NULL) continue;
             strcpy(cid, cTok);
