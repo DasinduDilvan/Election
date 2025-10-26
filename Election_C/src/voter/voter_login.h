@@ -12,29 +12,24 @@
     #define CLEAR_CMD "clear"
 #endif
 
-// ====== Color Constants ======
 extern const char *COLORVL;
 extern const char *CLRRMVL;
 
-// ====== Structures ======
 typedef struct {
     char firstName[50];
     char lastName[50];
     char username[20];
 } VoterInfo;
-
 typedef struct {
     char id[20];
     char name[100];
     char partyID[20];
 } Candidate_VL;
-
 typedef struct {
     char id[20];
     char name[100];
 } Party_VL;
 
-// ====== Function Prototypes ======
 void voter_login();
 void showVoterLogHeader();
 void showContentofVL(VoterInfo *voter);
@@ -46,8 +41,4 @@ void castVote(VoterInfo *voter);
 void showElectionTime();
 void displayMenu(VoterInfo *voter);
 
-
-
-
-
-#endif // VOTER_LOGIN_H
+#endif

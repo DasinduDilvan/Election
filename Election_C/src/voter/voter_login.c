@@ -316,7 +316,6 @@ void castVote(VoterInfo *voter) {
     printf("║                            Cast Your Vote                                ║\n");
     printf("╠══════════════════════════════════════════════════════════════════════════╣\n\n");
 
-    // Step 1: Check if this voter has already voted
     #ifdef _WIN32
         FILE *fv = fopen("..\\database\\source_data\\voted_voters.txt", "r");
     #else
@@ -328,7 +327,7 @@ void castVote(VoterInfo *voter) {
         while (fgets(line, sizeof(line), fv)) {
             line[strcspn(line, "\n")] = '\0';
             if (strcmp(line, voter->username) == 0) {
-                printf("\n⚠️  You have already voted! You cannot vote again.\n");
+                printf("\n!! You have already voted! You cannot vote again !!\n");
                 fclose(fv);
                 printf("\nPress Enter to return to menu...");
                 getchar();
@@ -348,7 +347,6 @@ void castVote(VoterInfo *voter) {
         return;
     }
 
-    //  Step 2: Find the candidate by ID
     #ifdef _WIN32
         FILE *fc = fopen("..\\database\\source_data\\candidates.txt", "r");
     #else
@@ -392,7 +390,6 @@ void castVote(VoterInfo *voter) {
         return;
     }
 
-    // Step 3: Update results.txt
     #ifdef _WIN32
         FILE *fr = fopen("..\\database\\election_result\\results.txt", "r+");
     #else
@@ -444,11 +441,10 @@ void castVote(VoterInfo *voter) {
     fclose(fr);
     fclose(temp);
 
-    //  Step 4: Mark voter as having voted
     #ifdef _WIN32
-        fv = fopen("..\\database\\voted_voters.txt", "a");
+        fv = fopen("..\\database\\source_data\\voted_voters.txt", "a");
     #else
-        fv = fopen("../database/voted_voters.txt", "a");
+        fv = fopen("../database/source_data/voted_voters.txt", "a");
     #endif
 
     if (fv) {
@@ -457,5 +453,5 @@ void castVote(VoterInfo *voter) {
     }
 
     printf("\n✓ Vote successfully cast for Candidate: %s %s (%s)\n", fname, lname, candID);
-    printf("✓ Your vote has been recorded. You cannot vote again.\n");
+    printf("\n✓ Your vote has been recorded. You cannot vote again.\n");
 }

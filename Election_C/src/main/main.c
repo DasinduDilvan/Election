@@ -60,7 +60,6 @@ int firstFunction() {
                 line[strcspn(line, "\n")] = '\0';
 
                 if (strcmp(line, "FALSE") == 0){
-                    //view_results();
                     check_true = showResultContent();
                     switch (check_true){
                     case 1:
@@ -343,7 +342,6 @@ int view_results(){
         char party_id[MAX_NAME_RESULT];
         int vote_count;
 
-        // Tokenize result line
         char *token = strtok(line, "<@|@>");
         if (token == NULL) continue;
         strcpy(candidate_id, token);
@@ -356,7 +354,6 @@ int view_results(){
         if (token == NULL) continue;
         vote_count = atoi(token);
 
-        // ----- Find party name -----
         FILE *partyFile = fopen("../database/source_data/party.txt", "r");
         if (partyFile == NULL) {
             printf("Error: Cannot open party.txt\n");

@@ -121,10 +121,10 @@ char *authenticateCandidate(char *username, char *password){
         char filePassword[100] = "";
         
         while(token != NULL){
-            if(fieldIndex == 1){
+            if(fieldIndex == 3){
                 strcpy(fileUsername, token);
             }
-            else if(fieldIndex == 2){
+            else if(fieldIndex == 4){
                 strcpy(filePassword, token);
             }
             token = strtok(NULL, "<@|@>");
