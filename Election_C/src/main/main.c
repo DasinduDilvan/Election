@@ -59,7 +59,7 @@ int firstFunction() {
             if (lineCount == 3) {
                 line[strcspn(line, "\n")] = '\0';
 
-                if (strcmp(line, "TRUE") == 0){
+                if (strcmp(line, "FALSE") == 0){
                     //view_results();
                     check_true = showResultContent();
                     switch (check_true){
@@ -86,7 +86,7 @@ int firstFunction() {
                         break;
                     }
                 }
-                else if (strcmp(line, "FALSE") == 0){
+                else if (strcmp(line, "TRUE") == 0){
                     main_menu();
                 }
                 else{

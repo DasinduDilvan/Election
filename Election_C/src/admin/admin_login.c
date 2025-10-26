@@ -33,6 +33,7 @@ int party_requests();
 int candidate_requests();
 void set_election_start_time();
 void set_election_end_time();
+void stopElection();
 
 void admin_login(){
     #ifdef _WIN32
@@ -53,7 +54,7 @@ void admin_login(){
     else {
         printf("\n\t\tInvalid Credentials! Enterd ...\n");
         sleep(1);
-        main_menu();
+        firstFunction();
     }
     
 }
@@ -83,11 +84,12 @@ int credentials() {
     printf("║\n");
     printf("╚═ Enter Admin Password: ");
     scanf("%s", password);
-    if (strcmp(username, "admin") == 0 && strcmp(password, "admin") == 0) {
+    if (strcmp(username, ".") == 0 && strcmp(password, ".") == 0) {
         return 1;
     } 
     else {
-        main_menu();
+        firstFunction();
+;
         return 0;
     }
 }
@@ -106,12 +108,13 @@ void showContentofAdmin() {
     printf("║    2.Candidate Register Requests   ║    Approved Candidates: %03d         ║\n", counts[2]);
     printf("║    3.Set Election staring time     ║    Rejected Candidates: %03d         ║\n", counts[4]);
     printf("║    4.Set Election Ending time      ║    Party Requests: \033[1;33m%03d\033[0m              ║\n", counts[1]-1);
-    printf("║    5.Logout                        ║    Approved Parties: %03d            ║\n", counts[3]);
+    printf("║    5.start or Stop & show results  ║                                     ║\n");
+    printf("║    6.Logout                        ║    Approved Parties: %03d            ║\n", counts[3]);
     printf("║    0.Exit                          ║    Rejected Parties: %03d            ║\n", counts[5]);
     printf("║                                    ║                                     ║\n");
     printf("╠════════════════════════════════════╩═════════════════════════════════════╝\n");
     printf("║\n");
-    printf("╠══ ");
+    printf("╠══ ");                 
 }
 
 void controlPanel(){    
@@ -132,7 +135,10 @@ void controlPanel(){
             set_election_end_time();
             break;
         case 5:
-            main_menu();
+            stopElection();
+            break;
+        case 6:
+        firstFunction();
             break;
         case 0:
             #ifdef _WIN32
@@ -585,3 +591,70 @@ void set_election_end_time() {
 }
 
 //------------------------------------------------------------------------------------------------------------------------
+
+void stopElection() {
+    #ifdef _WIN32
+        FILE *file = fopen("..\\database\\notifications\\election_time.txt", "r+");
+    #else
+        FILE *file = fopen("../database/notifications/election_time.txt", "r+");
+    #endif
+    
+    if (!file) {
+        printf("Error opening election_time.txt file!\n");
+        return;
+    }
+
+    // Read start and end times first
+    char start[20], end[20], status[10] = "FALSE";
+    int count = fscanf(file, "%19s\n%19s\n%9s", start, end, status);
+    if (count < 2) {
+        printf("Election time file format invalid!\n");
+        fclose(file);
+        return;
+    }
+
+    printf("\n╔══════════════════════════════════════════════╗\n");
+    printf("║ Current Election Status: %s%-5s%s               ║   \n", 
+           strcmp(status, "TRUE") == 0 ? COLORGADM : COLORRADM, 
+           status, CLRRMADM);
+    printf("╠══════════════════════════════════════════════╣\n");
+    printf("║ 1. Start Election (Set TRUE)                 ║\n" );
+    printf("║ 2. Stop Election  (Set FALSE)                ║\n" );
+    printf("╚══════════════════════════════════════════════╝\n");
+    printf("Enter your choice: ");
+
+    int choice;
+    scanf("%d", &choice);
+
+    char newStatus[10];
+    if (choice == 1) {
+        strcpy(newStatus, "TRUE");
+    } else if (choice == 2) {
+        strcpy(newStatus, "FALSE");
+    } else {
+        printf("Invalid choice!\n");
+        fclose(file);
+        sleep(2);
+        system(CLEAR_CMD);
+        showAdminHeader();
+        showContentofAdmin();
+        controlPanel();
+        return;
+    }
+
+    rewind(file);
+    fprintf(file, "%s\n%s\n%s\n", start, end, newStatus);
+    fclose(file);
+
+    printf("\n╔═ Election status updated successfully! ═╗\n");
+    printf(  "║ Status set to: %s%-5s%s                    ║\n", 
+           strcmp(newStatus, "TRUE") == 0 ? COLORGADM : COLORRADM,
+           newStatus, CLRRMADM);
+    printf(  "╚═════════════════════════════════════════╝\n");
+
+    sleep(2);
+    system(CLEAR_CMD);
+    showAdminHeader();
+    showContentofAdmin();
+    controlPanel();
+}

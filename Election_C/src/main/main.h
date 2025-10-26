@@ -26,4 +26,6 @@ void terms_conditions();
 int view_results();
 int showResultContent();
 
+int firstFunction();
+
 #endif 

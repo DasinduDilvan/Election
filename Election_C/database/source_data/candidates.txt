@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 111<@|@>Dasindu1<@|@>Dasindu2<@|@>DasinduUsername<@|@>DasinduPassword<@|@>DasinduNIC<@|@>M<@|@>3
 101<@|@>Dasindu2<@|@>Dasindu3<@|@>DilvanUsename<@|@>DilvanPassword<@|@>DilvanNIC<@|@>m<@|@>2
 102<@|@>Dasindu1<@|@>Dasindu2<@|@>DasinduUsername<@|@>DasinduPassword<@|@>DasinduNIC<@|@>M<@|@>1
@@ -7,3 +8,7 @@
 103<@|@>Dasindu<@|@>Dilvan<@|@>Dil1234<@|@>Dasi2345<@|@>200435504013<@|@>m<@|@>2
 104<@|@>Ishan<@|@>Kavishka<@|@>Ishan123<@|@>Ishan123<@|@>20042345654<@|@>m<@|@>5
 106<@|@>ftest<@|@>ltest<@|@>utest<@|@>ptest<@|@>2049483<@|@>f<@|@>4
+=======
+
+102<@|@>lol<@|@>lol<@|@>lol<@|@>lol<@|@>lol<@|@>lol<@|@>lol
+>>>>>>> 7f81f515754a416cf7457d0cfe9cc4422317dd88
